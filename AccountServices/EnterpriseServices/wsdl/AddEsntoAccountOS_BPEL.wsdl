@@ -1,0 +1,49 @@
+<wsdl:definitions name="AddEsnToAccountOS" targetNamespace="http://b2b.tracfone.com/AccountServices" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://b2b.tracfone.com/AccountServices" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="http://b2b.tracfone.com/AccountServices">
+	<wsdl:types>
+		<xsd:schema>
+			<xsd:import namespace="http://b2b.tracfone.com/AccountServices" schemaLocation="../xsd/AccountServices.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="addEsnToAccountRequest">
+		<wsdl:part name="parameters" element="tns:addEsnToAccountRequest"/>
+	</wsdl:message>
+	<wsdl:message name="addEsnToAccountResponse">
+		<wsdl:part name="parameters" element="tns:addEsnToAccountResponse"/>
+	</wsdl:message>
+
+	<wsdl:portType name="AddEsnToAccountOS">
+
+    <wsdl:operation name="addEsnToAccount">
+    	<wsdl:input message="tns:addEsnToAccountRequest"/>
+    	<wsdl:output message="tns:addEsnToAccountResponse"/>
+    </wsdl:operation>
+    
+  </wsdl:portType>
+  <wsdl:binding name="AddEsnToAccountOSSOAP" type="tns:AddEsnToAccountOS">
+
+  	<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  	<wsdl:operation name="addEsnToAccount">
+
+  		<soap:operation soapAction="http://b2b.tracfone.com/AccountServices/addEsnToAccount"/>
+  		<wsdl:input>
+
+  			<soap:body use="literal"/>
+  		</wsdl:input>
+  		<wsdl:output>
+
+  			<soap:body use="literal"/>
+  		</wsdl:output>
+  	</wsdl:operation>
+
+
+
+
+
+  </wsdl:binding>
+  <wsdl:service name="AddEsnToAccountOS">
+    <wsdl:port binding="tns:AddEsnToAccountOSSOAP" name="AddEsnToAccountOSSOAP">
+      <soap:address location="https://retailgateway.tracfone.com/B2B/AccountServices"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

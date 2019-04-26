@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:businessServiceEntry xmlns:con="http://xmlns.oracle.com/servicebus/business/config" xmlns:oper="http://xmlns.oracle.com/servicebus/business/operations">
+    <con:coreEntry>
+        <con:description/>
+        <con5:binding type="SOAP" isSoap12="false" xsi:type="con3:SoapBindingType" xmlns:con3="http://www.bea.com/wli/sb/services/bindings/config" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/typesystem/config" xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:env="http://www.bea.com/wli/config/env" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con5="http://xmlns.oracle.com/servicebus/business/config">
+            <con3:wsdl ref="AccountServices/DataServices/wsdl/AccountDataServices"/>
+            <con3:port>
+                <con3:name>AccountDataServicesSOAP</con3:name>
+                <con3:namespace>http://www.tracfone.com/AccountDataServices/</con3:namespace>
+            </con3:port>
+            <con3:WSI-compliant>false</con3:WSI-compliant>
+        </con5:binding>
+        <oper:operations enabled="true">
+            <oper:monitoring enabled="false" aggregationInterval="10"/>
+            <oper:sla-alerting enabled="true" level="normal"/>
+        </oper:operations>
+        <con5:ws-policy xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/typesystem/config" xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:env="http://www.bea.com/wli/config/env" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con5="http://xmlns.oracle.com/servicebus/business/config">
+            <ser:binding-mode>wsdl-policy-attachments</ser:binding-mode>
+        </con5:ws-policy>
+    </con:coreEntry>
+    <con5:endpointConfig xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/typesystem/config" xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:env="http://www.bea.com/wli/config/env" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con5="http://xmlns.oracle.com/servicebus/business/config">
+        <tran:provider-id>http</tran:provider-id>
+        <tran:inbound>false</tran:inbound>
+        <tran:URI>
+            <env:value>http://dp-sitci-soa4:9001/soa-infra/services/default/GetEsnListByCriteria/getEsnListByCriteriaData</env:value>
+        </tran:URI>
+        <tran:outbound-properties>
+            <tran:load-balancing-algorithm>round-robin</tran:load-balancing-algorithm>
+            <tran:retry-count>0</tran:retry-count>
+            <tran:retry-interval>30</tran:retry-interval>
+            <tran:retry-application-errors>true</tran:retry-application-errors>
+        </tran:outbound-properties>
+        <tran:provider-specific>
+            <http:outbound-properties>
+                <http:request-method>POST</http:request-method>
+                <http:timeout>0</http:timeout>
+                <http:connection-timeout>0</http:connection-timeout>
+                <http:follow-redirects>false</http:follow-redirects>
+                <http:chunked-streaming-mode>true</http:chunked-streaming-mode>
+            </http:outbound-properties>
+        </tran:provider-specific>
+    </con5:endpointConfig>
+</con:businessServiceEntry>

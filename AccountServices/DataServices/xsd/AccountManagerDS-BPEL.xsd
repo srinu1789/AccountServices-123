@@ -1,0 +1,78 @@
+<schema targetNamespace="http://www.tracfone.com/OAuthAccountManagerDataService" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tracfone.com/OAuthAccountManagerDataService" xmlns:Q1="http://www.tracfone.com/CommonTypes" xmlns:Q2="http://www.tracfone.com/AccountCommonTypes" xmlns:Q3="http://www.tracfone.com/PhoneCommonTypes">
+    <import schemaLocation="../../../TFCommon/xsd/AccountCommonTypes.xsd" namespace="http://www.tracfone.com/AccountCommonTypes"/>
+    <import schemaLocation="../../../TFCommon/xsd/PhoneCommonTypes.xsd" namespace="http://www.tracfone.com/PhoneCommonTypes"/>
+    <import schemaLocation="../../../TFCommon/xsd/TFCommonTypes.xsd" namespace="http://www.tracfone.com/CommonTypes"/>
+    <complexType name="CheckMyAccountRequestType">
+        <complexContent>
+            <extension base="Q1:BaseRequestType">
+                <sequence>
+                    <element name="esn" type="Q3:ESNType"/>
+
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+    <complexType name="CheckMyAccountResponseType">
+        <complexContent>
+            <extension base="Q1:BaseResponseType">
+                <sequence>
+                	<element name="accountId" type="Q1:ObjectIdType"/>
+
+                	<element name="contactObjId" type="Q1:ObjectIdType"/>
+                	<element name="userToken" type="string"/>
+                	<element name="brand" type="Q1:TracfoneBrandType"/>
+                	<element name="model" type="Q1:HandsetModelType"/>
+                	<element name="url" type="string"/>
+                	<element name="loginLevel" type="string"/>
+                	<element name="isEmailValid" type="boolean"/>
+                	<element name="email" type="Q1:EmailType"/>
+                </sequence>
+            </extension>
+
+        </complexContent>
+    </complexType>
+    <complexType name="CheckAccountLoginRequestType">
+        <complexContent>
+            <extension base="Q1:BaseRequestType">
+                <sequence>
+                    <element name="login" type="Q2:AccountCredentialsType"/>
+                </sequence>
+            </extension>
+
+        </complexContent>
+    </complexType>
+    <complexType name="CheckAccountLoginResponseType">
+        <complexContent>
+            <extension base="Q1:BaseResponseType">
+                <sequence>
+                    <element name="accountId" type="Q1:ObjectIdType"/>
+                    <element name="contactObjId" type="Q1:ObjectIdType"/>
+                    <element name="model" type="Q1:HandsetModelType"/>
+
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+    <complexType name="ValidateB2BUserRequestType">
+        <complexContent>
+            <extension base="Q1:BaseRequestType">
+                <sequence>
+                    <element name="login" type="Q2:AccountCredentialsType"/>
+
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+    <complexType name="ValidateB2BUserResponseType">
+        <complexContent>
+            <extension base="Q1:BaseResponseType"/>
+        </complexContent>
+    </complexType>
+
+    <element name="checkAccountLoginRequest" type="tns:CheckAccountLoginRequestType"/>
+    <element name="checkAccountLoginResponse" type="tns:CheckAccountLoginResponseType"/>
+    <element name="checkMyAccountRequest" type="tns:CheckMyAccountRequestType"/>
+    <element name="checkMyAccountResponse" type="tns:CheckMyAccountResponseType"/>
+    <element name="validateB2BUserRequest" type="tns:ValidateB2BUserRequestType"/>
+    <element name="validateB2BUserResponse" type="tns:ValidateB2BUserResponseType"/>
+</schema>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.tracfone.com/DeEnrollmentServices" 
+        xmlns:tns="http://www.tracfone.com/DeEnrollmentServices"         
+        xmlns:common="http://www.tracfone.com/CommonTypes" 
+        elementFormDefault="qualified">
+	<import schemaLocation="../../../TFCommon/xsd/TFCommonTypes.xsd" namespace="http://www.tracfone.com/CommonTypes">
+	</import>	
+    <complexType name="DoCompleteDeEnrollRequestType">
+    	<complexContent>
+    		<extension base="common:BaseRequestType">
+    			<sequence>    				
+    				<element name="esn" type="string" minOccurs="1" maxOccurs="1"></element>
+					<element name="webuserId" type="string" minOccurs="1" maxOccurs="1"></element>
+					<element name="contactId" type="string" minOccurs="1" maxOccurs="1"></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="DoCompleteDeEnrollResponseType">
+    	<complexContent>
+    		<extension base="common:BaseResponseType"></extension>
+    	</complexContent>
+    </complexType>
+
+    <element name="doCompleteDeEnrollRequest" type="tns:DoCompleteDeEnrollRequestType"></element>
+
+    <element name="doCompleteDeEnrollResponse" type="tns:DoCompleteDeEnrollResponseType"></element>
+</schema>

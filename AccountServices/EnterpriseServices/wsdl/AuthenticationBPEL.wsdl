@@ -1,0 +1,48 @@
+<wsdl:definitions name="AuthenticationProcess" targetNamespace="http://xmlns.oracle.com/AccountServices_jws/AuthenticationOS/AuthenticationProcess" xmlns:ns2="http://www.tracfone.com/AccountCoreServices/" xmlns:ns1="http://www.tracfone.com/AccountCoreServices" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:ns3="http://www.tracfone.com/AccountDataServices/" xmlns:client="http://xmlns.oracle.com/AccountServices_jws/AuthenticationOS/AuthenticationProcess" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:documentation>
+        <abstractWSDL>http://dp-soasit1:9001/soa-infra/services/default/AuthenticationOS!1.0/AuthenticationProcess.wsdl</abstractWSDL>
+    </wsdl:documentation>
+    <plnk:partnerLinkType name="AuthenticationProcess">
+        <plnk:role name="AuthenticationProcessProvider">
+            <plnk:portType name="client:AuthenticationProcess"/>
+        </plnk:role>
+
+    </plnk:partnerLinkType>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://www.tracfone.com/AccountCoreServices" schemaLocation="../xsd/AuthenticationBPEL.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="AuthenticationProcessRequestMessage">
+        <wsdl:part name="payload" element="ns1:validateAccountRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="AuthenticationProcessResponseMessage">
+        <wsdl:part name="payload" element="ns1:validateAccountResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="AuthenticationProcess">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:AuthenticationProcessRequestMessage"/>
+            <wsdl:output message="client:AuthenticationProcessResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="AuthenticationProcessBinding" type="client:AuthenticationProcess">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+        <wsdl:operation name="process">
+            <soap:operation style="document" soapAction="process" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+            <wsdl:input>
+                <soap:body use="literal" namespace="http://xmlns.oracle.com/AccountServices_jws/AuthenticationOS/AuthenticationProcess" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" namespace="http://xmlns.oracle.com/AccountServices_jws/AuthenticationOS/AuthenticationProcess" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="authenticationprocess_client_ep">
+        <wsdl:port name="AuthenticationProcess_pt" binding="client:AuthenticationProcessBinding">
+            <soap:address location="http://dp-soasit1:9001/soa-infra/services/default/AuthenticationOS/authenticationprocess_client_ep" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.tracfone.com/DeEnrollmentServices/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="DeEnrollmentServices" targetNamespace="http://www.tracfone.com/DeEnrollmentServices/" xmlns:xsd1="http://www.tracfone.com/DeEnrollmentServices">
+  <wsdl:types>    
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    	<xsd:import namespace="http://www.tracfone.com/DeEnrollmentServices"
+    		schemaLocation="../xsd/DeEnrollmentServices.xsd">
+    	</xsd:import>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="doCompleteDeEnrollRequest">
+    <wsdl:part element="xsd1:doCompleteDeEnrollRequest" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="doCompleteDeEnrollResponse">
+    <wsdl:part element="xsd1:doCompleteDeEnrollResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="DeEnrollmentServices">
+    <wsdl:operation name="doCompleteDeEnroll">
+      <wsdl:input message="tns:doCompleteDeEnrollRequest"/>
+      <wsdl:output message="tns:doCompleteDeEnrollResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DeEnrollmentServicesSOAP" type="tns:DeEnrollmentServices">
+
+  	<soap:binding style="document"
+  		transport="http://schemas.xmlsoap.org/soap/http" />
+  	<wsdl:operation name="doCompleteDeEnroll">
+
+  		<soap:operation
+  			soapAction="http://www.tracfone.com/DeEnrollmentServices/doCompleteDeEnroll" />
+  		<wsdl:input>
+
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DeEnrollmentServices">
+    <wsdl:port binding="tns:DeEnrollmentServicesSOAP" name="DeEnrollmentServicesSOAP">
+      <soap:address location="http://www.tracfone.com/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

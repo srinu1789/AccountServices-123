@@ -1,0 +1,1292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oper="http://xmlns.oracle.com/servicebus/pipeline/operations">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="AccountServices/EnterpriseServices/wsdl/AcountServices"/>
+            <con:binding>
+                <con:name>AccountServicesSOAP</con:name>
+                <con:namespace>http://b2b.tracfone.com/AccountServices</con:namespace>
+            </con:binding>
+        </con:binding>
+        <oper:operations>
+            <oper:monitoring enabled="false" aggregationInterval="10" level="pipeline"/>
+            <oper:reporting>true</oper:reporting>
+            <oper:logging enabled="true" level="debug"/>
+            <oper:sla-alerting enabled="true" level="normal"/>
+            <oper:pipeline-alerting enabled="true" level="normal"/>
+        </oper:operations>
+    </con:coreEntry>
+    <con:router xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con4="http://www.bea.com/wli/sb/typesystem/config" xmlns:con5="http://www.bea.com/wli/sb/services/security/config" xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+        <con:pipeline type="request" name="ReturnUnimplemented_request">
+            <con:stage name="returnUnimplemented">
+                <con:context/>
+                <con:actions>
+                    <con1:replace varName="body" contents-only="true">
+                        <con2:id>_ActionId-4346547761330388294--4abbb740.130dd9b5864.-7fb9</con2:id>
+                        <con1:location>
+                            <con2:xpathText>.</con2:xpathText>
+                        </con1:location>
+                        <con1:expr>
+                            <con2:xqueryTransform>
+                                <con2:resource ref="TFCommon/transformations/UnimplementedOperationFaultGenerator"/>
+                            </con2:xqueryTransform>
+                        </con1:expr>
+                    </con1:replace>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="ReturnUnimplemented_response"/>
+        <con:pipeline type="request" name="AccountServicesPipelinePair_request">
+            <con:stage name="capture original request">
+                <con:context/>
+                <con:actions>
+                    <con1:assign varName="originalRequest">
+                        <con2:id>_ActionId-3454934243269060331-4b2f1588.131949b4f9d.-7d58</con2:id>
+                        <con1:expr>
+                            <con2:xqueryText>$body</con2:xqueryText>
+                        </con1:expr>
+                    </con1:assign>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="AccountServicesPipelinePair_response">
+            <con:stage name="Inject ClientTransId">
+                <con:context>
+                    <con2:varNsDecl namespace="http://oauth.b2b.tracfone.com/OAuthAccountServices" prefix="oaut"/>
+                    <con2:varNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                </con:context>
+                <con:actions>
+                    <con1:ifThenElse>
+                        <con2:id>_ActionId-8530545875066120260--6c07933e.14470a1b63a.-7f7f</con2:id>
+                        <con1:case>
+                            <con1:condition>
+                                <con2:xqueryText>fn:exists($body//com:serverTransactionId)</con2:xqueryText>
+                            </con1:condition>
+                            <con1:actions>
+                                <con1:replace varName="body" contents-only="true">
+                                    <con2:id>_ActionId-8530545875066120260--6c07933e.14470a1b63a.-7f7e</con2:id>
+                                    <con1:location>
+                                        <con2:xpathText>.//com:serverTransactionId</con2:xpathText>
+                                    </con1:location>
+                                    <con1:expr>
+                                        <con2:xqueryText>fn-bea:uuid()</con2:xqueryText>
+                                    </con1:expr>
+                                </con1:replace>
+                            </con1:actions>
+                        </con1:case>
+                        <con1:default>
+                            <con1:insert varName="body">
+                                <con2:id>_ActionId-8530545875066120260--6c07933e.14470a1b63a.-7f7d</con2:id>
+                                <con1:location>
+                                    <con2:xpathText>.//com:result</con2:xpathText>
+                                </con1:location>
+                                <con1:where>after</con1:where>
+                                <con1:expr>
+                                    <con2:xqueryText>&lt;com:serverTransactionId>
+{fn-bea:uuid()}
+&lt;/com:serverTransactionId></con2:xqueryText>
+                                </con1:expr>
+                            </con1:insert>
+                        </con1:default>
+                    </con1:ifThenElse>
+                </con:actions>
+            </con:stage>
+            <con:stage name="populate request token">
+                <con:context>
+                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc"/>
+                    <con2:varNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                </con:context>
+                <con:actions>
+                    <con1:ifThenElse>
+                        <con2:id>_ActionId-4262535793924567306-56fe211e.1356388b837.-7ed3</con2:id>
+                        <con1:case>
+                            <con1:condition>
+                                <con2:xqueryConditionExpr>
+                                    <con2:unaryExpr>
+                                        <con2:path>fn:exists($body//com:requestToken)</con2:path>
+                                    </con2:unaryExpr>
+                                </con2:xqueryConditionExpr>
+                            </con1:condition>
+                            <con1:actions>
+                                <con1:replace varName="body">
+                                    <con2:id>_ActionId-2345595817338637593--b1174fb.1460fb41705.-77e7</con2:id>
+                                    <con1:location>
+                                        <con2:xpathText>.//com:requestToken</con2:xpathText>
+                                    </con1:location>
+                                    <con1:expr>
+                                        <con2:xqueryText>$originalRequest//com:requestToken</con2:xqueryText>
+                                    </con1:expr>
+                                </con1:replace>
+                            </con1:actions>
+                        </con1:case>
+                        <con1:default>
+                            <con1:insert varName="body">
+                                <con2:id>_ActionId-4262535793924567306-56fe211e.1356388b837.-7ed1</con2:id>
+                                <con1:location>
+                                    <con2:xpathText>.//com:result</con2:xpathText>
+                                </con1:location>
+                                <con1:where>before</con1:where>
+                                <con1:expr>
+                                    <con2:xqueryText>$originalRequest//com:requestToken</con2:xqueryText>
+                                </con1:expr>
+                            </con1:insert>
+                        </con1:default>
+                    </con1:ifThenElse>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="request" name="request-af9022b.N305866f7.0.15fbbc08b6c.N7d2d">
+            <con:stage id="_StageId-af9022b.N305866f7.0.15fbbc08b6c.N7d2b" name="Stage1">
+                <con:context>
+                    <con2:userNsDecl prefix="com" namespace="http://www.tracfone.com/CommonTypes"/>
+                    <con2:userNsDecl prefix="acc" namespace="http://b2b.tracfone.com/AccountServices"/>
+                </con:context>
+                <con:actions>
+                    <con1:insert varName="body">
+                        <con2:id>_ActionId-af9022b.N305866f7.0.15fbbc08b6c.N7c33</con2:id>
+                        <con1:location>
+                            <con2:xpathText>./acc:forgotPasswordRequest/com:requestToken</con2:xpathText>
+                        </con1:location>
+                        <con1:where>last-child</con1:where>
+                        <con1:expr>
+                            <con2:xqueryText>if(fn:data($body/acc:forgotPasswordRequest/com:brandName)='TRACFONE' or fn:data($body/acc:forgotPasswordRequest/com:brandName)='WFM' or fn:data($body/acc:forgotPasswordRequest/com:brandName)='NET10' or fn:data($body/acc:forgotPasswordRequest/com:brandName)='SIMPLE_MOBILE' or fn:data($body/acc:forgotPasswordRequest/com:brandName)='TOTAL_WIRELESS') then
+&lt;BranchValue>Branch_TracfoneWFM&lt;/BranchValue>
+else
+ &lt;BranchValue>Default&lt;/BranchValue></con2:xqueryText>
+                        </con1:expr>
+                    </con1:insert>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="response-af9022b.N305866f7.0.15fbbc08b6c.N7d2c">
+            <con:stage id="_StageId-af9022b.N305866f7.0.15fbbc08b6c.N7d2a" name="Stage1">
+                <con:context/>
+                <con:actions/>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:pipeline-node name="AccountServicesPipelinePair">
+                <con:request>AccountServicesPipelinePair_request</con:request>
+                <con:response>AccountServicesPipelinePair_response</con:response>
+            </con:pipeline-node>
+            <con:branch-node type="operation" name="BranchNode1">
+                <con:context/>
+                <con:branch-table>
+                    <con:branch name="getEsnListByCriteria">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteGetEsnListByCriteria">
+                                <con:context>
+                                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/RuntimeFault" prefix="run"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/AccountDataServices" prefix="acc1"/>
+                                    <con4:variable name="getEsnListByCriteriaRespVar" path="$body" asChild="true">
+                                        <con4:schema ref="AccountServices/DataServices/xsd/AccountDataServices" element="getEsnListByCriteriaResponse"/>
+                                    </con4:variable>
+                                </con:context>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-8554655149880556141-3177c74b.1423a38f142.-7f28</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/GetEsnListByCriteriaBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>getEsnListByCriteria</con3:operation>
+                                        <con3:outboundTransform>
+                                            <con6:log>
+                                                <con2:id>_ActionId-2972857767867655055--4daa0b42.14497e71da1.-7fae</con2:id>
+                                                <con6:logLevel>info</con6:logLevel>
+                                                <con6:expr>
+                                                    <con2:xqueryText>"In RouteGetEsnListByCriteria - Request"</con2:xqueryText>
+                                                </con6:expr>
+                                                <con6:message>*******************************</con6:message>
+                                            </con6:log>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-9200338683324276801--4ad53030.14493782722.-7e7d</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/GetEsnListByCriteriaRequest"/>
+                                                        <con2:param name="getEsnListByCriteriaRequest1">
+                                                            <con2:path>$body/acc:getEsnListByCriteriaRequest</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:outboundTransform>
+                                        <con3:responseTransform>
+                                            <con6:log>
+                                                <con2:id>_ActionId-2972857767867655055--4daa0b42.14497e71da1.-7f76</con2:id>
+                                                <con6:logLevel>info</con6:logLevel>
+                                                <con6:expr>
+                                                    <con2:xqueryText>"In RouteGetEsnListByCriteria - Request"</con2:xqueryText>
+                                                </con6:expr>
+                                                <con6:message>++++++++++++++++++++++++++</con6:message>
+                                            </con6:log>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-2972857767867655055--4daa0b42.14497e71da1.-7f59</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/GetEsnListByCriteriaResponse"/>
+                                                        <con2:param name="getEsnListByCriteriaResponse1">
+                                                            <con2:path>$body/acc1:getEsnListByCriteriaResponse</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:responseTransform>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="createAccount">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteCreateAccount">
+                                <con:context>
+                                    <con2:userNsDecl prefix="acc1" namespace="http://www.tracfone.com/AccountCommonTypes"/>
+                                    <con2:varNsDecl prefix="com" namespace="http://www.tracfone.com/CommonTypes"/>
+                                    <con2:varNsDecl prefix="run" namespace="http://www.tracfone.com/RuntimeFault"/>
+                                    <con2:varNsDecl prefix="acc" namespace="http://b2b.tracfone.com/AccountServices"/>
+                                    <con4:variable name="createAccountBPEL" path="$body" asChild="true">
+                                        <con4:schema ref="AccountServices/EnterpriseServices/xsd/AccountCreationBPEL" element="createAccountResponse"/>
+                                    </con4:variable>
+                                </con:context>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-5998538568322787811-625889fd.130be769710.-7c57</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/AccountCreationOS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>createAccount</con3:operation>
+                                        <con3:outboundTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-ae28799.N8317339.0.153077773ed.N7f91</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/AccountCreationRequest"/>
+                                                        <con2:param name="createAccountRequest1">
+                                                            <con2:path>$body/acc:createAccountRequest</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:outboundTransform>
+                                        <con3:responseTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-2345595817338637593--b1174fb.1460fb41705.-7875</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/AccountCreationResponse"/>
+                                                        <con2:param name="createAccountResponse1">
+                                                            <con2:path>$body/acc:createAccountResponse</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:responseTransform>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="validateAccount">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteValidateAccount">
+                                <con:context>
+                                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/RuntimeFault" prefix="run"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/AccountCoreServices" prefix="acc1"/>
+                                    <con4:variable name="validateAccountCoreResponse" path="$body" asChild="true">
+                                        <con4:schema ref="AccountServices/CoreServices/xsd/AccountCoreServices" element="validateAccountResponse"/>
+                                    </con4:variable>
+                                </con:context>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-5998538568322787811-625889fd.130be769710.-7bea</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/AuthenticationOS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>process</con3:operation>
+                                        <con3:outboundTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-7428655197423923838-58e232c3.1322ab88c1c.-7e1c</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/validateAccountRequest"/>
+                                                        <con2:param name="validateAccountRequest1">
+                                                            <con2:path>$body/acc:validateAccountRequest</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:outboundTransform>
+                                        <con3:responseTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-7428655197423923838-58e232c3.1322ab88c1c.-7e0a</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/validateAccountResponse"/>
+                                                        <con2:param name="validateAccountResponse1">
+                                                            <con2:path>$body/acc1:validateAccountResponse</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:responseTransform>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="getAccountSecurityQuestions">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteGetSecurityQuestions">
+                                <con:context>
+                                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/AccountDataServices" prefix="acc1"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/AccountCommonTypes" prefix="acc2"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/RuntimeFault" prefix="run"/>
+                                    <con4:variable name="accountSecurityQuestionsResponse" path="$body" asChild="true">
+                                        <con4:schema ref="AccountServices/DataServices/xsd/AccountDataServices" element="getAccountSecurityQuestionResponse"/>
+                                    </con4:variable>
+                                </con:context>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-5998538568322787811-625889fd.130be769710.-7cc7</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/AccountDataServicesBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>getAccountSecurityQuestions</con3:operation>
+                                        <con3:outboundTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-4346547761330388294--4abbb740.130dd9b5864.-7eb9</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/AccountSecurityQuestionsRequest"/>
+                                                        <con2:param name="getAccountSecurityQuestionsRequest1">
+                                                            <con2:path>$body/acc:getAccountSecurityQuestionsRequest</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:outboundTransform>
+                                        <con3:responseTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-9081172565755984694--52c2a438.13185e0e8ab.-7db6</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/AccountSecurityQuestionsResponse"/>
+                                                        <con2:param name="getAccountSecurityQuestionResponse1">
+                                                            <con2:path>$body/acc1:getAccountSecurityQuestionResponse</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:responseTransform>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="updateAccount">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteUpdateAccount">
+                                <con:context/>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-2241592841473558665-36b83bc5.13da8e1ffbb.-76aa</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/AccountUpdateOS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>updateAccount</con3:operation>
+                                        <con3:outboundTransform/>
+                                        <con3:responseTransform/>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="validateAccountMB">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteValidateAccountMB">
+                                <con:context>
+                                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc"/>
+                                </con:context>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-8956936512745283218-6ebd5d56.13ae2343d8a.-7cf3</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/AccountDataServicesBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>authenticateSecurityPinMB</con3:operation>
+                                        <con3:outboundTransform>
+                                            <con1:replace contents-only="true" varName="body">
+                                                <con2:id>_ActionId-8956936512745283218-6ebd5d56.13ae2343d8a.-7cf2</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/validateAccountMBRequest"/>
+                                                        <con2:param name="validateAccountRequestMB1">
+                                                            <con2:path>$body/acc:validateAccountRequestMB</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:outboundTransform>
+                                        <con3:responseTransform>
+                                            <con1:replace contents-only="true" varName="body">
+                                                <con2:id>_ActionId-8956936512745283218-6ebd5d56.13ae2343d8a.-7cf1</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/validateAccountMBResponse"/>
+                                                        <con2:param name="authenticateSecurityPinResponseMB1">
+                                                            <con2:path>$body/*:authenticateSecurityPinResponseMB</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:responseTransform>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="removeEsnFromAccount">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteToRemoveEsnFromAccount">
+                                <con:context/>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-1583703308476969101--763eb7dd.13ea4d09eff.-7b51</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/RemoveEsnFromAccount" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>removeEsnFromAccount</con3:operation>
+                                        <con3:outboundTransform/>
+                                        <con3:responseTransform/>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="addEsnToAccount">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteToAddEsntoAccount">
+                                <con:context>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/AccountDataServices" prefix="acc"/>
+                                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc1"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/RuntimeFault" prefix="run"/>
+                                    <con4:variable name="addEsntoAccountResponse" path="$body" asChild="true">
+                                        <con4:schema ref="AccountServices/DataServices/xsd/AccountDataServices" element="addEsnToAccountResponse"/>
+                                    </con4:variable>
+                                </con:context>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-4109847914270461442-498ac770.14344bbafe4.-7f0a</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/AddEsnToAccounBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>addEsnToAccount</con3:operation>
+                                        <con3:outboundTransform/>
+                                        <con3:responseTransform/>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="resetPassword">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteToResetPassword">
+                                <con:context>
+                                    <con2:userNsDecl prefix="com" namespace="http://www.tracfone.com/CommonTypes"/>
+                                    <con2:userNsDecl prefix="acc" namespace="http://b2b.tracfone.com/AccountServices"/>
+                                </con:context>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-7998588932532556117--3637a47e.143c4e58230.-7f62</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/ResetPasswordOS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>resetPassword</con3:operation>
+                                        <con3:outboundTransform>
+                                            <con1:ifThenElse>
+                                                <con2:id>_ActionId-af9022b.N305866f7.0.15fbbc08b6c.N7ef9</con2:id>
+                                                <con1:case id="_BranchId-af9022b.N305866f7.0.15fbbc08b6c.N7ef8">
+                                                    <con1:condition>
+                                                        <con2:xqueryText>$body/acc:resetPasswordRequest/com:brandName='WFM' or $body/acc:resetPasswordRequest/com:brandName='TRACFONE' or  $body/acc:resetPasswordRequest/com:brandName='SIMPLE_MOBILE' or  $body/acc:resetPasswordRequest/com:brandName='TOTAL_WIRELESS' or ($body/acc:resetPasswordRequest/com:brandName='NET10' and $body/acc:resetPasswordRequest/com:requestToken/com:clientId!='B2B')</con2:xqueryText>
+                                                    </con1:condition>
+                                                    <con1:actions>
+                                                        <con1:wsCallout>
+                                                            <con2:id>_ActionId-af9022b.N305866f7.0.15fbbc08b6c.N7ef7</con2:id>
+                                                            <con1:service ref="OAuthServices/EnterpriseServices/BusinessServices/ValidateTokensDS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                                            <con1:operation>getUserTokenAccountInfo</con1:operation>
+                                                            <con1:request>
+                                                                <con1:body wrapped="false">getEmailFromTknReq</con1:body>
+                                                            </con1:request>
+                                                            <con1:response>
+                                                                <con1:body wrapped="false">getEmailFromTknRes</con1:body>
+                                                            </con1:response>
+                                                            <con1:requestTransform>
+                                                                <con1:assign varName="getEmailFromTknReq">
+                                                                    <con2:id>_ActionId-af9022b.N305866f7.0.15fbbc08b6c.N7ef6</con2:id>
+                                                                    <con1:expr>
+                                                                        <con2:xqueryTransform>
+                                                                            <con2:resource ref="AccountServices/EnterpriseServices/transformations/getEmailFromTokenReq"/>
+                                                                            <con2:param name="request">
+                                                                                <con2:path>$body/acc:resetPasswordRequest</con2:path>
+                                                                            </con2:param>
+                                                                        </con2:xqueryTransform>
+                                                                    </con1:expr>
+                                                                </con1:assign>
+                                                            </con1:requestTransform>
+                                                            <con1:responseTransform>
+                                                                <con1:replace varName="body" contents-only="true">
+                                                                    <con2:id>_ActionId-af9022b.N16bef568.0.15fc1a9cc6f.N7fcf</con2:id>
+                                                                    <con1:location>
+                                                                        <con2:xpathText>.</con2:xpathText>
+                                                                    </con1:location>
+                                                                    <con1:expr>
+                                                                        <con2:xqueryTransform>
+                                                                            <con2:resource ref="AccountServices/EnterpriseServices/transformations/ResetPasswordRequest"/>
+                                                                            <con2:param name="emailId">
+                                                                                <con2:path>$getEmailFromTknRes/*:email/text()</con2:path>
+                                                                            </con2:param>
+                                                                            <con2:param name="req">
+                                                                                <con2:path>$body/acc:resetPasswordRequest</con2:path>
+                                                                            </con2:param>
+                                                                        </con2:xqueryTransform>
+                                                                    </con1:expr>
+                                                                </con1:replace>
+                                                            </con1:responseTransform>
+                                                        </con1:wsCallout>
+                                                    </con1:actions>
+                                                </con1:case>
+                                                <con1:default/>
+                                            </con1:ifThenElse>
+                                        </con3:outboundTransform>
+                                        <con3:responseTransform/>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="getAccountSummary">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteTogetAccountSummary">
+                                <con:context>
+                                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc"/>
+                                </con:context>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-6133125992607621788--10ac3332.14b98ee5025.-7fd9</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/GetAccountSummaryBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>getAccountSummary</con3:operation>
+                                        <con3:outboundTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-6133125992607621788--10ac3332.14b98ee5025.-7fa1</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/getAccSumaryExtReqToIntReq"/>
+                                                        <con2:param name="getAccountSummaryRequest1">
+                                                            <con2:path>$body/*</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:outboundTransform>
+                                        <con3:responseTransform>
+                                            <con1:replace contents-only="true" varName="body">
+                                                <con2:id>_ActionId-6133125992607621788--10ac3332.14b98ee5025.-7f69</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/getAccSummaryExtResToIntRes1"/>
+                                                        <con2:param name="getAccountSummaryResponse1">
+                                                            <con2:path>$body/*</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:responseTransform>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="forgotPassword">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:pipeline-node name="PipelinePairNode1">
+                                <con:request>request-af9022b.N305866f7.0.15fbbc08b6c.N7d2d</con:request>
+                                <con:response>response-af9022b.N305866f7.0.15fbbc08b6c.N7d2c</con:response>
+                            </con:pipeline-node>
+                            <con:branch-node type="condition" id="_FlowId-af9022b.N305866f7.0.15fbbc08b6c.N7b36" name="BranchNode2">
+                                <con:context>
+                                    <con2:userNsDecl prefix="com" namespace="http://www.tracfone.com/CommonTypes"/>
+                                    <con2:userNsDecl prefix="acc" namespace="http://b2b.tracfone.com/AccountServices"/>
+                                </con:context>
+                                <con:branch-table variable="body">
+                                    <con:xpath>
+                                        <con2:xpathText>./acc:forgotPasswordRequest/com:requestToken/BranchValue/text()</con2:xpathText>
+                                    </con:xpath>
+                                    <con:branch name="Branch_TracfoneWFM">
+                                        <con:operator>equals</con:operator>
+                                        <con:value>'Branch_TracfoneWFM'</con:value>
+                                        <con:flow>
+                                            <con:route-node name="RouteNode1">
+                                                <con:context>
+                                                    <con2:userNsDecl prefix="com" namespace="http://www.tracfone.com/CommonTypes"/>
+                                                    <con2:userNsDecl prefix="acc" namespace="http://b2b.tracfone.com/AccountServices"/>
+                                                </con:context>
+                                                <con:actions>
+                                                    <con3:route>
+                                                        <con2:id>_ActionId-af9022b.N305866f7.0.15fbbc08b6c.N7afc</con2:id>
+                                                        <con3:service ref="AccountServices/EnterpriseServices/ProxyServices/Implementations/forgetpasswordSrvc" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                                        <con3:operation>forgotPassword</con3:operation>
+                                                        <con3:outboundTransform>
+                                                            <con1:delete varName="body">
+                                                                <con2:id>_ActionId-af9022b.N305866f7.0.15fbbc08b6c.N7aca</con2:id>
+                                                                <con1:location>
+                                                                    <con2:xpathText>./acc:forgotPasswordRequest/com:requestToken/*:BranchValue</con2:xpathText>
+                                                                </con1:location>
+                                                            </con1:delete>
+                                                            <con1:ifThenElse>
+                                                                <con2:id>_ActionId-a7bf01f.N6cb88621.0.1616ca5f532.N7f9d</con2:id>
+                                                                <con1:case id="_BranchId-a7bf01f.N6cb88621.0.1616ca5f532.N7f9c">
+                                                                    <con1:condition>
+                                                                        <con2:xqueryText>$body/acc:forgotPasswordRequest/acc:min!=''</con2:xqueryText>
+                                                                    </con1:condition>
+                                                                    <con1:actions>
+                                                                        <con1:wsCallout>
+                                                                            <con2:id>_ActionId-a7bf01f.N6cb88621.0.1616ca5f532.N7ed3</con2:id>
+                                                                            <con1:service ref="AccountServices/EnterpriseServices/BusinessServices/SpringfarmAccountServicesBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                                                            <con1:operation>getCustomerProfile</con1:operation>
+                                                                            <con1:request>
+                                                                                <con1:body wrapped="false">getCustomerProfileReq</con1:body>
+                                                                            </con1:request>
+                                                                            <con1:response>
+                                                                                <con1:body wrapped="false">getCustomerProfileRes</con1:body>
+                                                                            </con1:response>
+                                                                            <con1:requestTransform>
+                                                                                <con1:assign varName="getCustomerProfileReq">
+                                                                                    <con2:id>_ActionId-a7bf01f.N6cb88621.0.1616ca5f532.N7ea1</con2:id>
+                                                                                    <con1:expr>
+                                                                                        <con2:xsltTransform>
+                                                                                            <con2:resource ref="AccountServices/EnterpriseServices/transformations/GetCustomerProfileReq"/>
+                                                                                            <con2:input>$body/acc:forgotPasswordRequest</con2:input>
+                                                                                        </con2:xsltTransform>
+                                                                                    </con1:expr>
+                                                                                </con1:assign>
+                                                                            </con1:requestTransform>
+                                                                            <con1:responseTransform>
+                                                                                <con1:replace varName="body" contents-only="true">
+                                                                                    <con2:id>_ActionId-a7bf01f.N6cb88621.0.1616ca5f532.N7e6f</con2:id>
+                                                                                    <con1:location>
+                                                                                        <con2:xpathText>.</con2:xpathText>
+                                                                                    </con1:location>
+                                                                                    <con1:expr>
+                                                                                        <con2:xqueryTransform>
+                                                                                            <con2:resource ref="AccountServices/EnterpriseServices/transformations/GetCustomerProfileResp"/>
+                                                                                            <con2:param name="customerprofileresp">
+                                                                                                <con2:path>$getCustomerProfileRes</con2:path>
+                                                                                            </con2:param>
+                                                                                            <con2:param name="forgotreq">
+                                                                                                <con2:path>$body/acc:forgotPasswordRequest</con2:path>
+                                                                                            </con2:param>
+                                                                                        </con2:xqueryTransform>
+                                                                                    </con1:expr>
+                                                                                </con1:replace>
+                                                                            </con1:responseTransform>
+                                                                        </con1:wsCallout>
+                                                                        <con1:replace varName="body" contents-only="true">
+                                                                            <con2:id>_ActionId-a7bf01f.N6cb88621.0.1616ca5f532.N7f36</con2:id>
+                                                                            <con1:location>
+                                                                                <con2:xpathText>.</con2:xpathText>
+                                                                            </con1:location>
+                                                                            <con1:expr>
+                                                                                <con2:xqueryTransform>
+                                                                                    <con2:resource ref="AccountServices/EnterpriseServices/transformations/GetBrandEnpointFromDVMRequest"/>
+                                                                                    <con2:param name="endPoint">
+                                                                                        <con2:path>dvm:lookup('AccountServices/EnterpriseServices/DVM/ForGotPwdEndpoint', 'Brand', xs:string($body/acc:forgotPasswordRequest/com:brandName), 'EndPoint', '')</con2:path>
+                                                                                    </con2:param>
+                                                                                    <con2:param name="request">
+                                                                                        <con2:path>$body/acc:forgotPasswordRequest</con2:path>
+                                                                                    </con2:param>
+                                                                                </con2:xqueryTransform>
+                                                                            </con1:expr>
+                                                                        </con1:replace>
+                                                                    </con1:actions>
+                                                                </con1:case>
+                                                                <con1:default>
+                                                                    <con1:replace varName="body" contents-only="true">
+                                                                        <con2:id>_ActionId-af9022b.N305866f7.0.15fbbc08b6c.N7ac7</con2:id>
+                                                                        <con1:location>
+                                                                            <con2:xpathText>.</con2:xpathText>
+                                                                        </con1:location>
+                                                                        <con1:expr>
+                                                                            <con2:xqueryTransform>
+                                                                                <con2:resource ref="AccountServices/EnterpriseServices/transformations/GetBrandEnpointFromDVMRequest"/>
+                                                                                <con2:param name="endPoint">
+                                                                                    <con2:path>dvm:lookup('AccountServices/EnterpriseServices/DVM/ForGotPwdEndpoint', 'Brand', xs:string($body/acc:forgotPasswordRequest/com:brandName), 'EndPoint', '')</con2:path>
+                                                                                </con2:param>
+                                                                                <con2:param name="request">
+                                                                                    <con2:path>$body/acc:forgotPasswordRequest</con2:path>
+                                                                                </con2:param>
+                                                                            </con2:xqueryTransform>
+                                                                        </con1:expr>
+                                                                    </con1:replace>
+                                                                </con1:default>
+                                                            </con1:ifThenElse>
+                                                        </con3:outboundTransform>
+                                                        <con3:responseTransform>
+                                                            <con1:replace varName="body" contents-only="true">
+                                                                <con2:id>_ActionId-af9022b.649154ac.0.15fe4c3e150.N7fce</con2:id>
+                                                                <con1:location>
+                                                                    <con2:xpathText>.</con2:xpathText>
+                                                                </con1:location>
+                                                                <con1:expr>
+                                                                    <con2:xqueryTransform>
+                                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/ForgotPasswordResponse"/>
+                                                                        <con2:param name="forgotPasswordResponse1">
+                                                                            <con2:path>$body/acc:forgotPasswordResponse</con2:path>
+                                                                        </con2:param>
+                                                                    </con2:xqueryTransform>
+                                                                </con1:expr>
+                                                            </con1:replace>
+                                                        </con3:responseTransform>
+                                                    </con3:route>
+                                                </con:actions>
+                                            </con:route-node>
+                                        </con:flow>
+                                    </con:branch>
+                                    <con:default-branch>
+                                        <con:flow>
+                                            <con:route-node name="RouteNode3">
+                                                <con:context>
+                                                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc"/>
+                                                    <con2:varNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                                                    <con2:varNsDecl namespace="http://www.tracfone.com/RuntimeFault" prefix="run"/>
+                                                    <con4:variable name="forGotPassword" path="$body" asChild="true">
+                                                        <con4:schema ref="AccountServices/EnterpriseServices/xsd/AccountServices" element="forgotPasswordResponse"/>
+                                                    </con4:variable>
+                                                </con:context>
+                                                <con:actions>
+                                                    <con3:route>
+                                                        <con2:id>_ActionId-af9022b.N305866f7.0.15fbbc08b6c.N7b30</con2:id>
+                                                        <con3:service ref="AccountServices/EnterpriseServices/ProxyServices/Implementations/forgetpasswordSrvc" xsi:type="ref:ProxyRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                                        <con3:operation>forgotPassword</con3:operation>
+                                                        <con3:outboundTransform/>
+                                                        <con3:responseTransform>
+                                                            <con1:replace varName="body" contents-only="true">
+                                                                <con2:id>_ActionId-af9022b.N305866f7.0.15fbbc08b6c.N7b2f</con2:id>
+                                                                <con1:location>
+                                                                    <con2:xpathText>.</con2:xpathText>
+                                                                </con1:location>
+                                                                <con1:expr>
+                                                                    <con2:xqueryTransform>
+                                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/ForgotPasswordResponse"/>
+                                                                        <con2:param name="forgotPasswordResponse1">
+                                                                            <con2:path>$body/acc:forgotPasswordResponse</con2:path>
+                                                                        </con2:param>
+                                                                    </con2:xqueryTransform>
+                                                                </con1:expr>
+                                                            </con1:replace>
+                                                        </con3:responseTransform>
+                                                    </con3:route>
+                                                </con:actions>
+                                            </con:route-node>
+                                        </con:flow>
+                                    </con:default-branch>
+                                </con:branch-table>
+                            </con:branch-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="insertE911AddressInformation">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteInsertE911AddressInformation">
+                                <con:context>
+                                    <con2:userNsDecl prefix="acc" namespace="http://b2b.tracfone.com/AccountServices"/>
+                                </con:context>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-af85749.N36b1cdd4.0.14ee61b21be.N7cf9</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/AccountDataServicesBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>insertE911AddressInformation</con3:operation>
+                                        <con3:outboundTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-af85749.N36b1cdd4.0.14ee61b21be.N7c63</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/AddressInformationRequest"/>
+                                                        <con2:param name="E911AddressInformationRequestType">
+                                                            <con2:path>$body/*</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:outboundTransform>
+                                        <con3:responseTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-af85749.N36b1cdd4.0.14ee61b21be.N7c31</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/AddressInformationResponse"/>
+                                                        <con2:param name="E911AddressInformationResponseType">
+                                                            <con2:path>$body/*</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:responseTransform>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="updateE911AddressInformation">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteUpdateE911AddressInformation">
+                                <con:context/>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-af85749.N36b1cdd4.0.14ee61b21be.N7cc7</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/AccountDataServicesBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>updateE911AddressInformation</con3:operation>
+                                        <con3:outboundTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-af85749.N36b1cdd4.0.14ee61b21be.N7bfe</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/UpdateE911AddressInformationRequest"/>
+                                                        <con2:param name="UpdateE911AddressInformationRequestType">
+                                                            <con2:path>$body/*</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:outboundTransform>
+                                        <con3:responseTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-af85749.N36b1cdd4.0.14ee61b21be.N7bcb</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/UpdateE911AddressInformationResponse"/>
+                                                        <con2:param name="UpdateE911AddressInformationResponseType">
+                                                            <con2:path>$body/*</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:responseTransform>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="submitE911AddressCase">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteSubmitE911AddressCase">
+                                <con:context/>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-af85729.N46a881c3.0.14f372a9ff6.N7f6f</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/SubmitE911AddressCaseOS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>submitE911AddressCase</con3:operation>
+                                        <con3:outboundTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-af85729.N46a881c3.0.14f372a9ff6.N7f3d</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/SubmitE911AddressCaseRequest"/>
+                                                        <con2:param name="SubmitE911AddressCaseRequestType">
+                                                            <con2:path>$body/*</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:outboundTransform>
+                                        <con3:responseTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-af85729.N6b25fe65.0.14f37d18135.N7fcf</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/SubmitE911AddressCaseResponse"/>
+                                                        <con2:param name="SubmitE911AddressCaseResponseType">
+                                                            <con2:path>$body/*</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:responseTransform>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="getTimeAsCustomer">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteGetTimeAsCustomer">
+                                <con:context>
+                                    <con2:userNsDecl prefix="acc" namespace="http://b2b.tracfone.com/AccountServices"/>
+                                </con:context>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-af8576d.5fc23681.0.14ebd96fca6.N7db6</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/GetTimeAsCustomerBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>getTimeAsCustomer</con3:operation>
+                                        <con3:outboundTransform>
+                                            <con1:ifThenElse>
+                                                <con2:id>_ActionId-af85731.N8cb3529.0.14f76449c50.N7fcd</con2:id>
+                                                <con1:case id="_BranchId-af85731.N8cb3529.0.14f76449c50.N7fcc">
+                                                    <con1:condition>
+                                                        <con2:xqueryText>count($body/acc:getTimeAsCustomerRequest/acc:applicationId)>0 and string-length($body/acc:getTimeAsCustomerRequest/acc:applicationId)>0 
+and count($body/acc:getTimeAsCustomerRequest/acc:min)>0 and string-length($body/acc:getTimeAsCustomerRequest/acc:min)>0</con2:xqueryText>
+                                                    </con1:condition>
+                                                    <con1:actions>
+                                                        <con1:replace varName="body" contents-only="true">
+                                                            <con2:id>_ActionId-af8576d.5fc23681.0.14ebd96fca6.N7d54</con2:id>
+                                                            <con1:location>
+                                                                <con2:xpathText>.</con2:xpathText>
+                                                            </con1:location>
+                                                            <con1:expr>
+                                                                <con2:xqueryTransform>
+                                                                    <con2:resource ref="AccountServices/EnterpriseServices/transformations/GetTimeAsCustomerRequest"/>
+                                                                    <con2:param name="getTimeAsCustomerRequest">
+                                                                        <con2:path>$body/*</con2:path>
+                                                                    </con2:param>
+                                                                </con2:xqueryTransform>
+                                                            </con1:expr>
+                                                        </con1:replace>
+                                                    </con1:actions>
+                                                </con1:case>
+                                                <con1:default>
+                                                    <con1:replace varName="body" contents-only="true">
+                                                        <con2:id>_ActionId-af8572d.7dfac2cb.0.14f77c24235.N7f6e</con2:id>
+                                                        <con1:location>
+                                                            <con2:xpathText>.</con2:xpathText>
+                                                        </con1:location>
+                                                        <con1:expr>
+                                                            <con2:xqueryTransform>
+                                                                <con2:resource ref="AccountServices/EnterpriseServices/transformations/ValidateGetTimeAsCustomerRequest"/>
+                                                                <con2:param name="ValidateGetTimeAsCustomerType">
+                                                                    <con2:path>$body/*</con2:path>
+                                                                </con2:param>
+                                                            </con2:xqueryTransform>
+                                                        </con1:expr>
+                                                    </con1:replace>
+                                                    <con2:reply>
+                                                        <con2:id>_ActionId-af8572d.7dfac2cb.0.14f77c24235.N7f6b</con2:id>
+                                                    </con2:reply>
+                                                </con1:default>
+                                            </con1:ifThenElse>
+                                        </con3:outboundTransform>
+                                        <con3:responseTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-af8576d.5fc23681.0.14ebd96fca6.N7d22</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/GetTimeAsCustomerResponse"/>
+                                                        <con2:param name="getTimeAsCustomerResponse">
+                                                            <con2:path>$body/*</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:responseTransform>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="isValidAccount">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteIsValidSprngFarmService">
+                                <con:context>
+                                    <con2:userNsDecl prefix="acc1" namespace="http://www.tracfone.com/AccountSpringFarmServices"/>
+                                    <con2:userNsDecl prefix="acc" namespace="http://b2b.tracfone.com/AccountServices"/>
+                                </con:context>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-af8572e.6ea68fd9.0.150a1552ec2.N7ffd</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/SpringfarmAccountServicesBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>accountRecoveryAccountStatus</con3:operation>
+                                        <con3:outboundTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-af82292.N346263c5.0.150d44212dd.N7ffe</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/IsValidAccountRequest"/>
+                                                        <con2:param name="IsValidAccountRequest">
+                                                            <con2:path>$body/acc:isValidAccountRequest</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:outboundTransform>
+                                        <con3:responseTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-af82292.N346263c5.0.150d44212dd.N7ffb</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/IsValidAccountResponse"/>
+                                                        <con2:param name="IsValidAccountRequest">
+                                                            <con2:path>$body/acc1:accountRecoveryAccountStatusResponse</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:responseTransform>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="getAccountDetails">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteGetAccountDetailsCoreSvc">
+                                <con:context>
+                                    <con2:userNsDecl prefix="acc1" namespace="http://www.tracfone.com/AccountCoreServices"/>
+                                    <con2:userNsDecl prefix="acc" namespace="http://b2b.tracfone.com/AccountServices"/>
+                                    <con2:varNsDecl prefix="com" namespace="http://www.tracfone.com/CommonTypes"/>
+                                    <con2:varNsDecl prefix="run" namespace="http://www.tracfone.com/RuntimeFault"/>
+                                </con:context>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-af82292.N121f9248.0.150c98e6ab3.N7ffe</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/AccountCoreServicesBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>getAccountDetails</con3:operation>
+                                        <con3:outboundTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-af82292.N121f9248.0.150c98e6ab3.N7ffb</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/GetAccountDetailsRequest"/>
+                                                        <con2:param name="getAccountDetailsRequest">
+                                                            <con2:path>$body/acc:getAccountDetailsRequest</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:outboundTransform>
+                                        <con3:responseTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-af82292.N121f9248.0.150c98e6ab3.N7ff8</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/GetAccountDetailsResponse"/>
+                                                        <con2:param name="getAccountDetailsResponse1">
+                                                            <con2:path>$body/acc1:getAccountDetailsResponse</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                            <con1:assign varName="var_result">
+                                                <con2:id>_ActionId-af9020b.Na8c0d3b.0.151b6c8a361.N7fc8</con2:id>
+                                                <con1:expr>
+                                                    <con2:xqueryText>$body/acc:getAccountDetailsResponse/com:result</con2:xqueryText>
+                                                </con1:expr>
+                                            </con1:assign>
+                                            <con1:delete varName="body">
+                                                <con2:id>_ActionId-af9020b.Na8c0d3b.0.151b6c8a361.N7ffb</con2:id>
+                                                <con1:location>
+                                                    <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">//*[not(node()) and not(.//@*)]</con:xpathText>
+                                                </con1:location>
+                                            </con1:delete>
+                                            <con1:replace varName="body" contents-only="false">
+                                                <con2:id>_ActionId-af9020b.Na8c0d3b.0.151b6c8a361.N7fbe</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>./acc:getAccountDetailsResponse/com:result</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryText>$var_result</con2:xqueryText>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:responseTransform>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="getCustomerPreference">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteNode2">
+                                <con:context>
+                                    <con2:userNsDecl prefix="acc" namespace="http://b2b.tracfone.com/AccountServices"/>
+                                </con:context>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-af90219.N35b73298.0.15a15e76204.N7fce</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/GetCustomerPreferencesBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>getCustomerPreference</con3:operation>
+                                        <con3:outboundTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-af90219.N35b73298.0.15a15e76204.N7f9c</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/GetCustomerPreferenceRequest"/>
+                                                        <con2:param name="getPreference">
+                                                            <con2:path>$body/acc:getCustomerPrefRequest</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:outboundTransform>
+                                        <con3:responseTransform>
+                                            <con1:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-af90219.N35b73298.0.15a15e76204.N7f6a</con2:id>
+                                                <con1:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con1:location>
+                                                <con1:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/getCustomerPreferenceResponse"/>
+                                                        <con2:param name="getPrefeResponse">
+                                                            <con2:path>$body/acc:getCustomerPrefResponse</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con1:expr>
+                                            </con1:replace>
+                                        </con3:responseTransform>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="getCustomerPreferenceV2">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteGetCustomerPreferenceV2">
+                                <con:context/>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-af90268.1844f98a.0.15fbb21b8f8.N7fce</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/GetCustomerPreferencesBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>getCustomerPreferenceV2</con3:operation>
+                                        <con3:outboundTransform/>
+                                        <con3:responseTransform/>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="updateCustomerPreference">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteUpdateCustomerPreference">
+                                <con:context/>
+                                <con:actions>
+                                    <con3:route>
+                                        <con2:id>_ActionId-af90268.1844f98a.0.15fbb21b8f8.N7f9b</con2:id>
+                                        <con3:service ref="AccountServices/EnterpriseServices/BusinessServices/GetCustomerPreferencesBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con3:operation>updateCustomerPreference</con3:operation>
+                                        <con3:outboundTransform/>
+                                        <con3:responseTransform/>
+                                    </con3:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:default-branch>
+                        <con:flow>
+                            <con:pipeline-node name="ReturnUnimplemented">
+                                <con:request>ReturnUnimplemented_request</con:request>
+                                <con:response>ReturnUnimplemented_response</con:response>
+                            </con:pipeline-node>
+                        </con:flow>
+                    </con:default-branch>
+                </con:branch-table>
+            </con:branch-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>

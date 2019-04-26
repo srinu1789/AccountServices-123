@@ -1,0 +1,93 @@
+<schema targetNamespace="http://www.tracfone.com/AccountDataServices" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tracfone.com/AccountDataServices" xmlns:common="http://www.tracfone.com/CommonTypes" xmlns:pref1="http://www.tracfone.com/RuntimeFault" xmlns:phone="http://www.tracfone.com/PhoneCommonTypes" xmlns:acct="http://www.tracfone.com/AccountCommonTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:Q1="http://www.tracfone.com/SecurityCommonTypes">
+	
+    <import schemaLocation="../../../TFCommon/xsd/SecurityCommonTypes.xsd" namespace="http://www.tracfone.com/SecurityCommonTypes"/>
+    <import schemaLocation="../../../TFCommon/xsd/PhoneCommonTypes.xsd" namespace="http://www.tracfone.com/PhoneCommonTypes">
+	</import>
+	<import schemaLocation="../../../TFCommon/xsd/RuntimeFault.xsd" namespace="http://www.tracfone.com/RuntimeFault">
+	</import>
+	<import schemaLocation="../../../TFCommon/xsd/TFCommonTypes.xsd" namespace="http://www.tracfone.com/CommonTypes">
+	</import>
+
+	<import schemaLocation="../../../TFCommon/xsd/AccountCommonTypes.xsd" namespace="http://www.tracfone.com/AccountCommonTypes"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+	<xsd:complexType name="AccountUpdateResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="common:BaseResponseType">
+				<xsd:sequence>
+					<xsd:element name="webUserObjid" type="common:ObjectIdType">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="updateAccountResponse" type="tns:AccountUpdateResponseType"/>
+	<xsd:complexType name="AccountUpdateRequestType">
+		<xsd:complexContent>
+			<xsd:extension base="common:BaseRequestType">
+				<xsd:sequence minOccurs="1" maxOccurs="1">
+                    <element name="webObjId" type="common:ObjectIdType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="customerName" type="common:FullPersonNameType" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="nickName" type="xsd:string" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="primaryAddress" type="common:FullAddressType" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+
+					<xsd:element name="mailingAddress" type="common:FullAddressType" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="email" type="common:EmailType" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="password" type="acct:PasswordType" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="dob" type="xsd:date" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="securityPin" type="phone:SecurityPinType" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="phoneNumber" type="phone:PhoneNumberType" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+
+					<xsd:element name="securityQuestion" type="xsd:string" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="securityQuestionAnswer" minOccurs="0" maxOccurs="1">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:minLength value="1"/>
+								<xsd:whiteSpace value="collapse"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="canTracfoneContactYou" type="xsd:boolean" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="canTracfonePartnersContactYou" type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
+
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+
+	<xsd:element name="updateAccountRequest" type="tns:AccountUpdateRequestType"/>
+    
+    
+    
+    
+    
+</schema>

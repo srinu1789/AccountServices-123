@@ -1,0 +1,1174 @@
+<schema targetNamespace="http://www.tracfone.com/AccountSpringFarmServices" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tracfone.com/AccountSpringFarmServices" xmlns:Q1="http://www.tracfone.com/CommonTypes" xmlns:Q2="http://www.tracfone.com/AccountCommonTypes" xmlns:Q3="http://www.tracfone.com/ServicePlanCommonTypes" xmlns:Q4="http://www.tracfone.com/PaymentCommonTypes" xmlns:Q5="http://www.tracfone.com/PhoneCommonTypes">
+
+
+	<import schemaLocation="../../../TFCommon/xsd/TFCommonTypes.xsd" namespace="http://www.tracfone.com/CommonTypes"/>
+	<import schemaLocation="../../../TFCommon/xsd/AccountCommonTypes.xsd" namespace="http://www.tracfone.com/AccountCommonTypes"/>
+	<import schemaLocation="../../../TFCommon/xsd/PaymentCommonTypes.xsd" namespace="http://www.tracfone.com/PaymentCommonTypes"/>
+	<import schemaLocation="../../../TFCommon/xsd/PhoneCommonTypes.xsd" namespace="http://www.tracfone.com/PhoneCommonTypes"/>
+	<import schemaLocation="../../../TFCommon/xsd/ServicePlanCommonTypes.xsd" namespace="http://www.tracfone.com/ServicePlanCommonTypes"/>
+
+
+	<complexType name="ForgotPasswordRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+				<sequence>
+					<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1" />
+					<element name="min" type="Q5:MINType" minOccurs="0" maxOccurs="1"/>
+					<element name="email" type="Q1:EmailType" minOccurs="0" maxOccurs="1" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+
+	<complexType name="ForgotPasswordResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType"/>
+		</complexContent>
+	</complexType>
+
+	
+	<complexType name="UpdateLoginInformationRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+				<sequence>
+					<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1"/>
+				
+					<element name="accountId" type="Q2:AccountIdentifierType" minOccurs="1" maxOccurs="1"/>
+					<element name="email" type="Q1:EmailType" minOccurs="0" maxOccurs="1"/>
+					<element name="password" type="Q2:PasswordType" minOccurs="0" maxOccurs="1" />
+					<element name="newPassword" type="Q2:PasswordType" minOccurs="0" maxOccurs="1"/>
+					<element name="securityPin" type="Q5:SecurityPinType" minOccurs="0" maxOccurs="1"/>
+					<element name="securityAns" type="Q2:AccountSecurityQuestionType" minOccurs="0" maxOccurs="1"/>
+                                	<element name="phonenumber" type="Q5:PhoneNumberType" minOccurs="0" maxOccurs="1" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="UpdateLoginInformationResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType"/>
+		</complexContent>
+	</complexType>
+
+	<complexType name="CreateAccountRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+				<sequence>
+					<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1"/>
+					<element name="accountId" type="Q2:AccountIdentifierType" minOccurs="0" maxOccurs="1"/>
+					<element name="min" type="Q5:MINType" minOccurs="0" maxOccurs="1" />
+					<element name="esn" type="Q5:ESNType" minOccurs="0" maxOccurs="1" />
+					<element name="sim" type="Q5:SIMType" minOccurs="0" maxOccurs="1" />
+					<element name="zipCode" type="Q1:ZipCodeType" minOccurs="0" maxOccurs="1" />
+					<element name="credentials" type="Q2:AccountCredentialsType" minOccurs="1" maxOccurs="1"/>
+					<element name="securityQuestion" type="Q2:AccountSecurityQuestionType" minOccurs="0" maxOccurs="1"/>
+					<element name="securityPin" type="Q5:SecurityPinType" minOccurs="0" maxOccurs="1"/>
+					<element name="dob" type="string" minOccurs="0" maxOccurs="1"/>
+					<element name="socialMediaInfo" type="Q2:SocialMediaInfoType" minOccurs="0" maxOccurs="1"/>
+					<element name="offers"  type="string" minOccurs="0" maxOccurs="1" />
+					<element name="savings" type="string" minOccurs="0" maxOccurs="1" />
+					<element name="phonenumber" type="Q5:PhoneNumberType" minOccurs="0" maxOccurs="1" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="CreateAccountResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+				<sequence>
+					<element name="accountId" type="string" minOccurs="0" maxOccurs="1"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="UpdateAccountRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="accountId" type="Q2:AccountIdentifierType" minOccurs="1" maxOccurs="1"/>
+					<element name="personName" type="Q1:PersonNameType" minOccurs="1" maxOccurs="1"/>
+					<element name="dob" type="string" minOccurs="1" maxOccurs="1"/>
+					<element name="phonenumber" type="Q5:PhoneNumberType" minOccurs="0" maxOccurs="1"/>
+					<element name="address" type="Q1:AddressType" minOccurs="1" maxOccurs="1"/>
+					<element name="password" type="Q2:PasswordType" minOccurs="0" maxOccurs="1" />
+					<element name="securityPin" type="Q5:SecurityPinType" minOccurs="0" maxOccurs="1" />
+					<element name="offers"  type="string" minOccurs="0" maxOccurs="1" />
+					<element name="savings" type="string" minOccurs="0" maxOccurs="1" />
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="UpdateAccountResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType"/>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="GetCustomerProfileRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="accountId" type="Q2:AccountIdentifierType" minOccurs="1" maxOccurs="1"/>
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="GetCustomerProfileResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+				<sequence>
+			  		<element name="profileInformation" type="Q2:CustomerProfileInfoType" minOccurs="0" maxOccurs="1" />
+					<element name="accountCommunicationPreferences" type="tns:AccountCommunicationPreferences" minOccurs="0" maxOccurs="1"/>
+					<element name="communicationPreferencesList" minOccurs="0" maxOccurs="1">
+						<complexType>
+							<sequence>
+								<element name="communicationPreferences" type="tns:CommunicationPreferences" minOccurs="1" maxOccurs="unbounded"></element>
+							</sequence>
+						</complexType>
+					</element>
+			  		<element name="contactId" type="string" minOccurs="0" maxOccurs="1" />
+			  		<element name="loginEmail" type="Q1:EmailType" minOccurs="0" maxOccurs="1" />
+			  		<element name="securityPin" type="Q5:SecurityPinType" minOccurs="0" maxOccurs="1" />
+			  		<element name="securityQuestion" type="string" minOccurs="0" maxOccurs="1" />
+			  		<element name="offers"  type="string" minOccurs="0" maxOccurs="1" />
+					<element name="savings" type="string" minOccurs="0" maxOccurs="1" />
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="AccountCommunicationPreferences">
+		<sequence>
+			<element name="emailPreference" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="mailPreference" type="boolean" minOccurs="0" maxOccurs="1" />
+		</sequence>
+	</complexType>
+	
+	<complexType name="CommunicationPreferences">
+		<sequence>
+			<element name="device" type="tns:DeviceIdType" minOccurs="0" maxOccurs="1"/>
+			<element name="voice_prerecorded_consent_Preference" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="smsPreference" type="string" minOccurs="1" maxOccurs="1" />
+			<element name="esnPartNumber" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="deviceFamily" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="enableCommunicationPref" type="boolean" minOccurs="0" maxOccurs="1" />
+		</sequence>
+	</complexType>
+	
+	<complexType name="DeviceIdType">
+		<sequence>
+			<element name="min" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="esn" type="string" minOccurs="0" maxOccurs="1" />
+		</sequence>
+	</complexType>
+	
+	
+	<complexType name="GetAccountInformationRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="accountId" type="Q2:AccountIdentifierType" minOccurs="1" maxOccurs="1"/>
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="GetAccountInformationResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+				<sequence>
+			  		<element name="totalDevices" type="int" minOccurs="0" maxOccurs="1"/>
+			  		<element name="devices" type="tns:AccountInformationDeviceType" minOccurs="0" maxOccurs="1"/>
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="AccountInformationDeviceType">
+		<sequence>
+			<element name="device" minOccurs="0" maxOccurs="unbounded">
+				<complexType>
+					<sequence>
+						<element name="min" type="Q5:MINType" minOccurs="1" maxOccurs="1"/>
+						<element name="esn" type="Q5:ESNType" minOccurs="1" maxOccurs="1"/>
+						<element name="deviceNickname" type="string" minOccurs="0" maxOccurs="1"/>
+						<element name="deviceStatus" type="string" minOccurs="1" maxOccurs="1"/>
+						<element name="servicePlanInfo" type="Q3:ServicePlanDetailsType" minOccurs="1" maxOccurs="1"/>
+						<element name="serviceEndDate" type="string" minOccurs="1" maxOccurs="1"/>
+						<element name="reserveCount" type="int" minOccurs="1" maxOccurs="1"/>
+						<element name="defaultDevice" type="Q1:TrueFalseStringType" minOccurs="1" maxOccurs="1"/>
+						<element name="devicePartClass" type="string" minOccurs="1" maxOccurs="1"/>
+						<element name="autoRefillStatus" type="Q1:TrueFalseStringType" minOccurs="1" maxOccurs="1"/>
+						<element name="paymentSourceId" type="string" minOccurs="0" maxOccurs="1"/>
+						<element name="deviceType" type="string" minOccurs="0" maxOccurs="1"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+
+	<!-- Added for My Account Phase II -->
+	
+	<complexType name="GetAccountInformationV2RequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="accountId" type="Q2:AccountIdentifierType" minOccurs="1" maxOccurs="1"/>
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="GetAccountInformationV2ResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+				<sequence>
+			  		<element name="totalDevices" type="int" minOccurs="0" maxOccurs="1"/>
+			  		<element name="loginName" type="string" minOccurs="0" maxOccurs="1"/>
+			  		<element name="devices" type="tns:AccountInformationDeviceTypeV2" minOccurs="0" maxOccurs="1"/>
+					<!--Added for LRP -->
+					<element name="isLoyaltyRewardsEnrolled" type="boolean" minOccurs="0" maxOccurs="1" default="false"/>
+			  		<element name="loyaltyRewardInfo" type="tns:LoyaltyRewardInfoType" minOccurs="0" maxOccurs="1" /> 
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="LoyaltyRewardInfoType">
+		<sequence>
+			<element name="totalPoints" type="int" minOccurs="0" maxOccurs="1" />
+			<element name="pendingPoints" type="int" minOccurs="0" maxOccurs="1" />
+			<element name="availablePoints" type="int" minOccurs="0" maxOccurs="1" />
+			<element name="enrlStartDate" type="string" minOccurs="0" maxOccurs="1" />
+		</sequence>
+	</complexType>
+	<complexType name="AccountInformationDeviceTypeV2">
+		<sequence>
+			<element name="device" minOccurs="0" maxOccurs="unbounded">
+				<complexType>
+					<sequence>
+						<element name="min" type="Q5:MINType" minOccurs="1" maxOccurs="1"/>
+						<element name="esn" type="Q5:ESNType" minOccurs="1" maxOccurs="1"/>
+						<element name="iccid" type="Q5:SIMType" minOccurs="1" maxOccurs="1"/>
+						<element name="deviceNickname" type="string" minOccurs="0" maxOccurs="1"/>
+						<element name="deviceStatus" type="string" minOccurs="1" maxOccurs="1"/>
+						<element name="servicePlanInfo" type="Q3:ServicePlanDetailsType" minOccurs="1" maxOccurs="1"/>
+						<element name="serviceEndDate" type="string" minOccurs="1" maxOccurs="1"/>
+						<element name="reserveCount" type="int" minOccurs="1" maxOccurs="1"/>
+						<element name="defaultDevice" type="Q1:TrueFalseStringType" minOccurs="1" maxOccurs="1"/>
+						<element name="devicePartClass" type="string" minOccurs="1" maxOccurs="1"/>
+						<element name="autoRefillStatus" type="Q1:TrueFalseStringType" minOccurs="1" maxOccurs="1"/>
+						<element name="paymentSourceId" type="string" minOccurs="0" maxOccurs="1"/>
+						<!-- WFM Start -->
+						<element name="customerId" type="string" minOccurs="0" maxOccurs="1"/>
+						<element name="devicePartNumber" type="string" minOccurs="0" maxOccurs="1"/>
+						<element name="firstName" type="string" minOccurs="0" maxOccurs="1"/>
+						<element name="lastName" type="string" minOccurs="0" maxOccurs="1"/>
+						<element name="deviceModel" type="string" minOccurs="0" maxOccurs="1"/>
+						<element name="manufacturer" type="string" minOccurs="0" maxOccurs="1"/>
+						<!-- WFM End-->
+						<element name="deviceType" type="string" minOccurs="1" maxOccurs="1"/>                                              
+                                                
+						<element name="reservedLine" type="boolean" minOccurs="1" maxOccurs="1"/>
+						<element name="isHandsetProtectionEligible" type="boolean" minOccurs="1" maxOccurs="1"/>
+						<element name="isHandsetProtectionEnrolled" type="boolean" minOccurs="1" maxOccurs="1"/>
+						<element name="technology" type="string" minOccurs="1" maxOccurs="1"/>
+						<element name="flashMessage" type="tns:FlashMessageType" minOccurs="0" maxOccurs="1"/>
+						<element name="rewards" type="tns:RewardsType" minOccurs="0" maxOccurs="1"/>
+						<!-- 
+						<element name="groupId" type="string"  minOccurs="0" maxOccurs="1"/>
+						<element name="groupName" type="string"  minOccurs="0" maxOccurs="1"/>
+						 -->
+						 <element name="group" type="tns:GroupType" minOccurs="0" maxOccurs="1"/>
+						<element name="vasServices" minOccurs="0" maxOccurs="unbounded">
+							<complexType>
+								<sequence>
+									<element name="vas" type="tns:DeviceVasInfoType" minOccurs="0" maxOccurs="1"/>
+								</sequence>
+							</complexType>
+						</element>
+						<element name="inquiryType" type="string"  minOccurs="0" maxOccurs="1"/>
+						<element name="leaseStatus" type="string"  minOccurs="0" maxOccurs="1"/>
+						<element name="leaseApplicationNumber" type="string"  minOccurs="0" maxOccurs="1"/>
+						<element name="nextChargeDate"            type="string" minOccurs="0" maxOccurs="1"/>
+						<element name="zipCode"  type="Q1:ZipCodeType"  minOccurs="0" maxOccurs="1" />
+						<element name="ildEnrollStatus"  type="boolean"  minOccurs="1" maxOccurs="1" />
+						<element name="ildEnrollPaymentSource"  type="string"  minOccurs="0" maxOccurs="1" />
+						<element name="securityPin"  type="string"  minOccurs="0" maxOccurs="1" />
+						<!-- WFM Start -->
+						<element name="transactionPending"  type="string" minOccurs="0" maxOccurs="1" />
+						<element name="carrierName"  type="string" minOccurs="0" maxOccurs="1" />
+												<element name="simStatus"  type="string" minOccurs="0" maxOccurs="1" />
+						<element name="simLegacyFlag"  type="string" minOccurs="0" maxOccurs="1" />
+						<!-- WFM End-->
+						<element name="payNowStatus" type="Q1:TrueFalseStringType" minOccurs="1" maxOccurs="1"/>
+						<element name="isSafelink" type="Q1:TrueFalseStringType" minOccurs="1" maxOccurs="1"/>
+						<element name="planPartNumber" type="string" minOccurs="1" maxOccurs="1"/>
+						<element name="enrollmentPromoPrice" type="double" minOccurs="1" maxOccurs="1" />
+                                                <element name="currentPlanEndDate" type="string" minOccurs="0" maxOccurs="1"/>
+						<!-- IVR non-SpringFarm element Start -->
+						<element name="languagePref"  type="string" minOccurs="0" maxOccurs="1" />
+						<!-- IVR non-SpringFarm element End-->
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+	
+	
+	<complexType name="FlashMessageType">
+		<sequence>
+			<element name="flashText" type="string" minOccurs="1" maxOccurs="1"/>
+			<element name="isFlashHot" type="boolean" minOccurs="1" maxOccurs="1"/>
+			<element name="flashTitle" type="string" minOccurs="0" maxOccurs="1" />
+		</sequence>
+	</complexType>
+	
+	<complexType name="RewardsType">
+		<sequence>
+			<element name="totalPointsNeeded" type="int" minOccurs="1" maxOccurs="1" />
+			<element name="pointsAccrued" type="double" minOccurs="1" maxOccurs="1" />
+			<element name="hasBenefits" type="boolean" minOccurs="1" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<!-- End -->
+	
+	<complexType name="GroupType">
+		<sequence>
+			<element name="groupId" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="groupName" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="groupStatus" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="masterEsn" type="Q5:ESNType" minOccurs="0" maxOccurs="1" />
+			<element name="groupLeaseApplicationNumber" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="groupPlanId" type="Q3:PlanIdType" minOccurs="0" maxOccurs="1" />
+			<element name="groupDeviceCount" type="int" minOccurs="0" maxOccurs="1" />
+			<element name="numberOfLines" type="int" minOccurs="0" maxOccurs="1" />
+			<element name="availableCapacity" type="int" minOccurs="0" maxOccurs="1" />
+		</sequence>
+	</complexType>
+	<complexType name="DeviceVasInfoType">
+		<sequence>
+			<element name="name" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="isEnrolled" type="boolean" minOccurs="1" maxOccurs="1" />
+			<element name="isEligible" type="boolean" minOccurs="1" maxOccurs="1" />
+			<element name="enrollmentStatus" type="string" minOccurs="0" maxOccurs="1" />
+		</sequence>
+	</complexType>	
+	<complexType name="AccountServicePlanCacheClearRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="servicePlanCacheKey" type="tns:ServicePlanCacheKey" minOccurs="1" maxOccurs="1"/>
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="AccountServicePlanCacheClearResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+				
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="logDefaultDeviceRequestType">
+    	<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="min" type="Q5:MINType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="esn" type="Q5:ESNType" minOccurs="1" maxOccurs="1"/>
+			  </sequence>
+			</extension>
+		</complexContent>
+    </complexType>
+    
+    <complexType name="logDefaultDeviceResponseType">
+    	<complexContent>
+			<extension base="Q1:BaseResponseType">
+			</extension>
+		</complexContent>
+    </complexType>
+	
+	
+	<complexType name="ServicePlanCacheKey">
+		<sequence>
+    		<element name="servicePlanCacheKeyType" minOccurs="1" maxOccurs="1">
+    			<simpleType>
+    				<restriction base="string">
+    					<enumeration value="PART_CLASS"/>
+    					<enumeration value="SERVICE_PLAN_ID"/>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="servicePlanCacheKeyValue" type="string" minOccurs="1" maxOccurs="unbounded"/>
+	        </sequence>
+	</complexType>
+	
+
+	<!-- Account Recovery Related messages -->
+	<complexType name="AccountRecoveryAccountStatusRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1" />
+			  		<element name="min" type="Q5:MINType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="esn" type="Q5:ESNType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="iccid" type="Q5:SIMType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="accountId" type="string" minOccurs="0" maxOccurs="1"/>
+			  		<element name="email" type="Q1:EmailType" minOccurs="0" maxOccurs="1" />
+			  		<element name="esnLastFourDigit"  type="tns:FourCharStringType" minOccurs="0" maxOccurs="1" /><!-- WFM changes -->
+			  		<element name="minLastFourDigit"  type="tns:FourCharStringType" minOccurs="0" maxOccurs="1" />
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="AccountRecoveryAccountStatusResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+				<sequence>
+			  		<element name="accountStatus" type="Q2:AccountStatusType" minOccurs="0" maxOccurs="1" />
+			  		<element name="securityPin" type="Q1:AVAILABLETYPE" minOccurs="0" maxOccurs="1"/>
+			  		<element name="securityQuestionAvail" type="Q1:AVAILABLETYPE" minOccurs="0" maxOccurs="1"/>
+			  		<element name="securityQuestion" type="string" minOccurs="0" maxOccurs="1"/>
+			  		<element name="paymentSource" type="Q1:AVAILABLETYPE"  minOccurs="0" maxOccurs="1" />
+			  		<element name="activationZipCode"  type="string" minOccurs="0" maxOccurs="1" />
+			  		<element name="status"  type="string" minOccurs="0" maxOccurs="1" /> <!-- WFM changes -->
+			  		<element name="email"      type="string" minOccurs="0" maxOccurs="1" />
+			  		<element name="accountId"  type="string" minOccurs="0" maxOccurs="1" />
+			  		<element name="totalActiveLines"  type="int" minOccurs="0" maxOccurs="1" />
+			  		<element name="devices" minOccurs="0" maxOccurs="1">
+						<complexType>
+							<sequence>
+								<element name="device" maxOccurs="unbounded" minOccurs="1">
+									<complexType>
+										<sequence>
+						  		    		<element name="esnLastFourDigit" type="tns:FourCharStringType" minOccurs="1" maxOccurs="1"/>
+						  		    		<element name="minLastFourDigit" type="tns:FourCharStringType" minOccurs="1" maxOccurs="1"/>
+										<element name="status" type="string"  minOccurs="1" maxOccurs="1"/>
+										<element name="activationZipcode"  type="string" minOccurs="1" maxOccurs="1" />
+										<element name="transactionPending"  type="string" minOccurs="1" maxOccurs="1" />
+                                                                                <element name="deviceType"  type="string" minOccurs="0" maxOccurs="1" />
+										<element name="servicePlanId"  type="string" minOccurs="0" maxOccurs="1" />
+											<!-- soa_cr58183_slcomm LLEnrolled flag -->
+											<element name="isLifelineEnrolled"  type="boolean" minOccurs="0" maxOccurs="1" />										
+										</sequence>
+									</complexType>
+								</element>
+							</sequence>
+						</complexType>
+					</element>
+					<element name="recoveryInfo"  type="tns:IdentifierType"  minOccurs="0" maxOccurs="1"/>
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<simpleType name="FourCharStringType">
+		<restriction base="string">
+			<minLength value="4"/>
+			<maxLength value="10"/>
+		</restriction>
+	</simpleType>
+	
+	<complexType name="IdentifierType">
+    	<sequence>
+    		<element name="name" type="string" minOccurs="1" maxOccurs="1"/>
+    		<element name="type" minOccurs="1" maxOccurs="1">
+    			<simpleType>
+    				<restriction base="string">
+    					<enumeration value="LINE"/>
+    					<enumeration value="SIM_CARD"/>
+    					<enumeration value="EMAIL"/>
+    					<enumeration value="USERID"/>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="value" type="string" minOccurs="1" maxOccurs="1"/>
+    		<element name="activationZipcode"  type="string" minOccurs="0" maxOccurs="1" />
+    	</sequence>
+    </complexType>
+	
+	<complexType name="AccountRecoveryCheckPointsRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1" />
+			  		<element name="min" type="Q5:MINType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="esn" type="Q5:ESNType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="iccid" type="Q5:SIMType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="verificationCode" type="Q2:VerificationCodeType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="activationZipCode"  type="Q1:ZipCodeType"  minOccurs="0" maxOccurs="1" />
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="AccountRecoveryCheckPointsResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+				<sequence>
+			  		<element name="securityPin" type="Q1:AVAILABLETYPE" minOccurs="1" maxOccurs="1"/>
+			  		<element name="securityQuestionAvail" type="Q1:AVAILABLETYPE" minOccurs="1" maxOccurs="1"/>
+			  		<element name="securityQuestion" type="string" minOccurs="0" maxOccurs="1"/>
+			  		<element name="paymentSource" type="Q1:AVAILABLETYPE" minOccurs="1" maxOccurs="1"/>
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	
+	<complexType name="AccountRecoveryValidateRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1" />
+			  		<element name="min" type="Q5:MINType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="esn" type="Q5:ESNType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="iccid" type="Q5:SIMType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="accountId" type="string" minOccurs="0" maxOccurs="1" />
+			  		<element name="email" type="Q1:EmailType" minOccurs="0" maxOccurs="1" />
+			  		<element name="securityPin" type="Q5:SecurityPinType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="securityQuestion" type="Q2:AccountSecurityQuestionTypeV2" minOccurs="0" maxOccurs="1"/>
+			  		<element name="paymentSource" minOccurs="0" maxOccurs="1">
+			  			<simpleType>
+							<restriction base="string">
+								<pattern value="[\d]{4}"/>
+							</restriction>
+						</simpleType>
+			  		</element>
+			  		<element name="activationZipCode" type="Q1:ZipCodeType" minOccurs="0" maxOccurs="1" />
+			  		<element name="verificationCode"  type="Q2:VerificationCodeType" minOccurs="0" maxOccurs="1"/>
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="AccountRecoveryValidateResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+				<sequence>
+			  		<element name="accountId" type="Q2:AccountIdentifierType" minOccurs="1" maxOccurs="1"/>
+			  		<element name="email" type="Q2:AccountIdentifierType" minOccurs="0" maxOccurs="1"/>
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<!-- Phase2 GetTickets service start -->
+	
+	<complexType name="GetTicketsRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+				<sequence>
+					<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1"/>
+					<element name="device" type="Q5:DeviceIdType" minOccurs="1" maxOccurs="1"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+
+	<complexType name="GetTicketsResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+				<sequence>
+					<element name="tickets" minOccurs="0" maxOccurs="1">
+						<complexType>
+							<sequence>
+								<element name="ticket" type="tns:TicketType" minOccurs="0" maxOccurs="unbounded"/>
+							</sequence>
+						</complexType>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="TicketType">
+		<sequence>
+			<element name="id" type="string" minOccurs="1" maxOccurs="1"/>
+			<element name="status" type="string" minOccurs="1" maxOccurs="1"/>
+	                <element name="reason" type="string" minOccurs="0" maxOccurs="1" />
+			<element name="type" type="string" minOccurs="1" maxOccurs="1"/>
+			<element name="creationDatetime" type="string" minOccurs="1" maxOccurs="1"/>
+			<element name="trackingInformation" type="tns:TrackingInfoType" minOccurs="0" maxOccurs="1"/>
+			<element name="description" type="string" minOccurs="1" maxOccurs="1"/>
+			<element name="title" type="string" minOccurs="0" maxOccurs="1"/>
+			<element name="deviceNickName" type="string" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="TrackingInfoType">
+		<sequence>
+			<element name="trackingId" type="string" minOccurs="1" maxOccurs="1"/>
+			<element name="trackingLink" type="string" minOccurs="1" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	
+	<!-- Phase2 GetTickets service end -->
+	
+	<!-- Phase2 Clear OTA service start -->
+	
+	<complexType name="ClearOTARequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+				<sequence>
+					<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1"/>
+					<element name="device" type="Q5:DeviceIdType" minOccurs="1" maxOccurs="1"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="ClearOTAResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType"/>
+		</complexContent>
+	</complexType>
+	<!-- Phase2 ClearOTA service end -->
+	
+	<!-- Phase2 Add Device service start -->
+	
+	<complexType name="AddDeviceV2RequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="accountId" type="Q2:AccountIdentifierType" minOccurs="1" maxOccurs="1"/>
+					<element name="esn" type="Q5:ESNType" minOccurs="0" maxOccurs="1"/>
+					<element name="min" type="Q5:MINType" minOccurs="0" maxOccurs="1"/>
+					<element name="iccid" type="Q5:SIMType" minOccurs="0" maxOccurs="1"/>
+					<element name="groupId" type="string" minOccurs="0" maxOccurs="1"/>
+					<element name="groupPlanId" type="Q3:PlanIdType" minOccurs="0" maxOccurs="1"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="AddDeviceV2ResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- Phase2 Add Device service end -->
+
+
+	<!-- Phase2 ProcessErrorCode service start -->
+	<complexType name="ProcessErrorCodeRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1" />
+			  		<element name="functionName" type="string" minOccurs="1" maxOccurs="1" />
+					<element name="flowName" type="string" minOccurs="1" maxOccurs="1" />
+			  		<element name="errorCode" type="string" minOccurs="1" maxOccurs="1" />
+					<element name="defaultErrorMessage" type="string" minOccurs="1" maxOccurs="1" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="ProcessErrorCodeResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+			  <sequence>
+				<element name="errorCode" type="string" minOccurs="0" maxOccurs="1" />
+				<element name="errorMessage" type="string" minOccurs="0" maxOccurs="1" />
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- Phase2 ProcessErrorCode service end -->
+	
+	
+	<complexType name="MarkDefaultDeviceRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="1" maxOccurs="1" />
+			  		<element name="device" type="Q5:DeviceIdType" minOccurs="1" maxOccurs="1" />
+			  		<element name="accountId" type="Q2:AccountIdentifierType" minOccurs="0" maxOccurs="1" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="MarkDefaultDeviceResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="SetPushNotificationPreferenceRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="1" maxOccurs="1" />
+			  		<element name="accountId" type="Q2:AccountIdentifierType" minOccurs="0" maxOccurs="1" />
+			  		<element name="devices" minOccurs="1" maxOccurs="1">
+						<complexType>
+							<sequence>
+								<element name="device" maxOccurs="unbounded" minOccurs="1">
+									<complexType>
+										<sequence>
+											<element name="esn" type="Q5:ESNType" minOccurs="1" maxOccurs="1" />
+											<element name="min" type="Q5:MINType" minOccurs="0" maxOccurs="1" />
+											<element name="preference" type="string" minOccurs="1" maxOccurs="1" />
+										</sequence>
+									</complexType>
+								</element>
+							</sequence>
+						</complexType>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="SetPushNotificationPreferenceResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="SetPushNotificationMessageStatusRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="1" maxOccurs="1" />
+			  		<element name="accountId" type="Q2:AccountIdentifierType" minOccurs="0" maxOccurs="1" />
+			  		<element name="msgProps" minOccurs="1" maxOccurs="1">
+						<complexType>
+							<sequence>
+								<element name="msgProp" maxOccurs="unbounded" minOccurs="1">
+									<complexType>
+										<sequence>
+											<element name="name" type="string" minOccurs="1" maxOccurs="1" />
+											<element name="value" type="string" minOccurs="1" maxOccurs="1" />
+										</sequence>
+									</complexType>
+								</element>
+							</sequence>
+						</complexType>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="SetPushNotificationMessageStatusResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- LRP Phase 2  starts-->
+   <complexType name="GetCustomerAccountDetailsRequestType">
+    <complexContent>
+            <extension base="Q1:BaseRequestType">
+                <sequence>
+					<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1" />
+      <choice minOccurs="1" maxOccurs="1">
+        <element name="accountId" type="string" minOccurs="0" maxOccurs="1"/>
+        <element name="customerId" type="string" minOccurs="0" maxOccurs="1"/>
+      </choice>
+    </sequence>
+    </extension>
+    </complexContent>
+  </complexType>
+  <complexType name="GetCustomerAccountDetailsResponseType">
+        <complexContent>
+            <extension base="Q1:BaseResponseType">
+                <sequence>  
+                <element name="accountId" type="string" minOccurs="0" maxOccurs="1"/>
+          <element name="customerId" type="string" minOccurs="0" maxOccurs="1"/>
+          <element name="profileInformation" type="Q2:CustomerProfileInfoType" minOccurs="0" maxOccurs="1"/>
+          <element name="contactId" type="string" minOccurs="0" maxOccurs="1"/>
+          <element name="loginEmail" type="Q1:EmailType" minOccurs="0" maxOccurs="1"/>
+          <element name="securityPin" type="Q5:SecurityPinType" minOccurs="0" maxOccurs="1"/>
+          <element name="brand" type="string" minOccurs="0" maxOccurs="1"/>
+		  <element name="emailPreference" type="string" minOccurs="0" maxOccurs="1"/>
+				<element name="smsPreference" type="string" minOccurs="0" maxOccurs="1"/>
+				<element name="serviceStartDate" type="string" minOccurs="0" maxOccurs="1"/>
+          <element name="activationDate" type="string" minOccurs="0" maxOccurs="1"/>
+          <element name="customerStatus" type="string" minOccurs="0" maxOccurs="1"/>
+          <element name="numberOfRedemptionsAfterEnrollment" type="string" minOccurs="0" maxOccurs="1"/>
+        </sequence>
+        </extension>
+        </complexContent>
+  </complexType>
+  
+  <element name="getCustomerAccountDetailsRequest" type="tns:GetCustomerAccountDetailsRequestType"/>
+  <element name="getCustomerAccountDetailsResponse" type="tns:GetCustomerAccountDetailsResponseType"/>
+    <!-- LRP Phase 2  ends-->
+<!-- SL commerce soa_cr58183_slcomm  starts-->
+  <complexType name="upsertCustomerAccountDetailsRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+				<sequence>
+					<element name="webUserObjId" type="string" minOccurs="0" maxOccurs="1"/>
+					<element name="context" type="string" minOccurs="1" maxOccurs="1"/>
+					<element name="esn" type="Q5:ESNType" minOccurs="0" maxOccurs="1" />
+					<element name="orderId" type="string" minOccurs="0" maxOccurs="1" />
+					<element name="customerDetail" type="tns:CustomerLifelineDetailType" minOccurs="0" maxOccurs="1" />
+ 
+<!--				<element name="llPlanId" type="string" minOccurs="1" maxOccurs="1"/>					 			
+					<element name="vmbcApprovalFlag" type="string" minOccurs="1" maxOccurs="1"/>
+					<element name="targetBrand" type="string" minOccurs="0" maxOccurs="1"/>			       -->			
+				</sequence> 
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="upsertCustomerAccountDetailsResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+				<sequence>  
+				<element name="errorCode" type="string" minOccurs="0" maxOccurs="1" />
+				<element name="errorMessage" type="string" minOccurs="0" maxOccurs="1" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+  
+    <element name="upsertCustomerAccountDetailsRequest" type="tns:upsertCustomerAccountDetailsRequestType"/>
+    <element name="upsertCustomerAccountDetailsResponse" type="tns:upsertCustomerAccountDetailsResponseType"/>
+	
+    <!-- SLcommerce soa_cr58183_slcomm  ends-->
+
+	<complexType name="SendEmailRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+				<sequence>
+					<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1" />
+					<element name="fromEmail" type="Q1:EmailType" minOccurs="1" maxOccurs="1" />
+					<element name="toEmail" type="Q1:EmailType" minOccurs="1" maxOccurs="1" />
+					<element name="subject" type="string" minOccurs="1" maxOccurs="1"/>
+					<element name="body" minOccurs="1" maxOccurs="1" type="string">
+						<annotation>
+							<documentation>
+								This element needs to be passed as CDATA due to	special chars
+							</documentation>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="SendEmailResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType"></extension>
+		</complexContent>
+	</complexType>
+
+
+	<complexType name="SendSMSRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+				<sequence>
+					<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1" />
+					<element name="smsInfo" minOccurs="1" maxOccurs="1">
+						<complexType>
+							<sequence>
+								<element name="sms" maxOccurs="unbounded" minOccurs="1">
+									<complexType>
+										<sequence>
+											<element name="min" type="Q5:MINType" minOccurs="1" maxOccurs="1" />
+											<element name="message" type="string" minOccurs="1" maxOccurs="1" />
+										</sequence>
+									</complexType>
+								</element>
+							</sequence>
+						</complexType>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="SendSMSResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType"></extension>
+		</complexContent>
+	</complexType>
+	
+	
+	<complexType name="CreateOrUpdateLdapCredentialRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+				<sequence>
+					<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1" />
+			  		<element name="accountId" type="Q2:AccountIdentifierType" minOccurs="1" maxOccurs="1" />
+			  		<element name="password" type="Q2:PasswordType" minOccurs="1" maxOccurs="1" />
+					<element name="device" type="tns:DeviceCredentialType" minOccurs="0" maxOccurs="unbounded" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="CreateOrUpdateLdapCredentialResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType"></extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="DeviceCredentialType">
+		<sequence>
+			<element name="min" type="Q5:MINType" minOccurs="0" maxOccurs="1"/>
+			<element name="esn" type="Q5:ESNType" minOccurs="0" maxOccurs="1"/>
+			<element name="sim" type="Q5:SIMType" minOccurs="0" maxOccurs="1"/>
+			<element name="pin" type="Q5:SecurityPinType" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<element name="forgotPasswordRequest" type="tns:ForgotPasswordRequestType"/>
+
+	<element name="forgotPasswordResponse" type="tns:ForgotPasswordResponseType"/>
+
+	<element name="updateLoginInformationRequest" type="tns:UpdateLoginInformationRequestType"/>
+
+	<element name="updateLoginInformationResponse" type="tns:UpdateLoginInformationResponseType"/>
+	
+	<element name="createAccountRequest" type="tns:CreateAccountRequestType"/>
+	
+	<element name="createAccountResponse" type="tns:CreateAccountResponseType"/>
+
+	<element name="updateAccountRequest" type="tns:UpdateAccountRequestType"/>
+	
+	<element name="updateAccountResponse" type="tns:UpdateAccountResponseType"/>
+	
+	<element name="getCustomerProfileRequest" type="tns:GetCustomerProfileRequestType"/>
+	
+	<element name="getCustomerProfileResponse" type="tns:GetCustomerProfileResponseType"/>
+	
+	<element name="getAccountInformationRequest" type="tns:GetAccountInformationRequestType"/>
+	
+	<element name="getAccountInformationResponse" type="tns:GetAccountInformationResponseType"/>
+	
+	<element name="accountServicePlanCacheClearRequest" type="tns:AccountServicePlanCacheClearRequestType"/>
+	
+	<element name="accountServicePlanCacheClearResponse" type="tns:AccountServicePlanCacheClearResponseType"/>
+	
+	 <element name="logDefaultDeviceRequest" type="tns:logDefaultDeviceRequestType"/>
+	
+	<element name="logDefaultDeviceResponse" type="tns:logDefaultDeviceResponseType"/>
+	
+	<!-- Account Recovery Related messages -->
+	<element name="accountRecoveryAccountStatusRequest" type="tns:AccountRecoveryAccountStatusRequestType"/>
+	
+	<element name="accountRecoveryAccountStatusResponse" type="tns:AccountRecoveryAccountStatusResponseType"/>
+	
+	<element name="accountRecoveryCheckPointsRequest" type="tns:AccountRecoveryCheckPointsRequestType"/>
+	
+	<element name="accountRecoveryCheckPointsResponse" type="tns:AccountRecoveryCheckPointsResponseType"/>
+	
+	<element name="accountRecoveryValidateRequest" type="tns:AccountRecoveryValidateRequestType"/>
+	
+	<element name="accountRecoveryValidateResponse" type="tns:AccountRecoveryValidateResponseType"/>
+	<!-- Phase2 GetTickets service start -->
+	
+	<element name="getTicketsRequest" type="tns:GetTicketsRequestType"/>
+	
+	<element name="getTicketsResponse" type="tns:GetTicketsResponseType"/>
+	<!-- Phase2 GetTickets service end -->
+	<!-- Phase2 ClearOTA service start -->
+	
+	<element name="clearOTARequest" type="tns:ClearOTARequestType"/>
+	
+	<element name="clearOTAResponse" type="tns:ClearOTAResponseType"/>
+	
+	<!-- Phase2 ClearOTA service end -->
+	
+	<!-- Phase2 AccountInformation service start -->
+	<element name="getAccountInformationV2Request" type="tns:GetAccountInformationV2RequestType"/>
+	<element name="getAccountInformationV2Response" type="tns:GetAccountInformationV2ResponseType"/>
+	<!-- Phase2 AccountInformation service end -->
+	
+	<!-- Phase2 Add Device service start -->
+	<element name="addDeviceV2Request" type="tns:AddDeviceV2RequestType"/>
+	<element name="addDeviceV2Response" type="tns:AddDeviceV2ResponseType"/>
+	<!-- Phase2 Add Device service end -->
+	
+	 <!-- Phase2 ProcessErrorCode service start -->
+	 <element name="processErrorCodeRequest" type="tns:ProcessErrorCodeRequestType"/>
+	 <element name="processErrorCodeResponse" type="tns:ProcessErrorCodeResponseType"/>
+	 <!-- Phase2 ProcessErrorCode service end -->
+	 
+	 
+	 <element name="markDefaultDeviceRequest" type="tns:MarkDefaultDeviceRequestType"/>
+	 <element name="markDefaultDeviceResponse" type="tns:MarkDefaultDeviceResponseType"/>
+	 
+	 <element name="setPushNotificationPreferenceRequest" type="tns:SetPushNotificationPreferenceRequestType"/>
+	 <element name="setPushNotificationPreferenceResponse" type="tns:SetPushNotificationPreferenceResponseType"/>
+	 
+	 <element name="setPushNotificationMessageStatusRequest" type="tns:SetPushNotificationMessageStatusRequestType" />
+	 <element name="setPushNotificationMessageStatusResponse" type="tns:SetPushNotificationMessageStatusResponseType" />
+	 
+	 <element name="sendEmailRequest" type="tns:SendEmailRequestType" />
+	 <element name="sendEmailResponse" type="tns:SendEmailResponseType" />
+	 <element name="sendSMSRequest" type="tns:SendSMSRequestType" />
+	 <element name="sendSMSResponse" type="tns:SendSMSResponseType" />
+	 
+	 <element name="createOrUpdateLdapCredentialRequest" type="tns:CreateOrUpdateLdapCredentialRequestType" />
+	 <element name="createOrUpdateLdapCredentialResponse" type="tns:CreateOrUpdateLdapCredentialResponseType" />
+	 
+	 
+	 <!-- Start Device Confirm verification Request SM MLD start -->
+	 
+	 <complexType name="DeviceConfirmVerificationRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>			  		
+			  		<element name="min" type="Q5:MINType" minOccurs="0" maxOccurs="1"/>			  	
+			  		<element name="verificationTypeCode" type="Q2:DeviceVerificationType" minOccurs="1" maxOccurs="1" />
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	
+	<complexType name="DeviceConfirmVerificationResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+				<sequence>
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	 <!--  End Device Confirm verification Request SM MLD end -->
+	 
+	 
+	 <!--  Device Recovery Request CR48846 -->
+	 
+	 	<complexType name="DeviceRecoveryCheckPointsRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1" />
+			  		<element name="min" type="Q5:MINType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="esn" type="Q5:ESNType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="iccid" type="Q5:SIMType" minOccurs="0" maxOccurs="1"/>
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="DeviceRecoveryCheckPointsResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+				<sequence>
+					<element name="min" type="Q5:MINType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="esn" type="Q5:ESNType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="iccid" type="Q5:SIMType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="deviceVerificationCodeTypes" minOccurs="1" maxOccurs="1">
+			  			<complexType>
+			  				<sequence>
+			  					<element name="deviceVerificationCodeType" type="tns:DeviceRecoveryVerificationCodeType" minOccurs="1" maxOccurs="unbounded"/>
+			  				</sequence>
+			  			</complexType>
+			  		</element>
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="DeviceRecoveryVerificationCodeType">
+		<sequence>
+			<element name="verificationTypeCode" type="Q2:DeviceVerificationType" minOccurs="1" maxOccurs="1" />
+	  		<element name="verificationMaskedLink"  type="string" minOccurs="1" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	
+	<complexType name="DeviceRecoveryCodeGenerationRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1" />
+			  		<element name="min" type="Q5:MINType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="esn" type="Q5:ESNType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="iccid" type="Q5:SIMType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="verificationTypeCode" type="Q2:DeviceVerificationType" minOccurs="1" maxOccurs="1" />
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="DeviceRecoveryCodeGenerationResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType">
+				<sequence>
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="DeviceRecoveryValidationRequestType">
+		<complexContent>
+			<extension base="Q1:BaseRequestType">
+			  <sequence>
+			  		<element name="consumerInfo" type="Q1:MobileRequestType" minOccurs="0" maxOccurs="1" />
+			  		<element name="min" type="Q5:MINType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="esn" type="Q5:ESNType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="iccid" type="Q5:SIMType" minOccurs="0" maxOccurs="1"/>
+			  		<element name="verificationTypeCode" type="Q2:DeviceVerificationType" minOccurs="1" maxOccurs="1" />
+			  		<element name="verificationCode"  type="Q2:VerificationCodeType" minOccurs="1" maxOccurs="1"/>
+			  </sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="DeviceRecoveryValidationResponseType">
+		<complexContent>
+			<extension base="Q1:BaseResponseType" />
+		</complexContent>
+	</complexType>
+	
+	<complexType name="LifelineDetailType">
+		<sequence>
+			<element name="lifelineId" type="string" minOccurs="0" maxOccurs="1"/>
+			<element name="discountCode" type="string" minOccurs="0" maxOccurs="1"/>
+			<element name="discountAmount" type="string" minOccurs="0" maxOccurs="1"/>
+			<element name="validTill" type="string" minOccurs="0" maxOccurs="1"/>
+			<element name="status" type="string" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+
+	<complexType name="CustomerLifelineDetailType">
+		<sequence>
+			<element name="emailAddress" type="Q1:EmailType" minOccurs="0" maxOccurs="1"/>
+			<element name="ShipmentAddress" type ="Q1:AddressType" minOccurs="0" maxOccurs="1" />
+				<element name="EnrollmentAddress" maxOccurs="1" minOccurs="0" type="Q1:AddressType"/>
+			<element name="customerLifelineDetail" type="tns:LifelineDetailType" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+
+	<element name="deviceRecoveryCheckPointsRequest" type="tns:DeviceRecoveryCheckPointsRequestType" />
+	<element name="deviceRecoveryCheckPointsResponse" type="tns:DeviceRecoveryCheckPointsResponseType" />
+	<element name="deviceRecoveryCodeGenerationRequest" type="tns:DeviceRecoveryCodeGenerationRequestType" />
+	<element name="deviceRecoveryCodeGenerationResponse" type="tns:DeviceRecoveryCodeGenerationResponseType" />
+	<element name="deviceRecoveryValidationRequest" type="tns:DeviceRecoveryValidationRequestType" />
+	<element name="deviceRecoveryValidationResponse" type="tns:DeviceRecoveryValidationResponseType" />
+	
+	 <!-- Start Device Confirm verification Request SM MLD start -->
+	<element name="deviceConfirmVerificationRequest" type="tns:DeviceConfirmVerificationRequestType" /> 
+	<element name="deviceConfirmVerificationResponse" type="tns:DeviceConfirmVerificationResponseType" /> 
+	 <!-- End Device Confirm verification Request SM MLD End -->
+	 
+	 <!--  End Device Recovery Request CR48846 -->
+	 
+</schema>

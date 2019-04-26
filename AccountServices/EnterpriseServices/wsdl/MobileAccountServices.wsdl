@@ -1,0 +1,100 @@
+<wsdl:definitions name="MobileAccountServices" targetNamespace="http://b2b.tracfone.com/MobileAccountServices" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://b2b.tracfone.com/MobileAccountServices" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="http://b2b.tracfone.com/MobileAccountServices">
+  <wsdl:types>  <xsd:schema>
+    <xsd:import namespace="http://b2b.tracfone.com/MobileAccountServices" schemaLocation="../xsd/MobileAccountServices.xsd"/>
+    </xsd:schema>
+  </wsdl:types>
+
+  <wsdl:message name="deleteEsnFromAccountRequest">
+    <wsdl:part element="tns:deleteEsnFromAccountRequest" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="deleteEsnFromAccountResponse">
+    <wsdl:part element="tns:deleteEsnFromAccountResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getAccountDetailsRequest">
+  	<wsdl:part name="parameters" element="tns:getAccountDetailsRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getAccountDetailsResponse">
+  	<wsdl:part name="parameters" element="tns:getAccountDetailsResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getTransactionHistoryRequest">
+  	<wsdl:part name="parameters" element="tns:getTransactionHistoryRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getTransactionHistoryResponse">
+  	<wsdl:part name="parameters" element="tns:getTransactionHistoryResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getPaymentHistoryRequest">
+  	<wsdl:part name="parameters" element="tns:getPaymentHistoryRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getPaymentHistoryResponse">
+  	<wsdl:part name="parameters" element="tns:getPaymentHistoryResponse"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="MobileAccountServices">
+    <wsdl:operation name="deleteEsnFromAccount">
+      <wsdl:input message="tns:deleteEsnFromAccountRequest"/>
+      <wsdl:output message="tns:deleteEsnFromAccountResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAccountDetails">
+    	<wsdl:input message="tns:getAccountDetailsRequest"/>
+    	<wsdl:output message="tns:getAccountDetailsResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getTransactionHistory">
+    	<wsdl:input message="tns:getTransactionHistoryRequest"/>
+    	<wsdl:output message="tns:getTransactionHistoryResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getPaymentHistory">
+    	<wsdl:input message="tns:getPaymentHistoryRequest"/>
+    	<wsdl:output message="tns:getPaymentHistoryResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="MobileAccountServicesSOAP" type="tns:MobileAccountServices">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="deleteEsnFromAccount">
+      <soap:operation soapAction="http://b2b.tracfone.com/MobileAccountServices/deleteEsnFromAccount"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  
+      		<wsdl:operation name="getAccountDetails">
+
+			<soap:operation soapAction="http://b2b.tracfone.com/MobileAccountServices/getAccountDetails"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+    
+		<wsdl:operation name="getTransactionHistory">
+			<soap:operation soapAction="http://b2b.tracfone.com/MobileAccountServices/getTransactionHistory"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		
+				<wsdl:operation name="getPaymentHistory">
+			<soap:operation soapAction="http://b2b.tracfone.com/MobileAccountServices/getPaymentHistory"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		
+  </wsdl:binding>
+  <wsdl:service name="MobileAccountServices">
+    <wsdl:port binding="tns:MobileAccountServicesSOAP" name="MobileAccountServicesSOAP">
+      <soap:address location="https://retailgateway.tracfone.com/B2B/MobileAccountServices"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

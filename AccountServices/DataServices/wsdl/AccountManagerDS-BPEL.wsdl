@@ -1,0 +1,64 @@
+<wsdl:definitions name="OAuthAccountManagerDataService" targetNamespace="http://www.tracfone.com/OAuthAccountManagerDataService/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.tracfone.com/OAuthAccountManagerDataService/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="http://www.tracfone.com/OAuthAccountManagerDataService" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <wsdl:documentation>
+        <abstractWSDL>https://dp-soasit1:9501/soa-infra/services/default/AccountManagerDS!1.0/OAuthAccountManagerDataService.wsdl</abstractWSDL>
+    </wsdl:documentation>
+    <wsdl:types>
+        <xsd:schema>
+            <xsd:import namespace="http://www.tracfone.com/OAuthAccountManagerDataService" schemaLocation="../xsd/AccountManagerDS-BPEL.xsd"/>
+        </xsd:schema>
+
+    </wsdl:types>
+    <wsdl:message name="checkMyAccountRequest">
+        <wsdl:part name="parameters" element="xsd1:checkMyAccountRequest"/>
+    </wsdl:message>
+    <wsdl:message name="checkMyAccountResponse">
+        <wsdl:part name="parameters" element="xsd1:checkMyAccountResponse"/>
+    </wsdl:message>
+    <wsdl:message name="validateB2BUserRequest">
+        <wsdl:part name="parameters" element="xsd1:validateB2BUserRequest"/>
+
+    </wsdl:message>
+    <wsdl:message name="validateB2BUserResponse">
+        <wsdl:part name="parameters" element="xsd1:validateB2BUserResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="OAuthAccountManagerDataService">
+        <wsdl:operation name="checkMyAccount">
+            <wsdl:input message="tns:checkMyAccountRequest"/>
+            <wsdl:output message="tns:checkMyAccountResponse"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="validateB2BUser">
+            <wsdl:input message="tns:validateB2BUserRequest"/>
+            <wsdl:output message="tns:validateB2BUserResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="OAuthAccountManagerDataServiceSOAP" type="tns:OAuthAccountManagerDataService">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="checkMyAccount">
+            <soap:operation soapAction="http://www.tracfone.com/OAuthAccountManagerDataService/checkMyAccount"/>
+
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="validateB2BUser">
+            <soap:operation soapAction="http://www.tracfone.com/OAuthAccountManagerDataService/validateB2BUser"/>
+
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="OAuthAccountManagerDataService">
+
+        <wsdl:port name="OAuthAccountManagerDataServiceSOAP" binding="tns:OAuthAccountManagerDataServiceSOAP">
+            <soap:address location="http://dp-soasit1:9001/soa-infra/services/default/AccountManagerDS/AccountManagerDS"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

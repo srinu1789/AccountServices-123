@@ -1,0 +1,331 @@
+<wsdl:definitions name="AccountCoreServices" targetNamespace="http://www.tracfone.com/AccountCoreServices/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="http://www.tracfone.com/AccountCoreServices/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="http://www.tracfone.com/AccountCoreServices">
+  <wsdl:types>
+    <xsd:schema>
+      <xsd:import namespace="http://www.tracfone.com/AccountCoreServices"
+                  schemaLocation="../xsd/AccountCoreServices.xsd"></xsd:import>
+    </xsd:schema>
+   
+  </wsdl:types>
+  
+  <wsdl:message name="validateAccountRequest">
+    <wsdl:part element="xsd1:validateAccountRequest" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="validateAccountResponse">
+    <wsdl:part element="xsd1:validateAccountResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getAccountInformationRequest">
+    <wsdl:part name="parameters" element="xsd1:getAccountInformationRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getAccountInformationResponse">
+    <wsdl:part name="parameters" element="xsd1:getAccountInformationResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getAccountInfoForGotPasswordRequest">
+    <wsdl:part name="parameters" element="xsd1:getAccountInfoFotGotPasswordRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getAccountInfoForGotPasswordResponse">
+    <wsdl:part name="parameters" element="xsd1:getAccountInfoFotGotPasswordResponse"/>
+  </wsdl:message>
+  <wsdl:message name="createAccountRequest">
+    <wsdl:part name="parameters" element="xsd1:createAccountRequest"/>
+  </wsdl:message>
+  <wsdl:message name="createAccountResponse">
+    <wsdl:part name="parameters" element="xsd1:createAccountResponse"/>
+  </wsdl:message>
+  <wsdl:message name="createcontactRequest">
+    <wsdl:part name="parameters" element="xsd1:createContactRequest"/>
+  </wsdl:message>
+  <wsdl:message name="createcontactResponse">
+    <wsdl:part name="parameters" element="xsd1:createContactResponseType"/>
+  </wsdl:message>
+  <wsdl:message name="removeEsnFromAccountRequest">
+    <wsdl:part name="parameters" element="xsd1:removeMultipleEsnToAccountRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeEsnFromAccountResponse">
+    <wsdl:part name="parameters" element="xsd1:removeMultipleEsnToAccountResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="encryptPasswordRequest">
+    <wsdl:part name="parameters" element="xsd1:encryptPasswordRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="encryptPasswordResponse">
+    <wsdl:part name="parameters" element="xsd1:encryptPasswordResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="encryptAccountPasswordRequest">
+    <wsdl:part name="parameters" element="xsd1:encryptAccountPasswordRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="encryptAccountPasswordResponse">
+    <wsdl:part name="parameters" element="xsd1:encryptAccountPasswordResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="encryptCsrPasswordRequest">
+    <wsdl:part name="parameters" element="xsd1:encryptCsrPasswordRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="encryptCsrPasswordResponse">
+    <wsdl:part name="parameters" element="xsd1:encryptCsrPasswordResponse"></wsdl:part>
+  </wsdl:message>
+  <!-- MyAccount APP Services -->
+  <wsdl:message name="getTransactionHistoryRequest">
+    <wsdl:part name="parameters" element="xsd1:getTransactionHistoryRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getTransactionHistoryResponse">
+    <wsdl:part name="parameters" element="xsd1:getTransactionHistoryResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getAccountDetailsRequest">
+    <wsdl:part name="parameters" element="xsd1:getAccountDetailsRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getAccountDetailsResponse">
+    <wsdl:part name="parameters" element="xsd1:getAccountDetailsResponse"/>
+  </wsdl:message>
+  <!-- End -->
+  <wsdl:message name="getPasswordRequest">
+    <wsdl:part name="parameters" element="xsd1:getPasswordRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPasswordResponse">
+    <wsdl:part name="parameters" element="xsd1:getPasswordResponse"></wsdl:part>
+  </wsdl:message>
+  
+   <wsdl:message name="isContactInformationDummyRequest">
+  	<wsdl:part name="parameters" element="xsd1:isContactInformationDummyRequest">
+  	</wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isContactInformationDummyResponse">
+  	<wsdl:part name="parameters" element="xsd1:isContactInformationDummyResponse">
+  	</wsdl:part>
+  </wsdl:message>
+  
+  
+  
+  
+  <wsdl:message name="verifyDummyAccountRequest">
+    <wsdl:part element="xsd1:verifyDummyAccountRequest" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="verifyDummyAccountResponse">
+    <wsdl:part element="xsd1:verifyDummyAccountResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getHPPSummaryRequest">
+  	<wsdl:part name="parameters" element="xsd1:getHPPSummaryRequest">
+  	</wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getHPPSummaryResponse">
+  	<wsdl:part name="parameters" element="xsd1:getHPPSummaryResponse">
+  	</wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="AccountCoreServices">
+    <wsdl:operation name="validateAccount">
+      <wsdl:input message="tns:validateAccountRequest"/>
+      <wsdl:output message="tns:validateAccountResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAccountInformation">
+      <wsdl:input message="tns:getAccountInformationRequest"/>
+      <wsdl:output message="tns:getAccountInformationResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAccountInfoForGotPassword">
+      <wsdl:input message="tns:getAccountInfoForGotPasswordRequest"/>
+      <wsdl:output message="tns:getAccountInfoForGotPasswordResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="createAccount">
+      <wsdl:input message="tns:createAccountRequest"/>
+      <wsdl:output message="tns:createAccountResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="createcontact">
+      <wsdl:input message="tns:createcontactRequest"/>
+      <wsdl:output message="tns:createcontactResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="removeEsnFromAccount">
+      <wsdl:input message="tns:removeEsnFromAccountRequest"/>
+      <wsdl:output message="tns:removeEsnFromAccountResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="encryptPassword">
+      <wsdl:input message="tns:encryptPasswordRequest"/>
+      <wsdl:output message="tns:encryptPasswordResponse"/>
+    </wsdl:operation>
+	<wsdl:operation name="encryptAccountPassword">
+      <wsdl:input message="tns:encryptAccountPasswordRequest"/>
+      <wsdl:output message="tns:encryptAccountPasswordResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="encryptCsrPassword">
+      <wsdl:input message="tns:encryptCsrPasswordRequest"/>
+      <wsdl:output message="tns:encryptCsrPasswordResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getPassword">
+      <wsdl:input message="tns:getPasswordRequest"/>
+      <wsdl:output message="tns:getPasswordResponse"/>
+    </wsdl:operation>
+    <!-- MyAccount APP Services -->
+    <wsdl:operation name="getTransactionHistory">
+      <wsdl:input message="tns:getTransactionHistoryRequest"/>
+      <wsdl:output message="tns:getTransactionHistoryResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAccountDetails">
+      <wsdl:input message="tns:getAccountDetailsRequest"/>
+      <wsdl:output message="tns:getAccountDetailsResponse"/>
+    </wsdl:operation>
+ <wsdl:operation name="isContactInformationDummy">
+    	<wsdl:input message="tns:isContactInformationDummyRequest"/>
+    	<wsdl:output message="tns:isContactInformationDummyResponse"/>
+    </wsdl:operation>
+    
+    <wsdl:operation name="verifyDummyAccount">
+      <wsdl:input message="tns:verifyDummyAccountRequest"/>
+      <wsdl:output message="tns:verifyDummyAccountResponse"/>
+    </wsdl:operation>
+    <!-- End -->
+     <wsdl:operation name="getHPPSummary">
+    	<wsdl:input message="tns:getHPPSummaryRequest"/>
+    	<wsdl:output message="tns:getHPPSummaryResponse"/>
+    </wsdl:operation>
+   
+  
+  </wsdl:portType>
+  <wsdl:binding name="AccountCoreServicesSOAP" type="tns:AccountCoreServices">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="validateAccount">
+
+  		<soap:operation soapAction="http://www.tracfone.com/AccountCoreServices/validateAccount"/>
+  		<wsdl:input>
+
+  			<soap:body use="literal"/>
+  		</wsdl:input>
+  		<wsdl:output>
+
+  			<soap:body use="literal"/>
+  		</wsdl:output>
+  	</wsdl:operation>  	
+        
+    <wsdl:operation name="getAccountInformation">
+      <soap:operation soapAction="http://www.tracfone.com/AccountCoreServices/getAccountInformation"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAccountInfoForGotPassword">
+      <soap:operation soapAction="http://www.tracfone.com/AccountCoreServices/getAccountInfoForGotPassword"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createAccount">
+      <soap:operation soapAction="http://www.tracfone.com/AccountCoreServices/createAccount"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createcontact">
+      <soap:operation soapAction="http://www.tracfone.com/AccountCoreServices/createcontact"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeEsnFromAccount">
+      <soap:operation soapAction="http://www.tracfone.com/AccountCoreServices/removeEsnFromAccount"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="encryptPassword">
+      <soap:operation soapAction="http://www.tracfone.com/AccountCoreServices/encryptPassword"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+	<wsdl:operation name="encryptAccountPassword">
+      <soap:operation soapAction="http://www.tracfone.com/AccountCoreServices/encryptAccountPassword"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="encryptCsrPassword">
+      <soap:operation soapAction="http://www.tracfone.com/AccountCoreServices/encryptCsrPassword"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <!-- MyAccount APP Services -->
+    <wsdl:operation name="getTransactionHistory">
+      <soap:operation soapAction="http://www.tracfone.com/AccountCoreServices/getTransactionHistory"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAccountDetails">
+      <soap:operation soapAction="http://www.tracfone.com/AccountCoreServices/getAccountDetails"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPassword">
+      <soap:operation soapAction="http://www.tracfone.com/AccountCoreServices/getPassword"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+     <wsdl:operation name="isContactInformationDummy">
+        <soap:operation soapAction="http://www.tracfone.com/AccountCoreServices/isContactInformationDummy"/>
+		<wsdl:input>
+			<soap:body use="literal"/>
+		</wsdl:input>
+		<wsdl:output>
+			<soap:body use="literal"/>
+		</wsdl:output>
+	</wsdl:operation>
+	
+    <wsdl:operation name="verifyDummyAccount">
+      <soap:operation soapAction="http://www.tracfone.com/AccountCoreServices/verifyDummyAccount"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+        <!-- Added for STRefresh project -->
+        <wsdl:operation name="getHPPSummary">
+        <soap:operation soapAction="http://www.tracfone.com/AccountCoreServices/getHPPSummary"/>
+		<wsdl:input>
+			<soap:body use="literal"/>
+		</wsdl:input>
+		<wsdl:output>
+			<soap:body use="literal"/>
+		</wsdl:output>
+	</wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AccountCoreServices">
+    <wsdl:port binding="tns:AccountCoreServicesSOAP" name="AccountCoreServicesSOAP">
+      <soap:address location="http://www.tracfone.com/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

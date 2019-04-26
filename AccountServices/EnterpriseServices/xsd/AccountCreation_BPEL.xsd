@@ -1,0 +1,68 @@
+<xsd:schema targetNamespace="http://b2b.tracfone.com/AccountServices" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://b2b.tracfone.com/AccountServices" xmlns:pref1="http://www.tracfone.com/RuntimeFault" xmlns:common="http://www.tracfone.com/CommonTypes" xmlns:acct="http://www.tracfone.com/AccountCommonTypes" xmlns:phone="http://www.tracfone.com/PhoneCommonTypes" xmlns:pay="http://www.tracfone.com/PaymentCommonTypes" xmlns:plan="http://www.tracfone.com/ServicePlanCommonTypes" xmlns:pref="http://www.tracfone.com/SecurityCommonTypes">
+
+	<xsd:import schemaLocation="../../../TFCommon/xsd/TFCommonTypes.xsd" namespace="http://www.tracfone.com/CommonTypes">
+	</xsd:import>
+	<xsd:import schemaLocation="../../../TFCommon/xsd/RuntimeFault.xsd" namespace="http://www.tracfone.com/RuntimeFault"/>
+	<xsd:import schemaLocation="../../../TFCommon/xsd/AccountCommonTypes.xsd" namespace="http://www.tracfone.com/AccountCommonTypes">
+	</xsd:import>
+	<xsd:import schemaLocation="../../../TFCommon/xsd/PhoneCommonTypes.xsd" namespace="http://www.tracfone.com/PhoneCommonTypes">
+	</xsd:import>
+	<xsd:import schemaLocation="../../../TFCommon/xsd/PaymentCommonTypes.xsd" namespace="http://www.tracfone.com/PaymentCommonTypes">
+	</xsd:import>
+
+	<xsd:import schemaLocation="../../../TFCommon/xsd/SecurityCommonTypes.xsd" namespace="http://www.tracfone.com/SecurityCommonTypes"/>
+
+	<xsd:complexType name="AccountCreationRequestType">
+		<xsd:complexContent>
+			<xsd:extension base="common:BaseRequestType">
+				<xsd:sequence minOccurs="1" maxOccurs="1">
+					<xsd:element name="customerName" type="common:PersonNameType" minOccurs="1" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="accountCredentials" type="acct:AccountCredentialsType" minOccurs="1" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="address" type="common:AddressType" minOccurs="1" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="phoneNumber" type="phone:PhoneNumberType" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="dateOfBirth" type="xsd:date" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<!-- WARP Start -->
+					<xsd:element name="fourPin" type="xsd:string" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<!-- WARP End -->
+					<xsd:element name="securityQuestion" type="xsd:string" minOccurs="1" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="securityQuestionAnswer" minOccurs="1" maxOccurs="1">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:minLength value="1"/>
+								<xsd:whiteSpace value="collapse"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="canTracfoneContactYou" type="xsd:boolean" minOccurs="1" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="canTracfonePartnersContactYou" type="xsd:boolean" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="esn" type="phone:ESNType" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="AccountCreationResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="common:BaseResponseType">
+				<xsd:sequence>
+					<xsd:element name="webUserObjid" type="common:ObjectIdType">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="createAccountRequest" type="tns:AccountCreationRequestType"/>
+
+	<xsd:element name="createAccountResponse" type="tns:AccountCreationResponseType"/>
+
+</xsd:schema>

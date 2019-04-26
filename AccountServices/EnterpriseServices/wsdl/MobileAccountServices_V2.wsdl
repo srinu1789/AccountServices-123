@@ -1,0 +1,108 @@
+<wsdl:definitions name="MobileAccountServices" targetNamespace="http://b2b.tracfone.com/MobileAccountServices/v2" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://b2b.tracfone.com/MobileAccountServices/v2" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="http://b2b.tracfone.com/MobileAccountServices/v2">
+  <wsdl:types>  <xsd:schema>
+    <xsd:import namespace="http://b2b.tracfone.com/MobileAccountServices/v2" schemaLocation="../xsd/MobileAccountServices_V2.xsd"/>
+    </xsd:schema>
+  </wsdl:types>
+
+ 
+  <wsdl:message name="getTransactionHistoryRequest">
+  	<wsdl:part name="parameters" element="tns:getTransactionHistoryRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getTransactionHistoryResponse">
+  	<wsdl:part name="parameters" element="tns:getTransactionHistoryResponse"/>
+  </wsdl:message>
+  
+  <wsdl:message name="deleteDeviceRequest">
+    	<wsdl:part name="parameters" element="tns:deleteDeviceRequest"/>
+    </wsdl:message>
+    <wsdl:message name="deleteDeviceResponse">
+    	<wsdl:part name="parameters" element="tns:deleteDeviceResponse"/>
+  </wsdl:message>
+  
+   <wsdl:message name="deleteGroupRequest">
+    	<wsdl:part name="parameters" element="tns:deleteGroupRequest"/>
+    </wsdl:message>
+    <wsdl:message name="deleteGroupResponse">
+    	<wsdl:part name="parameters" element="tns:deleteGroupResponse"/>
+  </wsdl:message>
+  
+  <wsdl:message name="removeDeviceFromDummyAccountRequest">
+    	<wsdl:part name="parameters" element="tns:removeDeviceFromDummyAccountRequest"/>
+    </wsdl:message>
+    <wsdl:message name="removeDeviceFromDummyAccountResponse">
+    	<wsdl:part name="parameters" element="tns:removeDeviceFromDummyAccountResponse"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="MobileAccountServices_V2">
+    
+    <wsdl:operation name="getTransactionHistory">
+    	<wsdl:input message="tns:getTransactionHistoryRequest"/>
+    	<wsdl:output message="tns:getTransactionHistoryResponse"/>
+    </wsdl:operation>
+   
+    <wsdl:operation name="deleteDevice">
+       	<wsdl:input message="tns:deleteDeviceRequest"/>
+       	<wsdl:output message="tns:deleteDeviceResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="deleteGroup">
+       	<wsdl:input message="tns:deleteGroupRequest"/>
+       	<wsdl:output message="tns:deleteGroupResponse"/>
+    </wsdl:operation>
+    
+    <wsdl:operation name="removeDeviceFromDummyAccount">
+       	<wsdl:input message="tns:removeDeviceFromDummyAccountRequest"/>
+       	<wsdl:output message="tns:removeDeviceFromDummyAccountResponse"/>
+    </wsdl:operation>
+    
+  </wsdl:portType>
+  
+  <wsdl:binding name="MobileAccountServices_V2SOAP" type="tns:MobileAccountServices_V2">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+   
+		<wsdl:operation name="getTransactionHistory">
+			<soap:operation soapAction="http://b2b.tracfone.com/MobileAccountServices/v2/getTransactionHistory"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="deleteDevice">
+					<soap:operation soapAction="http://b2b.tracfone.com/MobileAccountServices/v2/deleteDevice"/>
+					<wsdl:input>
+						<soap:body use="literal"/>
+					</wsdl:input>
+					<wsdl:output>
+						<soap:body use="literal"/>
+					</wsdl:output>
+		</wsdl:operation>
+                <wsdl:operation name="deleteGroup">
+					<soap:operation soapAction="http://b2b.tracfone.com/MobileAccountServices/v2/deleteGroup"/>
+					<wsdl:input>
+						<soap:body use="literal"/>
+					</wsdl:input>
+					<wsdl:output>
+						<soap:body use="literal"/>
+					</wsdl:output>
+		</wsdl:operation>
+                
+                <wsdl:operation name="removeDeviceFromDummyAccount">
+					<soap:operation soapAction="http://b2b.tracfone.com/MobileAccountServices/v2/removeDeviceFromDummyAccount"/>
+					<wsdl:input>
+						<soap:body use="literal"/>
+					</wsdl:input>
+					<wsdl:output>
+						<soap:body use="literal"/>
+					</wsdl:output>
+		</wsdl:operation>
+		
+				
+  </wsdl:binding>
+  <wsdl:service name="MobileAccountServices_V2">
+    <wsdl:port binding="tns:MobileAccountServices_V2SOAP" name="MobileAccountServices_V2SOAP">
+      <soap:address location="https://retailgateway.tracfone.com/B2B/v2/MobileAccountServices"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

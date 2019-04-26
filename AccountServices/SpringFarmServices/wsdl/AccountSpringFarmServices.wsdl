@@ -1,0 +1,743 @@
+<wsdl:definitions name="AccountSpringFarmServices" targetNamespace="http://www.tracfone.com/AccountSpringFarmServices" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.tracfone.com/AccountSpringFarmServices" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="http://www.tracfone.com/AccountSpringFarmServices">
+
+	<wsdl:types>
+		<xsd:schema>
+			<xsd:import namespace="http://www.tracfone.com/AccountSpringFarmServices" schemaLocation="../xsd/AccountSpringFarmServices.xsd"/> 
+		</xsd:schema>
+    </wsdl:types>
+	
+	<wsdl:message name="forgotPasswordRequest">
+		<wsdl:part name="parameters" element="xsd1:forgotPasswordRequest"/>
+	</wsdl:message>
+	<wsdl:message name="forgotPasswordResponse">
+		<wsdl:part name="parameters" element="xsd1:forgotPasswordResponse"/>
+	</wsdl:message>
+
+
+	<wsdl:message name="updateLoginInformationRequest">
+		<wsdl:part name="parameters" element="xsd1:updateLoginInformationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="updateLoginInformationResponse">
+		<wsdl:part name="parameters" element="xsd1:updateLoginInformationResponse"/>
+	</wsdl:message>
+	
+	
+	<wsdl:message name="createAccountRequest">
+		<wsdl:part name="parameters" element="xsd1:createAccountRequest"/>
+	</wsdl:message>
+	
+	<wsdl:message name="createAccountResponse">
+		<wsdl:part name="parameters" element="xsd1:createAccountResponse"/>
+	</wsdl:message>
+	
+	
+	<wsdl:message name="updateAccountRequest">
+		<wsdl:part name="parameters" element="xsd1:updateAccountRequest"/>	
+	</wsdl:message>
+	
+	<wsdl:message name="updateAccountResponse">
+		<wsdl:part name="parameters" element="xsd1:updateAccountResponse"/>
+	</wsdl:message>
+	
+	
+	<wsdl:message name="getCustomerProfileRequest">
+		<wsdl:part name="parameters" element="xsd1:getCustomerProfileRequest"/>	
+	</wsdl:message>
+	
+	<wsdl:message name="getCustomerProfileResponse">
+		<wsdl:part name="parameters" element="xsd1:getCustomerProfileResponse"/>
+	</wsdl:message>
+	
+	<wsdl:message name="getAccountInformationRequest">
+		<wsdl:part name="parameters" element="xsd1:getAccountInformationRequest"/>	
+	</wsdl:message>
+	
+	<wsdl:message name="getAccountInformationResponse">
+		<wsdl:part name="parameters" element="xsd1:getAccountInformationResponse"/>
+	</wsdl:message>
+	
+	<wsdl:message name="accountServicePlanCacheClearRequest">
+		<wsdl:part name="parameters" element="xsd1:accountServicePlanCacheClearRequest"/>	
+	</wsdl:message>
+	
+	<wsdl:message name="accountServicePlanCacheClearResponse">
+		<wsdl:part name="parameters" element="xsd1:accountServicePlanCacheClearResponse"/>
+	</wsdl:message>
+	
+	<wsdl:message name="logDefaultDeviceRequest">
+		<wsdl:part name="parameters" element="xsd1:logDefaultDeviceRequest"/>	
+	</wsdl:message>
+	
+	<wsdl:message name="logDefaultDeviceResponse">
+		<wsdl:part name="parameters" element="xsd1:logDefaultDeviceResponse"/>
+	</wsdl:message>
+	
+	
+	<!-- Account Recovery Related messages -->
+	<wsdl:message name="accountRecoveryAccountStatusRequest">
+		<wsdl:part name="parameters" element="xsd1:accountRecoveryAccountStatusRequest"/>	
+	</wsdl:message>
+	
+	<wsdl:message name="accountRecoveryAccountStatusResponse">
+		<wsdl:part name="parameters" element="xsd1:accountRecoveryAccountStatusResponse"/>
+	</wsdl:message>
+	
+	<wsdl:message name="accountRecoveryCheckPointsRequest">
+		<wsdl:part name="parameters" element="xsd1:accountRecoveryCheckPointsRequest"/>	
+	</wsdl:message>
+	
+	<wsdl:message name="accountRecoveryCheckPointsResponse">
+		<wsdl:part name="parameters" element="xsd1:accountRecoveryCheckPointsResponse"/>
+	</wsdl:message>
+	
+	
+	<wsdl:message name="accountRecoveryValidateRequest">
+		<wsdl:part name="parameters" element="xsd1:accountRecoveryValidateRequest"/>	
+	</wsdl:message>
+	
+	<wsdl:message name="accountRecoveryValidateResponse">
+		<wsdl:part name="parameters" element="xsd1:accountRecoveryValidateResponse"/>
+	</wsdl:message>
+	
+	<!-- End of Account Recovery -->
+	
+	<!-- Phase2 GetTickets service start -->
+	
+	<wsdl:message name="getTicketsRequest">
+		<wsdl:part name="parameters" element="xsd1:getTicketsRequest"/>	
+	</wsdl:message>
+	
+	<wsdl:message name="getTicketsResponse">
+		<wsdl:part name="parameters" element="xsd1:getTicketsResponse"/>
+	</wsdl:message>
+	<!-- Phase2 GetTickets service end -->
+	
+	<!-- Phase2 Clear OTA service start -->
+	<wsdl:message name="clearOTARequest">
+		<wsdl:part name="parameters" element="xsd1:clearOTARequest"/>	
+	</wsdl:message>
+	
+	<wsdl:message name="clearOTAResponse">
+		<wsdl:part name="parameters" element="xsd1:clearOTAResponse"/>
+	</wsdl:message>
+	
+	<!-- Phase2 Clear OTA service end -->
+	
+	
+	<!-- Phase2 Get Account Details -->
+	<wsdl:message name="getAccountInformationV2Request">
+		<wsdl:part name="parameters" element="xsd1:getAccountInformationV2Request"/>	
+	</wsdl:message>
+	
+	<wsdl:message name="getAccountInformationV2Response">
+		<wsdl:part name="parameters" element="xsd1:getAccountInformationV2Response"/>
+	</wsdl:message>
+	<!-- Phase2 Get Account Details end -->
+	
+	<!-- Phase 2 Add Device V2 -->
+	<wsdl:message name="addDeviceV2Request">
+		<wsdl:part name="parameters" element="xsd1:addDeviceV2Request"/>	
+	</wsdl:message>
+	
+	<wsdl:message name="addDeviceV2Response">
+		<wsdl:part name="parameters" element="xsd1:addDeviceV2Response"/>
+	</wsdl:message>
+	<!-- Phase 2 Add Device V2 end -->
+	
+	<!-- Phase 2 ProcessErrorCode -->
+	<wsdl:message name="processErrorCodeRequest">
+		<wsdl:part name="parameters" element="xsd1:processErrorCodeRequest"  />	
+	</wsdl:message>
+	<wsdl:message name="processErrorCodeResponse">
+		<wsdl:part name="parameters" element="xsd1:processErrorCodeResponse"  />
+	</wsdl:message>
+	<!-- Phase 2 ProcessErrorCode end -->
+	
+	<!-- Service related to Push Notification and Default Device -->
+	<wsdl:message name="markDefaultDeviceRequest">
+		<wsdl:part name="parameters" element="xsd1:markDefaultDeviceRequest"  />	
+	</wsdl:message>
+	<wsdl:message name="markDefaultDeviceResponse">
+		<wsdl:part name="parameters" element="xsd1:markDefaultDeviceResponse"  />
+	</wsdl:message>
+	
+	<wsdl:message name="setPushNotificationPreferenceRequest">
+		<wsdl:part name="parameters" element="xsd1:setPushNotificationPreferenceRequest"  />	
+	</wsdl:message>
+	<wsdl:message name="setPushNotificationPreferenceResponse">
+		<wsdl:part name="parameters" element="xsd1:setPushNotificationPreferenceResponse"  />
+	</wsdl:message>
+	
+	<wsdl:message name="setPushNotificationMessageStatusRequest">
+		<wsdl:part name="parameters" element="xsd1:setPushNotificationMessageStatusRequest"  />	
+	</wsdl:message>
+	<wsdl:message name="setPushNotificationMessageStatusResponse">
+		<wsdl:part name="parameters" element="xsd1:setPushNotificationMessageStatusResponse"  />
+	</wsdl:message>
+		
+	<!-- End -->
+        <!-- LRP Phase 2  starts-->
+	<wsdl:message name="getCustomerAccountDetailsRequest">
+		<wsdl:part name="parameters" element="xsd1:getCustomerAccountDetailsRequest"  />	
+	</wsdl:message>
+	<wsdl:message name="getCustomerAccountDetailsResponse">
+		<wsdl:part name="parameters" element="xsd1:getCustomerAccountDetailsResponse"  />
+	</wsdl:message>
+        <!--  LRP Phase 2 end -->
+
+ <!-- SL Commerce- soa_cr58183_slcomm-   starts-->
+	<wsdl:message name="upsertCustomerAccountDetailsRequest">
+		<wsdl:part name="parameters" element="xsd1:upsertCustomerAccountDetailsRequest"  />	
+	</wsdl:message>
+	<wsdl:message name="upsertCustomerAccountDetailsResponse">
+		<wsdl:part name="parameters" element="xsd1:upsertCustomerAccountDetailsResponse"  />
+	</wsdl:message>
+  <!--  SL Commerce - soa_cr58183_slcomm end -->
+	<wsdl:message name="sendEmailRequest">
+		<wsdl:part name="parameters" element="xsd1:sendEmailRequest" />
+	</wsdl:message>
+	<wsdl:message name="sendEmailResponse">
+		<wsdl:part name="parameters" element="xsd1:sendEmailResponse" />
+	</wsdl:message>
+	
+	<wsdl:message name="sendSMSRequest">
+		<wsdl:part name="parameters" element="xsd1:sendSMSRequest" />
+	</wsdl:message>
+	<wsdl:message name="sendSMSResponse">
+		<wsdl:part name="parameters" element="xsd1:sendSMSResponse" />
+	</wsdl:message>
+	
+	<wsdl:message name="createOrUpdateLdapCredentialRequest">
+		<wsdl:part name="parameters" element="xsd1:createOrUpdateLdapCredentialRequest" />
+	</wsdl:message>
+	<wsdl:message name="createOrUpdateLdapCredentialResponse">
+		<wsdl:part name="parameters" element="xsd1:createOrUpdateLdapCredentialResponse" />
+	</wsdl:message>
+	
+	<!--  Device Recovery API Start  -->
+
+	<wsdl:message name="deviceRecoveryCheckPointsRequest">
+		<wsdl:part name="parameters" element="xsd1:deviceRecoveryCheckPointsRequest"  />	
+	</wsdl:message>
+	
+	<wsdl:message name="deviceRecoveryCheckPointsResponse">
+		<wsdl:part name="parameters" element="xsd1:deviceRecoveryCheckPointsResponse"  />
+	</wsdl:message>
+	<wsdl:message name="deviceRecoveryCodeGenerationRequest">
+		<wsdl:part name="parameters" element="xsd1:deviceRecoveryCodeGenerationRequest"  />	
+	</wsdl:message>
+	
+	<wsdl:message name="deviceRecoveryCodeGenerationResponse">
+		<wsdl:part name="parameters" element="xsd1:deviceRecoveryCodeGenerationResponse"  />
+	</wsdl:message>
+	
+	
+	
+		
+	<!-- start new service for device confirmation -->	
+	
+	<wsdl:message name="deviceConfirmVerificationRequest">
+		<wsdl:part name="parameters" element="xsd1:deviceConfirmVerificationRequest"  />	
+	</wsdl:message>
+	
+	<wsdl:message name="deviceConfirmVerificationResponse">
+		<wsdl:part name="parameters" element="xsd1:deviceConfirmVerificationResponse"  />
+	</wsdl:message>
+	
+	<!-- End new service for device confirmation -->
+	
+	<wsdl:message name="deviceRecoveryValidationRequest">
+		<wsdl:part name="parameters" element="xsd1:deviceRecoveryValidationRequest"  />	
+	</wsdl:message>
+	
+	<wsdl:message name="deviceRecoveryValidationResponse">
+		<wsdl:part name="parameters" element="xsd1:deviceRecoveryValidationResponse"  />
+	</wsdl:message>
+	
+	<!--  Device Recovery API End  -->
+	
+	<wsdl:portType name="AccountSpringFarmServices">
+		<wsdl:operation name="forgotPassword">
+   			<wsdl:input message="tns:forgotPasswordRequest"/>
+			<wsdl:output message="tns:forgotPasswordResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="updateLoginInformation">
+			<wsdl:input message="tns:updateLoginInformationRequest"/>
+			<wsdl:output message="tns:updateLoginInformationResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="createAccount">
+			<wsdl:input message="tns:createAccountRequest"/>
+			<wsdl:output message="tns:createAccountResponse"/>			
+		</wsdl:operation>
+		<wsdl:operation name="updateAccount">
+			<wsdl:input message="tns:updateAccountRequest"/>
+			<wsdl:output message="tns:updateAccountResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="getCustomerProfile">
+			<wsdl:input message="tns:getCustomerProfileRequest"/>
+			<wsdl:output message="tns:getCustomerProfileResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="getAccountInformation">
+			<wsdl:input message="tns:getAccountInformationRequest"/>
+			<wsdl:output message="tns:getAccountInformationResponse"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="clearServicePlanCache">
+			<wsdl:input message="tns:accountServicePlanCacheClearRequest"/>
+			<wsdl:output message="tns:accountServicePlanCacheClearResponse"/>
+		</wsdl:operation>
+		 
+		<wsdl:operation name="logDefaultDevice">
+			<wsdl:input message="tns:logDefaultDeviceRequest"/>
+			<wsdl:output message="tns:logDefaultDeviceResponse"/>
+		</wsdl:operation>
+		
+		<!-- Account Recovery Related messages -->
+		<wsdl:operation name="accountRecoveryAccountStatus">
+			<wsdl:input message="tns:accountRecoveryAccountStatusRequest"/>
+			<wsdl:output message="tns:accountRecoveryAccountStatusResponse"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="accountRecoveryCheckPoints">
+			<wsdl:input message="tns:accountRecoveryCheckPointsRequest"/>
+			<wsdl:output message="tns:accountRecoveryCheckPointsResponse"/>
+		</wsdl:operation>
+		
+		<wsdl:operation name="accountRecoveryValidate">
+			<wsdl:input message="tns:accountRecoveryValidateRequest"/>
+			<wsdl:output message="tns:accountRecoveryValidateResponse"/>
+		</wsdl:operation>
+		
+		<!-- End of Account Recovery -->
+		
+		
+		<!-- Phase2 Get Tickets service start -->
+		<wsdl:operation name="getTickets">
+			<wsdl:input message="tns:getTicketsRequest"/>
+			<wsdl:output message="tns:getTicketsResponse"/>
+		</wsdl:operation>
+		<!-- Phase2 Get Tickets service start -->
+		
+		<!-- Phase2 Clear OTA service start -->
+		<wsdl:operation name="clearOTA">
+			<wsdl:input message="tns:clearOTARequest"/>
+			<wsdl:output message="tns:clearOTAResponse"/>
+		</wsdl:operation>
+		<!-- Phase2 Clear OTA service end -->
+		
+		<!-- Phase2 Get Account Details -->
+		<wsdl:operation name="getAccountInformationV2">
+			<wsdl:input message="tns:getAccountInformationV2Request"/>
+			<wsdl:output message="tns:getAccountInformationV2Response"/>
+		</wsdl:operation>
+		<!-- Phase2 Get Account Details end -->
+		<!-- Phase 2 Add Device V2 -->
+		<wsdl:operation name="addDeviceV2">
+			<wsdl:input message="tns:addDeviceV2Request"/>
+			<wsdl:output message="tns:addDeviceV2Response"/>
+		</wsdl:operation>
+		<!-- Phase 2 Add Device V2 end -->
+		
+		<!-- Phase 2 ProcessErrorCode -->
+		<wsdl:operation name="processErrorCode">
+			<wsdl:input message="tns:processErrorCodeRequest" />
+			<wsdl:output message="tns:processErrorCodeResponse" />
+		</wsdl:operation>
+		<!-- Phase 2 ProcessErrorCode end -->
+		
+		
+		<wsdl:operation name="markDefaultDevice">
+			<wsdl:input message="tns:markDefaultDeviceRequest" />
+			<wsdl:output message="tns:markDefaultDeviceResponse" />
+		</wsdl:operation>
+		
+		<wsdl:operation name="setPushNotificationPreference">
+			<wsdl:input message="tns:setPushNotificationPreferenceRequest" />
+			<wsdl:output message="tns:setPushNotificationPreferenceResponse" />
+		</wsdl:operation>
+		
+		<wsdl:operation name="setPushNotificationMessageStatus">
+			<wsdl:input message="tns:setPushNotificationMessageStatusRequest" />
+			<wsdl:output message="tns:setPushNotificationMessageStatusResponse" />
+		</wsdl:operation>
+		
+		<!-- LRP Phase 2 start -->
+		<wsdl:operation name="getCustomerAccountDetails">
+			<wsdl:input message="tns:getCustomerAccountDetailsRequest" />
+			<wsdl:output message="tns:getCustomerAccountDetailsResponse" />
+		</wsdl:operation>
+		<!-- LRP Phase 2 end -->
+		
+	<!-- SL Commerce start - soa_cr58183_slcomm -->
+	<wsdl:operation name="upsertCustomerAccountDetails">
+			<wsdl:input message="tns:upsertCustomerAccountDetailsRequest" />
+			<wsdl:output message="tns:upsertCustomerAccountDetailsResponse" />
+		</wsdl:operation>
+		<!-- SL Commerce end  soa_cr58183_slcomm -->
+		
+		<wsdl:operation name="sendEmail">
+			<wsdl:input message="tns:sendEmailRequest" />
+			<wsdl:output message="tns:sendEmailResponse" />
+		</wsdl:operation>
+		
+		<wsdl:operation name="sendSMS">
+			<wsdl:input message="tns:sendSMSRequest" />
+			<wsdl:output message="tns:sendSMSResponse" />
+		</wsdl:operation>
+		
+		<!-- WFM: Create LDAP Credential with Device Details -->
+		<wsdl:operation name="createOrUpdateLdapCredential">
+			<wsdl:input message="tns:createOrUpdateLdapCredentialRequest" />
+			<wsdl:output message="tns:createOrUpdateLdapCredentialResponse" />
+		</wsdl:operation>
+		
+		<!--  Device Recovery API Start  -->
+	
+		<wsdl:operation name="deviceRecoveryCheckPoints">
+			<wsdl:input message="tns:deviceRecoveryCheckPointsRequest" />
+			<wsdl:output message="tns:deviceRecoveryCheckPointsResponse" />
+		</wsdl:operation>
+		
+		<wsdl:operation name="generateDeviceRecoveryCode">
+			<wsdl:input message="tns:deviceRecoveryCodeGenerationRequest" />
+			<wsdl:output message="tns:deviceRecoveryCodeGenerationResponse" />
+		</wsdl:operation>
+		
+		<!-- start new service for device confirmation -->		
+		<wsdl:operation name="deviceConfirmVerification">
+			<wsdl:input message="tns:deviceConfirmVerificationRequest" />
+			<wsdl:output message="tns:deviceConfirmVerificationResponse" />
+		</wsdl:operation>		
+		<!-- End new service for device confirmation -->
+		
+		<wsdl:operation name="validateDeviceRecovery">
+			<wsdl:input message="tns:deviceRecoveryValidationRequest" />
+			<wsdl:output message="tns:deviceRecoveryValidationResponse" />
+		</wsdl:operation>
+		<!--  Device Recovery API End  -->
+		
+	</wsdl:portType>
+	
+	<wsdl:binding name="AccountSpringFarmServicesSOAP" type="tns:AccountSpringFarmServices">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		
+		
+		<wsdl:operation name="forgotPassword">
+			<soap:operation soapAction="http://www.tracfone.com/AccountSpringFarmServices/forgotPassword"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="updateLoginInformation">
+			<soap:operation soapAction="http://www.tracfone.com/AccountSpringFarmServices/updateLoginInformation"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="createAccount">
+			<soap:operation soapAction="http://www.tracfone.com/AccountSpringFarmServices/createAccount"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="updateAccount">
+			<soap:operation soapAction="http://www.tracfone.com/AccountSpringFarmServices/updateAccount"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="getCustomerProfile">
+			<soap:operation soapAction="http://www.tracfone.com/AccountSpringFarmServices/getCustomerProfile"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="getAccountInformation">
+			<soap:operation soapAction="http://www.tracfone.com/AccountSpringFarmServices/getAccountInformation"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="clearServicePlanCache">
+			<soap:operation soapAction="http://www.tracfone.com/AccountSpringFarmServices/clearServicePlanCache"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		 
+		<wsdl:operation name="logDefaultDevice">
+			<soap:operation soapAction="http://www.tracfone.com/AccountSpringFarmServices/logDefaultDevice"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<!-- Account Recovery Related messages -->
+		<wsdl:operation name="accountRecoveryAccountStatus">
+			<soap:operation soapAction="http://www.tracfone.com/AccountSpringFarmServices/accountRecoveryAccountStatus"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		
+		
+		<wsdl:operation name="accountRecoveryCheckPoints">
+			<soap:operation soapAction="http://www.tracfone.com/AccountSpringFarmServices/accountRecoveryCheckPoints"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		
+		
+		<wsdl:operation name="accountRecoveryValidate">
+			<soap:operation soapAction="http://www.tracfone.com/AccountSpringFarmServices/accountRecoveryValidate"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<!-- End of Account Recovery -->
+		
+		<!-- Phase2 Get Tickets service start -->
+		<wsdl:operation name="getTickets">
+			<soap:operation soapAction="http://www.tracfone.com/AccountSpringFarmServices/getTickets"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!-- Phase2 Get Tickets service end -->
+		<!-- Phase2 Clear OTA service start -->
+		<wsdl:operation name="clearOTA">
+			<soap:operation soapAction="http://www.tracfone.com/AccountSpringFarmServices/clearOTA"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!-- Phase2 Clear OTA service end -->
+		
+		<!-- Pahese 2 Get Account Details -->
+		<wsdl:operation name="getAccountInformationV2">
+			<soap:operation soapAction="http://www.tracfone.com/AccountSpringFarmServices/getAccountInformationV2"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!-- End of Get Account Details -->
+		<!-- Phase 2 Add Device V2-->
+		<wsdl:operation name="addDeviceV2">
+			<soap:operation soapAction="http://www.tracfone.com/AccountSpringFarmServices/addDeviceV2"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<!-- End of Phase 2 Add Device V2 -->
+		
+		<!-- Phase 2 processErrorCode-->
+		<wsdl:operation name="processErrorCode">
+			<soap:operation
+				soapAction="http://www.tracfone.com/AccountSpringFarmServices/processErrorCode" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!-- End of processErrorCode -->
+		
+		<wsdl:operation name="markDefaultDevice">
+			<soap:operation
+				soapAction="http://www.tracfone.com/AccountSpringFarmServices/markDefaultDevice" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="setPushNotificationPreference">
+			<soap:operation
+				soapAction="http://www.tracfone.com/AccountSpringFarmServices/setPushNotificationPreference" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="setPushNotificationMessageStatus">
+			<soap:operation
+				soapAction="http://www.tracfone.com/AccountSpringFarmServices/setPushNotificationMessageStatus" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		
+		 <!--LRP Phase 2 start-->
+		<wsdl:operation name="getCustomerAccountDetails">
+			<soap:operation
+				soapAction="http://www.tracfone.com/AccountSpringFarmServices/getCustomerAccountDetails" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!-- LRP Phase 2End  -->
+<!--Sl Commerce start soa_cr58183_slcomm -->
+	<wsdl:operation name="upsertCustomerAccountDetails">  
+			<soap:operation
+				soapAction="http://www.tracfone.com/AccountSpringFarmServices/upsertCustomerAccountDetails" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!-- SL Commerce End soa_cr58183_slcomm -->
+		<wsdl:operation name="sendEmail">
+			<soap:operation
+				soapAction="http://www.tracfone.com/AccountSpringFarmServices/sendEmail" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="sendSMS">
+			<soap:operation
+				soapAction="http://www.tracfone.com/AccountSpringFarmServices/sendSMS" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<wsdl:operation name="createOrUpdateLdapCredential">
+			<soap:operation
+				soapAction="http://www.tracfone.com/AccountSpringFarmServices/createOrUpdateLdapCredential" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		
+		<!-- Device Recovery API Start -->
+		<wsdl:operation name="deviceRecoveryCheckPoints">
+			<soap:operation
+				soapAction="http://www.tracfone.com/AccountSpringFarmServices/deviceRecoveryCheckPoints" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="generateDeviceRecoveryCode">
+			<soap:operation
+				soapAction="http://www.tracfone.com/AccountSpringFarmServices/generateDeviceRecoveryCode" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		
+		
+		<wsdl:operation name="deviceConfirmVerification">
+			<soap:operation
+				soapAction="http://www.tracfone.com/AccountSpringFarmServices/deviceConfirmVerification" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		
+	
+		<wsdl:operation name="validateDeviceRecovery">
+			<soap:operation
+				soapAction="http://www.tracfone.com/AccountSpringFarmServices/validateDeviceRecovery" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<!-- Device Recovery API Start -->
+
+	</wsdl:binding>
+	
+	<wsdl:service name="AccountSpringFarmServices">
+		<wsdl:port binding="tns:AccountSpringFarmServicesSOAP" name="AccountSpringFarmServicesSOAP">
+			<soap:address location="http://localhost:9301/springfarm/account-web-services/services/accountServices"/>  
+		</wsdl:port>
+	</wsdl:service>
+	
+</wsdl:definitions>

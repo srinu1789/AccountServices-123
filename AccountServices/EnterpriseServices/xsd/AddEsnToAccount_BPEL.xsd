@@ -1,0 +1,106 @@
+<xsd:schema targetNamespace="http://b2b.tracfone.com/AccountServices" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://b2b.tracfone.com/AccountServices" xmlns:pref1="http://www.tracfone.com/RuntimeFault" xmlns:common="http://www.tracfone.com/CommonTypes" xmlns:acct="http://www.tracfone.com/AccountCommonTypes" xmlns:phone="http://www.tracfone.com/PhoneCommonTypes" xmlns:pay="http://www.tracfone.com/PaymentCommonTypes" xmlns:plan="http://www.tracfone.com/ServicePlanCommonTypes" xmlns:pref="http://www.tracfone.com/SecurityCommonTypes" xmlns:pref2="http://www.tracfone.com/OrganizationCommonTypes">
+
+	<xsd:import schemaLocation="../../../TFCommon/xsd/TFCommonTypes.xsd" namespace="http://www.tracfone.com/CommonTypes">
+	</xsd:import>
+	<xsd:import schemaLocation="../../../TFCommon/xsd/RuntimeFault.xsd" namespace="http://www.tracfone.com/RuntimeFault"/>
+	<xsd:import schemaLocation="../../../TFCommon/xsd/AccountCommonTypes.xsd" namespace="http://www.tracfone.com/AccountCommonTypes">
+	</xsd:import>
+	<xsd:import schemaLocation="../../../TFCommon/xsd/PhoneCommonTypes.xsd" namespace="http://www.tracfone.com/PhoneCommonTypes">
+	</xsd:import>
+	<xsd:import schemaLocation="../../../TFCommon/xsd/PaymentCommonTypes.xsd" namespace="http://www.tracfone.com/PaymentCommonTypes">
+	</xsd:import>
+	<xsd:import schemaLocation="../../../TFCommon/xsd/ServicePlanCommonTypes.xsd" namespace="http://www.tracfone.com/ServicePlanCommonTypes">
+	</xsd:import>
+	<xsd:import schemaLocation="../../../TFCommon/xsd/SecurityCommonTypes.xsd" namespace="http://www.tracfone.com/SecurityCommonTypes"/>
+	<xsd:import schemaLocation="../../../TFCommon/xsd/OrganizationCommonTypes.xsd" namespace="http://www.tracfone.com/OrganizationCommonTypes"/>
+
+
+
+
+		
+
+	
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<xsd:complexType name="AddEsnToAccountRequestType">
+		<xsd:complexContent>
+			<xsd:extension base="common:BaseRequestType">
+				<xsd:sequence>
+					<xsd:element name="accountCredentials" type="pref:AuthenticationCredentialsType" minOccurs="1" maxOccurs="1">
+					</xsd:element>
+
+
+					<xsd:element name="actionType" type="common:EsnBusinessType" minOccurs="1" maxOccurs="1">
+					</xsd:element>
+
+					<xsd:element name="esn" type="phone:ESNType" minOccurs="1" maxOccurs="1"/>
+
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="AddEsnToAccountResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="common:BaseResponseType"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+
+
+
+	<xsd:element name="addEsnToAccountRequest" type="tns:AddEsnToAccountRequestType"/>
+    <xsd:element name="addEsnToAccountResponse" type="tns:AddEsnToAccountResponseType"/>
+
+
+
+
+
+
+
+
+
+
+
+
+</xsd:schema>

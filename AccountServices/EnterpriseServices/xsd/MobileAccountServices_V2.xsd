@@ -1,0 +1,123 @@
+<xsd:schema targetNamespace="http://b2b.tracfone.com/MobileAccountServices/v2" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://b2b.tracfone.com/MobileAccountServices/v2" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:common="http://www.tracfone.com/CommonTypes" xmlns:acct="http://www.tracfone.com/AccountCommonTypes" xmlns:plan="http://www.tracfone.com/ServicePlanCommonTypes" xmlns:phone="http://www.tracfone.com/PhoneCommonTypes">
+<xsd:import schemaLocation="../../../TFCommon/xsd/TFCommonTypes.xsd" namespace="http://www.tracfone.com/CommonTypes">
+	</xsd:import>
+	<xsd:import schemaLocation="../../../TFCommon/xsd/AccountCommonTypes.xsd" namespace="http://www.tracfone.com/AccountCommonTypes">
+	</xsd:import>
+	<xsd:import schemaLocation="../../../TFCommon/xsd/PhoneCommonTypes.xsd" namespace="http://www.tracfone.com/PhoneCommonTypes"/> 
+	     <import schemaLocation="../../../TFCommon/xsd/ServicePlanCommonTypes.xsd" namespace="http://www.tracfone.com/ServicePlanCommonTypes"/>
+
+    <complexType name="GetTransactionHistoryRequestType">
+    	<complexContent>
+    		<extension base="common:BaseRequestType">
+    			<sequence>
+             <element name="consumerInfo" type="common:MobileRequestType" minOccurs="0" maxOccurs="1"/>  
+    			  <element name="device" type="phone:DeviceIdType" minOccurs="1" maxOccurs="1"/>
+             <element name="offset" type="int" minOccurs="0" maxOccurs="1"/>
+             <element name="limit" type="int" minOccurs="0" maxOccurs="1"/>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+    
+        <complexType name="GetTransactionHistoryResponseType">
+    	<complexContent>
+    		<extension base="common:BaseResponseType">
+    			<sequence>
+             			<element name="totalTransactions" type="int" minOccurs="1" maxOccurs="1"/>
+                        <element name="transactionList" type="tns:TransactionListType"/>
+                       
+			
+    			</sequence>  
+        </extension>
+    	</complexContent>
+    </complexType>
+    
+        <complexType name="TransactionListType">
+      <sequence>
+           <element name="transaction" type="tns:TransactionType" minOccurs="1" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+
+
+    <complexType name="TransactionType">
+      <sequence>
+        <element name="trasactionInfo" type="acct:TransactionInfoType" minOccurs="1" maxOccurs="1"/>
+       <element name="servicePlanInfo" type="plan:ServicePlanDetailsType" minOccurs="0" maxOccurs="1"/>
+        <element name="device" type="acct:TransactionDeviceInfoType" minOccurs="1" maxOccurs="1"/>
+        <element name="group" type="tns:GroupType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+    
+     <complexType name="GroupType">
+      <sequence>
+       <element name="groupId" type="common:ObjectIdType" minOccurs="0" maxOccurs="1"/>
+           <element name="groupName" type="string" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+       
+    <element name="getTransactionHistoryRequest" type="tns:GetTransactionHistoryRequestType"/>
+
+    <element name="getTransactionHistoryResponse" type="tns:GetTransactionHistoryResponseType"/>
+    
+      <complexType name="DeleteDeviceRequestType">
+          <complexContent>
+             <extension base="common:BaseRequestType">
+               <sequence>
+                 <element name="consumerInfo" type="common:MobileRequestType" minOccurs="0" maxOccurs="1"/>
+                 <element name="accountId" type="acct:AccountIdentifierType" minOccurs="0" maxOccurs="1"/>      
+                 <element name="device" type="phone:DeviceIdType" minOccurs="1" maxOccurs="1"/>
+               </sequence>
+             </extension>
+          </complexContent>
+   	</complexType>
+        <complexType name="DeleteDeviceResponseType">
+          <complexContent>
+             <extension base="common:BaseResponseType"/>
+          </complexContent>
+   	</complexType>
+  
+     	<element name="deleteDeviceRequest" type="tns:DeleteDeviceRequestType"/>
+ 	<element name="deleteDeviceResponse" type="tns:DeleteDeviceResponseType"/>
+    
+     <complexType name="DeleteGroupRequestType">
+          <complexContent>
+             <extension base="common:BaseRequestType">
+               <sequence>
+                 <element name="consumerInfo" type="common:MobileRequestType" minOccurs="0" maxOccurs="1"/>
+                 <element name="accountId" type="acct:AccountIdentifierType" minOccurs="0" maxOccurs="1"/>      
+                 <element name="group" type="tns:GroupType" minOccurs="0" maxOccurs="1"/>
+               </sequence>
+             </extension>
+          </complexContent>
+   	</complexType>
+   	<complexType name="DeleteGroupResponseType">
+          <complexContent>
+             <extension base="common:BaseResponseType"/>
+          </complexContent>
+   	</complexType>
+        
+    <element name="deleteGroupRequest" type="tns:DeleteGroupRequestType"/>
+    <element name="deleteGroupResponse" type="tns:DeleteGroupResponseType"/>
+        
+        
+    <complexType name="RemoveDeviceFromDummyAccountRequestType">
+      <complexContent>
+         <extension base="common:BaseRequestType">
+           <sequence>             
+             <element name="webObjId" type="common:ObjectIdType" minOccurs="0" maxOccurs="1"/>      
+             <element name="ESN" type="phone:ESNType" minOccurs="0" maxOccurs="1"/>
+           </sequence>
+         </extension>
+      </complexContent>
+    </complexType>
+
+    <complexType name="RemoveDeviceFromDummyAccountResponseType">
+      <complexContent>
+         <extension base="common:BaseResponseType"/>
+      </complexContent>
+    </complexType>
+    <element name="removeDeviceFromDummyAccountRequest" type="tns:RemoveDeviceFromDummyAccountRequestType"/>
+    <element name="removeDeviceFromDummyAccountResponse" type="tns:RemoveDeviceFromDummyAccountResponseType"/>
+	    
+</xsd:schema>

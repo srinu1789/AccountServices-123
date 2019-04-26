@@ -1,0 +1,42 @@
+<wsdl:definitions name="AccountServices" targetNamespace="http://b2b.tracfone.com/AccountServices" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://b2b.tracfone.com/AccountServices" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="http://b2b.tracfone.com/AccountServices">
+  <wsdl:types>
+    <xsd:schema>
+    	<xsd:import namespace="http://b2b.tracfone.com/AccountServices" schemaLocation="../xsd/AccountServices.xsd"/>
+    </xsd:schema>
+  </wsdl:types>
+
+  <wsdl:message name="removeEsnFromAccountRequest">
+  	<wsdl:part name="parameters" element="tns:removeEsnFromAccountRequest"/>
+  </wsdl:message>
+  <wsdl:message name="removeEsnFromAccountResponse">
+  	<wsdl:part name="parameters" element="tns:removeEsnFromAccountResponse"/>
+  </wsdl:message>
+
+  
+  <wsdl:portType name="AccountServices">
+
+    <wsdl:operation name="removeEsnFromAccount">
+    	<wsdl:input message="tns:removeEsnFromAccountRequest"/>
+    	<wsdl:output message="tns:removeEsnFromAccountResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="AccountServicesSOAP" type="tns:AccountServices">
+
+  	<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  	<wsdl:operation name="removeEsnFromAccount">
+  		<soap:operation soapAction="http://b2b.tracfone.com/AccountServices/removeEsnFromAccount"/>
+  		<wsdl:input>
+  			<soap:body use="literal"/>
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal"/>
+  		</wsdl:output>
+  	</wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AccountServices">
+    <wsdl:port binding="tns:AccountServicesSOAP" name="AccountServicesSOAP">
+      <soap:address location="http://dp-soasit1:9001/soa-infra/services/default/AccountCreationOS/accountcreationbpel_client_ep"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,308 @@
+<wsdl:definitions name="AccountDataServices" targetNamespace="http://www.tracfone.com/AccountDataServices/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.tracfone.com/AccountDataServices/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="http://www.tracfone.com/AccountDataServices">
+	<wsdl:types>
+		<xsd:schema>
+			<xsd:import namespace="http://www.tracfone.com/AccountDataServices" schemaLocation="../xsd/AccountDataServices.xsd">
+			</xsd:import>
+		</xsd:schema>
+        <xsd:schema targetNamespace="http://www.tracfone.com/AccountDataServices/">
+        </xsd:schema>
+      
+        
+    </wsdl:types>
+    
+   <wsdl:message name="insertE911AddressInformationRequest">
+    <wsdl:part name="parameters" element="xsd1:insertE911AddressInformationRequest"/>
+  </wsdl:message>
+  <wsdl:message name="insertE911AddressInformationResponse">
+    <wsdl:part name="parameters" element="xsd1:insertE911AddressInformationResponse"/>
+  </wsdl:message>
+  
+  <wsdl:message name="updateE911AddressInformationRequest">
+    <wsdl:part name="parameters" element="xsd1:updateE911AddressInformationRequest"/>
+  </wsdl:message>
+  <wsdl:message name="updateE911AddressInformationResponse">
+    <wsdl:part name="parameters" element="xsd1:updateE911AddressInformationResponse"/>
+  </wsdl:message>
+  
+    <wsdl:message name="getTimeAsCustomerRequest">
+    <wsdl:part name="parameters" element="xsd1:getTimeAsCustomerRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getTimeAsCustomerResponse">
+    <wsdl:part name="parameters" element="xsd1:getTimeAsCustomerResponse"/>
+  </wsdl:message>
+  	<wsdl:message name="authenticateSecurityPinRequest">
+		<wsdl:part name="parameters" element="xsd1:authenticateSecurityPinRequest"/>
+  	</wsdl:message>
+	<wsdl:message name="authenticateSecurityPinResponse">
+		<wsdl:part name="parameters" element="xsd1:authenticateSecurityPinResponse"/>
+	</wsdl:message>
+	<wsdl:message name="authenticateSecurityPinRequestMB">
+		<wsdl:part name="parameters" element="xsd1:authenticateSecurityPinRequestMB"/>
+	</wsdl:message>
+	<wsdl:message name="authenticateSecurityPinResponseMB">
+		<wsdl:part name="parameters" element="xsd1:authenticateSecurityPinResponseMB"/>
+	</wsdl:message>
+	
+	
+
+	<wsdl:message name="getAccountSecurityQuestionsRequest">
+		<wsdl:part name="parameters" element="xsd1:getAccountSecurityQuestionsRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getAccountSecurityQuestionsResponse">
+		<wsdl:part name="parameters" element="xsd1:getAccountSecurityQuestionResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getAccountInfoFromEsnRequest">
+		<wsdl:part name="parameters" element="xsd1:getAccountInfoFromEsnRequest">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getAccountInfoFromEsnResponse">
+		<wsdl:part name="parameters" element="xsd1:getAccountInfoFromEsnResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="updateAccountRequest">
+		<wsdl:part name="parameters" element="xsd1:updateAccountRequest">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="updateAccountResponse">
+		<wsdl:part name="parameters" element="xsd1:updateAccountResponse">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getEsnListByCriteriaRequest">
+		<wsdl:part name="parameters" element="xsd1:getEsnListByCriteriaRequest">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="getEsnListByCriteriaResponse">
+		<wsdl:part name="parameters" element="xsd1:getEsnListByCriteriaResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getAccountSummaryRequest">
+  	<wsdl:part name="parameters" element="xsd1:getAccountSummaryRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getAccountSummaryResponse">
+  	<wsdl:part name="parameters" element="xsd1:getAccountSummaryResponse"/>
+  </wsdl:message>
+	<wsdl:message name="getTransactionHistoryRequest">
+  	<wsdl:part name="parameters" element="xsd1:getTransactionHistoryRequest"/>
+  </wsdl:message>
+  <wsdl:message name="getTransactionHistoryResponse">
+  	<wsdl:part name="parameters" element="xsd1:getTransactionHistoryResponse"/>
+  </wsdl:message>
+        <wsdl:message name="removeDeviceFromDummyAccountRequest">
+  	<wsdl:part name="parameters" element="xsd1:removeDeviceFromDummyAccountRequest"/>
+  </wsdl:message>
+  <wsdl:message name="removeDeviceFromDummyAccountResponse">
+  	<wsdl:part name="parameters" element="xsd1:removeDeviceFromDummyAccountResponse"/>
+  </wsdl:message>
+	
+	
+	<wsdl:portType name="AccountDataServices">
+<wsdl:operation name="insertE911AddressInformation">
+      <wsdl:input message="tns:insertE911AddressInformationRequest"/>
+      <wsdl:output message="tns:insertE911AddressInformationResponse"/>
+    </wsdl:operation>
+    
+      <wsdl:operation name="updateE911AddressInformation">
+      <wsdl:input message="tns:updateE911AddressInformationRequest"/>
+      <wsdl:output message="tns:updateE911AddressInformationResponse"/>
+    </wsdl:operation>
+         <wsdl:operation name="getTimeAsCustomer">
+     
+      <wsdl:input message="tns:getTimeAsCustomerRequest"/>
+      <wsdl:output message="tns:getTimeAsCustomerResponse"/>
+    </wsdl:operation>
+		<wsdl:operation name="authenticateSecurityPin">
+			<wsdl:input message="tns:authenticateSecurityPinRequest"/>
+			<wsdl:output message="tns:authenticateSecurityPinResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="authenticateSecurityPinMB">
+			<wsdl:input message="tns:authenticateSecurityPinRequestMB"/>
+			<wsdl:output message="tns:authenticateSecurityPinResponseMB"/>
+		</wsdl:operation>
+		
+		
+		<wsdl:operation name="getAccountSecurityQuestions">
+			<wsdl:input message="tns:getAccountSecurityQuestionsRequest"/>
+			<wsdl:output message="tns:getAccountSecurityQuestionsResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="getAccountInfoFromEsn">
+			<wsdl:input message="tns:getAccountInfoFromEsnRequest"/>
+			<wsdl:output message="tns:getAccountInfoFromEsnResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="updateAccount">
+			<wsdl:input message="tns:updateAccountRequest"/>
+			<wsdl:output message="tns:updateAccountResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="getEsnListByCriteria">
+			<wsdl:input message="tns:getEsnListByCriteriaRequest"/>
+			<wsdl:output message="tns:getEsnListByCriteriaResponse"/>
+		</wsdl:operation>
+		 <wsdl:operation name="getAccountSummary">
+    	<wsdl:input message="tns:getAccountSummaryRequest"/>
+    	<wsdl:output message="tns:getAccountSummaryResponse"/>
+    </wsdl:operation>
+		 <wsdl:operation name="getTransactionHistory">
+    	<wsdl:input message="tns:getTransactionHistoryRequest"/>
+    	<wsdl:output message="tns:getTransactionHistoryResponse"/>
+    </wsdl:operation>
+    
+                <wsdl:operation name="removeDeviceFromDummyAccount">
+    	<wsdl:input message="tns:removeDeviceFromDummyAccountRequest"/>
+    	<wsdl:output message="tns:removeDeviceFromDummyAccountResponse"/>
+    </wsdl:operation>
+		
+	</wsdl:portType>
+
+	<wsdl:binding name="AccountDataServicesSOAP" type="tns:AccountDataServices">
+
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<wsdl:operation name="insertE911AddressInformation">
+      <soap:operation soapAction="http://www.tracfone.com/AccountDataServices/insertE911AddressInformation"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    
+    <wsdl:operation name="updateE911AddressInformation">
+      <soap:operation soapAction="http://www.tracfone.com/AccountDataServices/updateE911AddressInformation"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+                <wsdl:operation name="getTimeAsCustomer">
+      <soap:operation soapAction="http://www.tracfone.com/AccountDataServices/getTimeAsCustomer"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+		<wsdl:operation name="authenticateSecurityPin">
+
+			<soap:operation soapAction="http://www.tracfone.com/AccountDataServices/authenticateSecurityPin"/>
+			<wsdl:input>
+
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="authenticateSecurityPinMB">
+
+			<soap:operation soapAction="http://www.tracfone.com/AccountDataServices/authenticateSecurityPinMB"/>
+			<wsdl:input>
+
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+
+		<wsdl:operation name="getAccountSecurityQuestions">
+
+			<soap:operation soapAction="http://www.tracfone.com/AccountDataServices/getAccountSecurityQuestions"/>
+			<wsdl:input>
+
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getAccountInfoFromEsn">
+
+			<soap:operation soapAction="http://www.tracfone.com/AccountDataServices/getAccountInfoFromEsn"/>
+			<wsdl:input>
+
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="updateAccount">
+
+			<soap:operation soapAction="http://www.tracfone.com/AccountDataServices/updateAccount"/>
+			<wsdl:input>
+
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getEsnListByCriteria">
+
+			<soap:operation soapAction="http://www.tracfone.com/AccountDataServices/getEsnListByCriteria"/>
+			<wsdl:input>
+
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+
+<wsdl:operation name="getAccountSummary">
+
+  		<soap:operation soapAction="http://b2b.tracfone.com/AccountServices/getAccountSummary"/>
+  		<wsdl:input>
+
+  			<soap:body use="literal"/>
+  		</wsdl:input>
+  		<wsdl:output>
+
+  			<soap:body use="literal"/>
+  		</wsdl:output>
+  	</wsdl:operation>
+
+<wsdl:operation name="getTransactionHistory">
+
+  		<soap:operation soapAction="http://b2b.tracfone.com/AccountServices/getTransactionHistory"/>
+  		<wsdl:input>
+
+  			<soap:body use="literal"/>
+  		</wsdl:input>
+  		<wsdl:output>
+
+  			<soap:body use="literal"/>
+  		</wsdl:output>
+  	</wsdl:operation>
+
+<wsdl:operation name="removeDeviceFromDummyAccount">
+
+  		<soap:operation soapAction="http://b2b.tracfone.com/AccountServices/removeDeviceFromDummyAccount"/>
+  		<wsdl:input>
+
+  			<soap:body use="literal"/>
+  		</wsdl:input>
+  		<wsdl:output>
+
+  			<soap:body use="literal"/>
+  		</wsdl:output>
+  	</wsdl:operation>
+
+
+	</wsdl:binding>
+
+	<wsdl:service name="AccountDataServices">
+		<wsdl:port binding="tns:AccountDataServicesSOAP" name="AccountDataServicesSOAP">
+			<soap:address location="http://www.tracfone.com/"/>
+		</wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

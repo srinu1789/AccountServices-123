@@ -1,0 +1,462 @@
+<schema targetNamespace="http://www.tracfone.com/AccountDataServices" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tracfone.com/AccountDataServices" xmlns:common="http://www.tracfone.com/CommonTypes" xmlns:pref1="http://www.tracfone.com/RuntimeFault" xmlns:phone="http://www.tracfone.com/PhoneCommonTypes" xmlns:acct="http://www.tracfone.com/AccountCommonTypes" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:Q1="http://www.tracfone.com/SecurityCommonTypes" xmlns:plan="http://www.tracfone.com/ServicePlanCommonTypes">
+	<import schemaLocation="../../../TFCommon/xsd/SecurityCommonTypes.xsd" namespace="http://www.tracfone.com/SecurityCommonTypes"/>
+	<import schemaLocation="../../../TFCommon/xsd/PhoneCommonTypes.xsd" namespace="http://www.tracfone.com/PhoneCommonTypes">
+	</import>
+	<import schemaLocation="../../../TFCommon/xsd/RuntimeFault.xsd" namespace="http://www.tracfone.com/RuntimeFault">
+	</import>
+	<import schemaLocation="../../../TFCommon/xsd/TFCommonTypes.xsd" namespace="http://www.tracfone.com/CommonTypes">
+	</import>
+ <import schemaLocation="../../../TFCommon/xsd/ServicePlanCommonTypes.xsd" namespace="http://www.tracfone.com/ServicePlanCommonTypes"/>
+
+	<import schemaLocation="../../../TFCommon/xsd/AccountCommonTypes.xsd" namespace="http://www.tracfone.com/AccountCommonTypes"/>
+	
+        <complexType name="TimeAsCustomerRequestType">
+			<complexContent>
+			<extension base="common:BaseRequestType">
+				<sequence>
+					<element name="applicationId" type="string" minOccurs="1" maxOccurs="1"/>
+					<element name="min" type="phone:MINType" minOccurs="1" maxOccurs="1"/>
+					<element name="firstName" type="string" minOccurs="0" maxOccurs="1"/>
+					<element name="email" type="common:EmailType" minOccurs="0" maxOccurs="1"/>
+				</sequence>
+			</extension>
+			</complexContent>
+			</complexType>
+
+	<complexType name="TimeAsCustomerResponseType">
+			<complexContent>
+			<extension base="common:BaseResponseType">
+			<sequence>
+					<element name="applicationId" type="string" minOccurs="0" maxOccurs="1"/>
+					<element name="min" type="phone:MINType" minOccurs="0" maxOccurs="1"/>
+					<element name="transactionId" type="string" minOccurs="0" maxOccurs="1">
+					</element>
+					<element name="transactionDate" type="string" minOccurs="0" maxOccurs="1">
+					</element>
+					<element name="ScoreCode" type="string" minOccurs="0" maxOccurs="1">
+					</element>
+				</sequence>
+				</extension>
+			</complexContent>
+	</complexType>
+	
+	
+	<element name="getTimeAsCustomerRequest" type="tns:TimeAsCustomerRequestType"/>
+
+	<element name="getTimeAsCustomerResponse" type="tns:TimeAsCustomerResponseType"/>
+	<complexType name="AddressInformationRequestType">
+			<complexContent>
+			<extension base="common:BaseRequestType">
+				<sequence>
+                                <element name="esn" type="phone:ESNType" minOccurs="0" maxOccurs="1"/>
+                                <element name="action" type="common:ActionType" minOccurs="0" maxOccurs="1"/>
+                            <xsd:element name="address" type="common:AddressType" minOccurs="1" maxOccurs="1"/>
+                                </sequence>
+			</extension>
+			</complexContent>
+			</complexType>
+
+	<complexType name="AddressInformationResponseType">
+			<complexContent>
+			<extension base="common:BaseResponseType">
+				</extension>
+			</complexContent>
+	</complexType>
+	
+	
+	<element name="insertE911AddressInformationRequest" type="tns:AddressInformationRequestType"/>
+
+	<element name="insertE911AddressInformationResponse" type="tns:AddressInformationResponseType"/>
+        
+        <element name="updateE911AddressInformationRequest" type="tns:AddressInformationRequestType"/>
+
+	<element name="updateE911AddressInformationResponse" type="tns:AddressInformationResponseType"/>
+ 
+        <complexType name="AuthenticateSecurityPinRequestType">
+		<complexContent>
+			<extension base="common:BaseRequestType">
+				<sequence>
+					<element name="authenticationCredentials" type="Q1:AuthenticationCredentialsType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="AuthenticateSecurityPinResponseType">
+		<complexContent>
+			<extension base="common:BaseResponseType">
+				<sequence>
+					<element name="status" type="boolean"/>
+					<element name="webObjId" type="common:ObjectIdType">
+					</element>
+					<element name="contactObjId" type="common:ObjectIdType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="authenticateSecurityPinRequest" type="tns:AuthenticateSecurityPinRequestType">
+	</element>
+
+	<element name="authenticateSecurityPinResponse" type="tns:AuthenticateSecurityPinResponseType">
+	</element>
+
+	<complexType name="AuthenticateSecurityPinRequestTypeMB">
+		<complexContent>
+			<extension base="common:BaseRequestType">
+				<sequence>
+					<element name="authenticationCredentialsMB" type="Q1:AuthenticationCredentialsTypeMB"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="authenticateSecurityPinRequestMB" type="tns:AuthenticateSecurityPinRequestTypeMB">
+	</element>
+
+	<element name="authenticateSecurityPinResponseMB" type="tns:AuthenticateSecurityPinResponseType">
+	</element>
+
+
+	<complexType name="AccountSecurityQuestionsLookupRequestType">
+		<complexContent>
+			<extension base="common:BaseRequestType">
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="AccountSecurityQuestionsLookupResponseType">
+		<complexContent>
+			<extension base="common:BaseResponseType">
+				<sequence>
+					<element name="securityQuestion" type="acct:AccountSecurityQuestionType" minOccurs="1" maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="getAccountSecurityQuestionsRequest" type="tns:AccountSecurityQuestionsLookupRequestType"/>
+
+	<element name="getAccountSecurityQuestionResponse" type="tns:AccountSecurityQuestionsLookupResponseType"/>
+
+
+	<complexType name="GetAccountInfoFromEsnRequestType">
+		<complexContent>
+			<extension base="common:BaseRequestType">
+				<sequence>
+					<element name="esn" type="phone:ESNType" minOccurs="1" maxOccurs="1"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="GetAccountInfoFromEsnResponseType">
+		<complexContent>
+			<extension base="common:BaseResponseType">
+				<sequence>
+					<element name="accountId" type="common:ObjectIdType" minOccurs="0" maxOccurs="1">
+					</element>
+
+					<element name="contactId" type="common:ObjectIdType" minOccurs="0" maxOccurs="1">
+					</element>
+					<element name="userToken" type="string" minOccurs="0" maxOccurs="1">
+					</element>
+					<element name="brand" type="common:TracfoneBrandType" minOccurs="0" maxOccurs="1">
+					</element>
+					<element name="model" type="common:HandsetModelType" minOccurs="0" maxOccurs="1">
+					</element>
+					<element name="url" type="common:URLType" minOccurs="0" maxOccurs="1">
+					</element>
+					<element name="loginLevel" type="string" minOccurs="0" maxOccurs="1">
+					</element>
+					<element name="isEmailValidated" type="boolean" minOccurs="0" maxOccurs="1">
+					</element>
+					<element name="email" type="common:EmailType" minOccurs="0" maxOccurs="1"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="getAccountInfoFromEsnRequest" type="tns:GetAccountInfoFromEsnRequestType"/>
+
+	<element name="getAccountInfoFromEsnResponse" type="tns:GetAccountInfoFromEsnResponseType"/>
+
+	<xsd:complexType name="AccountUpdateResponseType">
+		<xsd:complexContent>
+			<xsd:extension base="common:BaseResponseType">
+				<xsd:sequence>
+					<xsd:element name="webUserObjid" type="common:ObjectIdType">
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:element name="updateAccountResponse" type="tns:AccountUpdateResponseType"/>
+	<xsd:complexType name="AccountUpdateRequestType">
+		<xsd:complexContent>
+			<xsd:extension base="common:BaseRequestType">
+				<xsd:sequence minOccurs="1" maxOccurs="1">
+
+					<element name="webObjId" type="common:ObjectIdType" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="customerName" type="common:FullPersonNameType" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="nickName" type="xsd:string" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="primaryAddress" type="common:FullAddressType" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+
+					<xsd:element name="mailingAddress" type="common:FullAddressType" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="email" type="common:EmailType" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="password" type="acct:PasswordType" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="dob" type="xsd:date" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="securityPin" type="phone:SecurityPinType" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="phoneNumber" type="phone:PhoneNumberType" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+
+					<xsd:element name="securityQuestion" type="xsd:string" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="securityQuestionAnswer" minOccurs="0" maxOccurs="1">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:minLength value="1"/>
+								<xsd:whiteSpace value="collapse"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="canTracfoneContactYou" type="xsd:boolean" minOccurs="0" maxOccurs="1">
+					</xsd:element>
+					<xsd:element name="canTracfonePartnersContactYou" type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
+
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+
+	<xsd:element name="updateAccountRequest" type="tns:AccountUpdateRequestType"/>
+
+
+
+
+
+
+	<complexType name="GetEsnListByCriteriaRequestType">
+		<complexContent>
+			<extension base="common:BaseRequestType">
+				<sequence>
+					<element name="loginName" type="string"/>
+					<element name="password" type="string"/>
+					<element name="min" type="string"/>
+					<element name="securityPin" type="string"/>
+					<element name="esn" type="string"/>
+					<element name="orderBy" type="string"/>
+					<element name="orderDirection" type="string"/>
+					<element name="maxRecords" type="string"/>
+					<element name="startIndex" type="string"/>
+					<element name="criteria" type="tns:EsnQueryCriteria"/>
+					<element name="credentials" type="Q1:AuthenticationCredentialsType"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="EsnQueryCriteria">
+		<sequence>
+			<element name="esn" type="string"/>
+			<element name="min" type="string"/>
+			<element name="nickname" type="string"/>
+			<element name="esnStatus" type="string"/>
+			<element name="otaStatus" type="string"/>
+			<element name="buyerId" type="string"/>
+			<element name="buyerType" type="string"/>
+			<element name="orgName" type="string"/>
+			<element name="planName" type="string"/>
+			<element name="planDescription" type="string"/>
+			<element name="esnPartNumber" type="string"/>
+		</sequence>
+	</complexType>
+
+	<complexType name="GetEsnListByCriteriaResponseType">
+		<complexContent>
+			<extension base="common:BaseResponseType">
+				<sequence>
+					<element name="accountDevice" type="tns:EsnQueryCriteria" maxOccurs="unbounded" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+    <element name="getEsnListByCriteriaRequest" type="tns:GetEsnListByCriteriaRequestType"/>
+
+    <element name="getEsnListByCriteriaResponse" type="tns:GetEsnListByCriteriaResponseType"/>
+
+
+<xsd:complexType name="GetAccountSummaryRequestType">
+  <xsd:complexContent>
+   <xsd:extension base="common:BaseRequestType">
+    <xsd:sequence>
+    <element name="loginName" type="string"/>
+	<element name="password" type="string"/>
+     <xsd:element name="authenticationCredentials" type="Q1:AuthenticationCredentialsType" minOccurs="1" maxOccurs="1"/>
+     <xsd:element name="organizationId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+   </xsd:extension>
+  </xsd:complexContent>
+ </xsd:complexType>
+ 
+ <xsd:complexType name="GetAccountSummaryResponseType">
+  <xsd:complexContent>
+   <xsd:extension base="common:BaseResponseType">
+    <xsd:sequence>
+     <xsd:element name="MonthlyPlanCharges" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+     <xsd:element name="ESNSummary" type="tns:ESNSummary" minOccurs="1" maxOccurs="1"/>
+     <xsd:element name="groupInfo" type="tns:groupInfoType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+   </xsd:extension>
+  </xsd:complexContent>
+ </xsd:complexType>
+ 
+ <xsd:complexType name="ESNSummary">
+  <xsd:sequence>
+   <xsd:element name="New" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+   <xsd:element name="Active" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+   <xsd:element name="Expiring" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+   <xsd:element name="Expired" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ 
+ <xsd:complexType name="groupInfoType">
+   <xsd:sequence>
+   <xsd:element name="firstName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+       <xsd:element name="lastName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="email" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+     <xsd:element name="groupId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+     <xsd:element name="groupName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+     <xsd:element name="planId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+ <xsd:element name="planName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+        <element name="totalLines" type="xsd:int" minOccurs="0" maxOccurs="1"></element>
+         <element name="availableLines" type="xsd:int" minOccurs="0" maxOccurs="1"></element>
+    <xsd:element name="activeLines" type="xsd:int" minOccurs="0" maxOccurs="1"/>
+    <element name="deviceList" type="tns:deviceInfoType" minOccurs="0" maxOccurs="unbounded"/>
+   </xsd:sequence>
+ </xsd:complexType>
+
+<complexType name="deviceInfoType">
+      <sequence>
+          <element name="esn" type="phone:ESNType" minOccurs="0" maxOccurs="1"></element>
+            <element name="min" type="phone:MINType" minOccurs="0" maxOccurs="1"/>
+                     <element name="isLeased" type="string" minOccurs="0" maxOccurs="1"/>
+            <element name="leaseStatus" type="string" minOccurs="0" maxOccurs="1"/>
+      	<!-- WARP Starts -->
+      	<element name="esnStatus" type="string" minOccurs="0" maxOccurs="1"/>
+      	<element name="accountGroupId" type="string" minOccurs="0" maxOccurs="1"/>
+      	<element name="accountGroupName" type="string" minOccurs="0" maxOccurs="1"/>
+      	<element name="accountGroupStatus" type="string" minOccurs="0" maxOccurs="1"/>
+      	<element name="accountGroupMemberStatus" type="string" minOccurs="0" maxOccurs="1"/>
+      	<element name="brand" type="string" minOccurs="0" maxOccurs="1"/>
+      	<element name="applicationRequestNumber" type="string" minOccurs="0" maxOccurs="1"/>
+      	<element name="planId" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      	<element name="planName" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+      	<element name="totalLines" type="xsd:int" minOccurs="0" maxOccurs="1"/>
+      	<element name="availableLines" type="xsd:int" minOccurs="0" maxOccurs="1"/>
+      	<element name="webUserObjid" type="common:ObjectIdType"/>
+      	<!-- WARP Ends -->
+      </sequence>
+   </complexType>
+   
+ <xsd:element name="getAccountSummaryRequest" type="tns:GetAccountSummaryRequestType"/>
+
+ <xsd:element name="getAccountSummaryResponse" type="tns:GetAccountSummaryResponseType"/>
+
+<complexType name="GetTransactionHistoryRequestType">
+    	<complexContent>
+    		<extension base="common:BaseRequestType">
+    			<sequence>
+             <element name="consumerInfo" type="common:MobileRequestType" minOccurs="0" maxOccurs="1"/>  
+    			  <element name="ESN" type="phone:ESNType" minOccurs="1" maxOccurs="1"/>
+           
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+ <complexType name="GetTransactionHistoryResponseType">
+    	<complexContent>
+    		<extension base="common:BaseResponseType">
+    			<sequence>
+             			<element name="totalTransactions" type="int" minOccurs="0" maxOccurs="1"/>
+                        <element name="transactionList" type="tns:TransactionListType" minOccurs="0"/>
+    			</sequence>  
+        </extension>
+    	</complexContent>
+    </complexType>
+    
+    <complexType name="TransactionListType">
+      <sequence>
+           <element name="transaction" type="tns:TransactionType" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+    </complexType>
+
+
+
+    <complexType name="TransactionType">
+      <sequence>
+        <element name="trasactionInfo" type="acct:TransactionInfoType" minOccurs="0" maxOccurs="1"/>
+        <element name="servicePlanInfo" type="plan:ServicePlanDetailsType" minOccurs="0" maxOccurs="1"/>
+        <element name="device" type="acct:TransactionDeviceInfoType" minOccurs="0" maxOccurs="1"/>
+         <element name="group" type="tns:GroupType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+
+  
+     <complexType name="GroupType">
+      <sequence>
+       <element name="groupId" type="common:ObjectIdType" minOccurs="0" maxOccurs="1"/>
+           <element name="groupName" type="string" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+    
+
+<xsd:element name="getTransactionHistoryRequest" type="tns:GetTransactionHistoryRequestType"/>
+
+ <xsd:element name="getTransactionHistoryResponse" type="tns:GetTransactionHistoryResponseType"/>
+
+ <complexType name="RemoveDeviceFromDummyAccountRequestType">
+    <complexContent>
+      <extension base="common:BaseRequestType">
+        <sequence>
+          <element name="webObjId" type="common:ObjectIdType" minOccurs="0" maxOccurs="1"/>  
+          <element name="ESN" type="phone:ESNType" minOccurs="1" maxOccurs="1"/>
+          <element name="isDummyAccount" type="string" minOccurs="0" maxOccurs="1"/>
+        </sequence>
+      </extension>
+    </complexContent>
+ </complexType>
+
+ <complexType name="RemoveDeviceFromDummyAccountResponseType">
+  <complexContent>
+    <extension base="common:BaseResponseType"/>  
+  </complexContent>
+ </complexType>
+        
+ <xsd:element name="removeDeviceFromDummyAccountRequest" type="tns:RemoveDeviceFromDummyAccountRequestType"/>
+
+ <xsd:element name="removeDeviceFromDummyAccountResponse" type="tns:RemoveDeviceFromDummyAccountResponseType"/>
+
+
+
+
+
+
+
+
+
+    
+
+</schema>

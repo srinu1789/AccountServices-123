@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oper="http://xmlns.oracle.com/servicebus/pipeline/operations">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="AccountServices/DataServices/wsdl/AccountDataServices"/>
+            <con:binding>
+                <con:name>AccountDataServicesSOAP</con:name>
+                <con:namespace>http://www.tracfone.com/AccountDataServices/</con:namespace>
+            </con:binding>
+        </con:binding>
+        <oper:operations>
+            <oper:monitoring enabled="false" aggregationInterval="10" level="pipeline"/>
+            <oper:reporting>true</oper:reporting>
+            <oper:logging enabled="true" level="debug"/>
+            <oper:sla-alerting enabled="true" level="normal"/>
+            <oper:pipeline-alerting enabled="true" level="normal"/>
+        </oper:operations>
+    </con:coreEntry>
+    <con:router>
+        <con:flow xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/typesystem/config">
+            <con:branch-node type="operation" name="BranchRequests">
+                <con:context/>
+                <con:branch-table>
+                    <con:branch name="getAccountSecurityQuestions">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteGetAccountSecurityQuestionsDS">
+                                <con:context>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/AccountDataServices" prefix="acc"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                                </con:context>
+                                <con:actions>
+                                    <con1:route>
+                                        <con2:id>_ActionId-5314709451078809408--790ee9e7.130d6bdfb5e.-7c99</con2:id>
+                                        <con1:service ref="AccountServices/DataServices/BusinessServices/AccountDataServicesBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con1:operation>getAccountSecurityQuestions</con1:operation>
+                                        <con1:outboundTransform>
+                                            <con3:ifThenElse>
+                                                <con2:id>_ActionId-3421483168330048401-61c20d7f.13245dd874e.-7f88</con2:id>
+                                                <con3:case>
+                                                    <con3:condition>
+                                                        <con2:xqueryConditionExpr>
+                                                            <con2:compExpr operator="=">
+                                                                <con2:leftPath>fn:upper-case($body/acc:getAccountSecurityQuestionsRequest/com:language)</con2:leftPath>
+                                                                <con2:rightPath>"ENG"</con2:rightPath>
+                                                            </con2:compExpr>
+                                                        </con2:xqueryConditionExpr>
+                                                    </con3:condition>
+                                                    <con3:actions>
+                                                        <con3:replace varName="body" contents-only="true">
+                                                            <con2:id>_ActionId-3421483168330048401-61c20d7f.13245dd874e.-7f50</con2:id>
+                                                            <con3:location>
+                                                                <con2:xpathText>./acc:getAccountSecurityQuestionsRequest/com:language</con2:xpathText>
+                                                            </con3:location>
+                                                            <con3:expr>
+                                                                <con2:xqueryText>"ENGLISH"</con2:xqueryText>
+                                                            </con3:expr>
+                                                        </con3:replace>
+                                                    </con3:actions>
+                                                </con3:case>
+                                                <con3:default>
+                                                    <con3:replace varName="body" contents-only="true">
+                                                        <con2:id>_ActionId-3421483168330048401-61c20d7f.13245dd874e.-7eab</con2:id>
+                                                        <con3:location>
+                                                            <con2:xpathText>./acc:getAccountSecurityQuestionsRequest/com:language</con2:xpathText>
+                                                        </con3:location>
+                                                        <con3:expr>
+                                                            <con2:xqueryText>"SPANISH"</con2:xqueryText>
+                                                        </con3:expr>
+                                                    </con3:replace>
+                                                </con3:default>
+                                            </con3:ifThenElse>
+                                        </con1:outboundTransform>
+                                        <con1:responseTransform/>
+                                    </con1:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="authenticateSecurityPin">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteSecurityPinValidationDS">
+                                <con:context/>
+                                <con:actions>
+                                    <con1:route>
+                                        <con2:id>_ActionId-4656875411938998927--2d80e72f.131490daf45.-7e82</con2:id>
+                                        <con1:service ref="AccountServices/DataServices/BusinessServices/ValidateSecurityPinBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con1:operation>authenticateSecurityPin</con1:operation>
+                                        <con1:outboundTransform/>
+                                        <con1:responseTransform/>
+                                    </con1:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="getAccountInfoFromEsn">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteGetAccountInfoFromEsnDs">
+                                <con:context>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/AccountDataServices" prefix="acc"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/RuntimeFault" prefix="run"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/OAuthAccountManagerDataService" prefix="oaut"/>
+                                    <con4:variable name="checkMyAccountResponse" path="$body" asChild="true">
+                                        <con4:schema ref="AccountServices/DataServices/xsd/AccountManagerDS-BPEL" element="checkMyAccountResponse"/>
+                                    </con4:variable>
+                                </con:context>
+                                <con:actions>
+                                    <con1:route>
+                                        <con2:id>_ActionId-4196921195498981134-4251dc47.1335b629e9d.-7f7e</con2:id>
+                                        <con1:service ref="AccountServices/DataServices/BusinessServices/AccountManagerBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con1:operation>checkMyAccount</con1:operation>
+                                        <con1:outboundTransform>
+                                            <con3:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-4196921195498981134-4251dc47.1335b629e9d.-7f5f</con2:id>
+                                                <con3:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/DataServices/transformations/getAccountInfoFromEsnRequest"/>
+                                                        <con2:param name="getAccountInfoFromEsnRequest1">
+                                                            <con2:path>$body/acc:getAccountInfoFromEsnRequest</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con1:outboundTransform>
+                                        <con1:responseTransform>
+                                            <con3:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-4196921195498981134-4251dc47.1335b629e9d.-7f4d</con2:id>
+                                                <con3:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/DataServices/transformations/getAccountInfoFromEsnResponse"/>
+                                                        <con2:param name="checkMyAccountResponse1">
+                                                            <con2:path>$body/oaut:checkMyAccountResponse</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con1:responseTransform>
+                                    </con1:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="updateAccount">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteToUpdateAccountDS">
+                                <con:context/>
+                                <con:actions>
+                                    <con1:route>
+                                        <con2:id>_ActionId-6422092560600928133-851796.13cca6c4a51.-7f94</con2:id>
+                                        <con1:service ref="AccountServices/DataServices/BusinessServices/AccountUpdateDataService" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con1:operation>updateAccount</con1:operation>
+                                        <con1:outboundTransform/>
+                                        <con1:responseTransform/>
+                                    </con1:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="authenticateSecurityPinMB">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RouteauthenticateSecurityPin">
+                                <con:context/>
+                                <con:actions>
+                                    <con1:route>
+                                        <con2:id>_ActionId-4571922977183552216--20eb5b2d.13d55eddb9f.-7f94</con2:id>
+                                        <con1:service ref="AccountServices/DataServices/BusinessServices/ValidateSecurityPinMBBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con1:operation>authenticateSecurityPinMB</con1:operation>
+                                        <con1:outboundTransform/>
+                                        <con1:responseTransform/>
+                                    </con1:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="getEsnListByCriteria">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="RoutegetEsnListByCriteria">
+                                <con:context/>
+                                <con:actions>
+                                    <con1:route>
+                                        <con2:id>_ActionId-3979945275511846884--20bbabce.1442caf14e7.-7f94</con2:id>
+                                        <con1:service ref="AccountServices/DataServices/BusinessServices/GetESNListByCriteriaBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con1:operation>getEsnListByCriteria</con1:operation>
+                                        <con1:outboundTransform/>
+                                        <con1:responseTransform/>
+                                    </con1:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:default-branch>
+                        <con:flow/>
+                    </con:default-branch>
+                </con:branch-table>
+            </con:branch-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>

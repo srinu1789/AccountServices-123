@@ -1,0 +1,901 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oper="http://xmlns.oracle.com/servicebus/pipeline/operations">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="AccountServices/EnterpriseServices/wsdl/MobileAccountServices"/>
+            <con:binding>
+                <con:name>MobileAccountServicesSOAP</con:name>
+                <con:namespace>http://b2b.tracfone.com/MobileAccountServices</con:namespace>
+            </con:binding>
+        </con:binding>
+        <oper:operations>
+            <oper:monitoring enabled="false" aggregationInterval="10" level="pipeline"/>
+            <oper:tracingEnabled>false</oper:tracingEnabled>
+            <oper:reporting>true</oper:reporting>
+            <oper:logging enabled="true" level="debug"/>
+            <oper:sla-alerting enabled="true" level="normal"/>
+            <oper:pipeline-alerting enabled="true" level="normal"/>
+        </oper:operations>
+    </con:coreEntry>
+    <con:router xmlns:ser="http://www.bea.com/wli/sb/services" xmlns:tran="http://www.bea.com/wli/sb/transports" xmlns:env="http://www.bea.com/wli/config/env" xmlns:http="http://www.bea.com/wli/sb/transports/http" xmlns:con1="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con3="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con4="http://www.bea.com/wli/sb/typesystem/config" xmlns:con5="http://www.bea.com/wli/sb/services/security/config">
+        <con:pipeline type="request" name="PrepareResponseData_request">
+            <con:stage name="CaptureOriginalRequest" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                <con:context/>
+                <con:actions>
+                    <con1:assign varName="originalRequest">
+                        <con2:id>_ActionId-2425218109814955756-67c0ba52.1499e7da89b.-6c55</con2:id>
+                        <con1:expr>
+                            <con2:xqueryText>$body</con2:xqueryText>
+                        </con1:expr>
+                    </con1:assign>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="request" name="PipelinePairDeleteEsnFromAccount_request">
+            <con:stage name="EntryLog">
+                <con:context xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                    <con2:userNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                    <con2:varNsDecl namespace="http://b2b.tracfone.com/MobilePhoneServices" prefix="mob"/>
+                </con:context>
+                <con:actions xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                    <con6:log xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con2:id>_ActionId-5340269054897493114--68deca33.14a56aed838.-7135</con2:id>
+                        <con6:logLevel>debug</con6:logLevel>
+                        <con6:expr>
+                            <con2:xqueryText>fn:concat(fn:local-name($body/child::node()[1]),'___','ClientTransactionId :',$body/mob:deleteEsnFromAccountRequest/com:requestToken/com:clientTransactionId,'___',fn:current-dateTime())</con2:xqueryText>
+                        </con6:expr>
+                        <con6:message>&lt;!-- MobileAccountServices_DeleteEsnFromAccountRequest Log --></con6:message>
+                    </con6:log>
+                </con:actions>
+            </con:stage>
+            <con:stage name="DeleteEsnFromAccountRequest">
+                <con:context>
+                    <con2:userNsDecl prefix="phon2" namespace="http://www.tracfone.com/PhoneCoreServices"/>
+                    <con2:varNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                    <con2:varNsDecl namespace="http://www.tracfone.com/AccountCommonTypes" prefix="acc"/>
+                    <con2:varNsDecl namespace="http://www.tracfone.com/RuntimeFault" prefix="run"/>
+                    <con2:varNsDecl namespace="http://www.tracfone.com/AccountSpringFarmServices" prefix="acc1"/>
+                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc2"/>
+                    <con2:varNsDecl namespace="http://b2b.tracfone.com/PhoneServices" prefix="phon"/>
+                    <con2:varNsDecl prefix="phon1" namespace="http://www.tracfone.com/PhoneCommonTypes"/>
+                    <con2:varNsDecl prefix="mob" namespace="http://b2b.tracfone.com/MobileAccountServices"/>
+                    <con4:variable name="AccountServices" path="$getCustomerProfileResponse" asChild="false">
+                        <con4:schema ref="AccountServices/SpringFarmServices/xsd/AccountSpringFarmServices" element="getCustomerProfileResponse"/>
+                    </con4:variable>
+                    <con4:variable name="PhoneService" path="$getEsnFromMinResponse" asChild="false">
+                        <con4:schema ref="PhoneServices/EnterpriseServices/xsd/PhoneServices" element="getEsnFromMinResponse"/>
+                    </con4:variable>
+                </con:context>
+                <con:actions>
+                    <con1:wsCallout xmlns:con3="http://www.bea.com/wli/sb/typesystem/config" xmlns:con5="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con2:id>_ActionId-6327644265731850578-34af59d0.149c71d1fac.-7d42</con2:id>
+                        <con1:service xsi:type="ref:BusinessServiceRef" ref="AccountServices/EnterpriseServices/BusinessServices/SpringfarmAccountServicesBS" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con1:operation>getCustomerProfile</con1:operation>
+                        <con1:request>
+                            <con1:body>getCustomerProfileRequest</con1:body>
+                        </con1:request>
+                        <con1:response>
+                            <con1:body>getCustomerProfileResponse</con1:body>
+                        </con1:response>
+                        <con1:requestTransform>
+                            <con1:assign varName="getCustomerProfileRequest">
+                                <con2:id>_ActionId-7179393541493389190-3e26dc87.149f2bddba0.-7fe0</con2:id>
+                                <con1:expr>
+                                    <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                                        <con:resource ref="AccountServices/EnterpriseServices/transformations/Mobile/DeleteEsnFromAccount2AccountSpringFarmServiceRequest"/>
+                                        <con:param name="deleteEsnFromAccountRequest1">
+                                            <con:path>$body/mob:deleteEsnFromAccountRequest</con:path>
+                                        </con:param>
+                                    </con:xqueryTransform>
+                                </con1:expr>
+                            </con1:assign>
+                        </con1:requestTransform>
+                        <con1:responseTransform>
+                            <con1:assign varName="contactId">
+                                <con2:id>_ActionId-6327644265731850578-34af59d0.149c71d1fac.-7d43</con2:id>
+                                <con1:expr>
+                                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:data($getCustomerProfileResponse/acc1:contactId)</con:xqueryText>
+                                </con1:expr>
+                            </con1:assign>
+                        </con1:responseTransform>
+                    </con1:wsCallout>
+                    <con3:ifThenElse>
+                        <con2:id>_ActionId-6327644265731850578-34af59d0.149c71d1fac.-7d3c</con2:id>
+                        <con3:case>
+                            <con3:condition>
+                                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:exists($body/mob:deleteEsnFromAccountRequest/mob:esn)</con:xqueryText>
+                            </con3:condition>
+                            <con3:actions>
+                                <con3:assign varName="ESN">
+                                    <con2:id>_ActionId-6327644265731850578-34af59d0.149c71d1fac.-7d3b</con2:id>
+                                    <con3:expr>
+                                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:data($body/mob:deleteEsnFromAccountRequest/mob:esn)</con:xqueryText>
+                                    </con3:expr>
+                                </con3:assign>
+                            </con3:actions>
+                        </con3:case>
+                        <con3:default>
+                            <con3:wsCallout>
+                                <con2:id>_ActionId-6327644265731850578-34af59d0.149c71d1fac.-7d38</con2:id>
+                                <con3:service xsi:type="ref:BusinessServiceRef" ref="AccountServices/EnterpriseServices/BusinessServices/PhoneCoreServicesBS" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                <con3:operation>getESNFromMIN</con3:operation>
+                                <con3:request>
+                                    <con3:body>getESNFromMINRequest</con3:body>
+                                </con3:request>
+                                <con3:response>
+                                    <con3:body>getESNFromMINResponse</con3:body>
+                                </con3:response>
+                                <con3:requestTransform>
+                                    <con3:assign varName="getESNFromMINRequest">
+                                        <con2:id>_ActionId-6327644265731850578-34af59d0.149c71d1fac.-7d3a</con2:id>
+                                        <con3:expr>
+                                            <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                                                <con:resource ref="AccountServices/EnterpriseServices/transformations/Mobile/DeleteEsnFromAccount2CoreGetEsnFromMinRequest"/>
+                                                <con:param name="deleteEsnFromAccountRequest1">
+                                                    <con:path>$body/mob:deleteEsnFromAccountRequest</con:path>
+                                                </con:param>
+                                            </con:xqueryTransform>
+                                        </con3:expr>
+                                    </con3:assign>
+                                </con3:requestTransform>
+                                <con3:responseTransform>
+                                    <con3:assign varName="ESN">
+                                        <con2:id>_ActionId-6327644265731850578-34af59d0.149c71d1fac.-7d39</con2:id>
+                                        <con3:expr>
+                                            <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:data($getESNFromMINResponse/phon2:ESN)</con:xqueryText>
+                                        </con3:expr>
+                                    </con3:assign>
+                                </con3:responseTransform>
+                            </con3:wsCallout>
+                        </con3:default>
+                    </con3:ifThenElse>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="request" name="PipelinePairGetTransactionHistory_request">
+            <con:stage name="EntryLog">
+                <con:context xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                    <con2:userNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                    <con2:varNsDecl namespace="http://b2b.tracfone.com/MobilePhoneServices" prefix="mob"/>
+                </con:context>
+                <con:actions xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                    <con6:log xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con2:id>_ActionId-5340269054897493114--68deca33.14a56aed838.-70fd</con2:id>
+                        <con6:logLevel>debug</con6:logLevel>
+                        <con6:expr>
+                            <con2:xqueryText>fn:concat(fn:local-name($body/child::node()[1]),'___','ClientTransactionId :',$body/mob:getTransactionHistoryRequest/com:requestToken/com:clientTransactionId,'___',fn:current-dateTime())</con2:xqueryText>
+                        </con6:expr>
+                        <con6:message>&lt;!-- MobileAccountServices_GetTransactionHistoryRequest Log --></con6:message>
+                    </con6:log>
+                </con:actions>
+            </con:stage>
+            <con:stage name="GetTransactionHistoryRequest" xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                <con:context>
+                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc"/>
+                    <con2:varNsDecl prefix="phon" namespace="http://www.tracfone.com/PhoneCommonTypes"/>
+                    <con2:varNsDecl prefix="mob" namespace="http://b2b.tracfone.com/MobileAccountServices"/>
+                    <con2:varNsDecl prefix="com" namespace="http://www.tracfone.com/CommonTypes"/>
+                    <con2:varNsDecl prefix="acc1" namespace="http://www.tracfone.com/AccountCommonTypes"/>
+                    <con2:varNsDecl prefix="run" namespace="http://www.tracfone.com/RuntimeFault"/>
+                </con:context>
+                <con:actions>
+                    <con3:ifThenElse>
+                        <con2:id>_ActionId-7179393541493389190-3e26dc87.149f2bddba0.-7fe8</con2:id>
+                        <con3:case>
+                            <con3:condition>
+                                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:exists($body/mob:getTransactionHistoryRequest/mob:offset)</con:xqueryText>
+                            </con3:condition>
+                            <con3:actions>
+                                <con3:assign varName="Offset">
+                                    <con2:id>_ActionId-7179393541493389190-3e26dc87.149f2bddba0.-7fe7</con2:id>
+                                    <con3:expr>
+                                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:data($body/mob:getTransactionHistoryRequest/mob:offset)</con:xqueryText>
+                                    </con3:expr>
+                                </con3:assign>
+                            </con3:actions>
+                        </con3:case>
+                        <con3:default>
+                            <con3:assign varName="Offset">
+                                <con2:id>_ActionId-7179393541493389190-3e26dc87.149f2bddba0.-7fe6</con2:id>
+                                <con3:expr>
+                                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">''</con:xqueryText>
+                                </con3:expr>
+                            </con3:assign>
+                        </con3:default>
+                    </con3:ifThenElse>
+                    <con3:ifThenElse>
+                        <con2:id>_ActionId-7179393541493389190-3e26dc87.149f2bddba0.-7fe5</con2:id>
+                        <con3:case>
+                            <con3:condition>
+                                <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:exists($body/mob:getTransactionHistoryRequest/mob:limit)</con:xqueryText>
+                            </con3:condition>
+                            <con3:actions>
+                                <con3:assign varName="Limit">
+                                    <con2:id>_ActionId-7179393541493389190-3e26dc87.149f2bddba0.-7fe4</con2:id>
+                                    <con3:expr>
+                                        <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">fn:data($body/mob:getTransactionHistoryRequest/mob:limit)</con:xqueryText>
+                                    </con3:expr>
+                                </con3:assign>
+                            </con3:actions>
+                        </con3:case>
+                        <con3:default>
+                            <con3:assign varName="Limit">
+                                <con2:id>_ActionId-7179393541493389190-3e26dc87.149f2bddba0.-7fe3</con2:id>
+                                <con3:expr>
+                                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">''</con:xqueryText>
+                                </con3:expr>
+                            </con3:assign>
+                        </con3:default>
+                    </con3:ifThenElse>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="PipelinePairGetTransactionHistory_response">
+            <con:stage name="GetTransactionHistoryResponse" xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                <con:context>
+                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc"/>
+                    <con2:varNsDecl namespace="http://b2b.tracfone.com/MobileAccountServices" prefix="mob"/>
+                </con:context>
+                <con:actions>
+                    <con3:replace varName="body" contents-only="true">
+                        <con2:id>_ActionId-3130081544454648668--2f80367c.149eaa9f2f0.-73d1</con2:id>
+                        <con3:location>
+                            <con2:xpathText>.</con2:xpathText>
+                        </con3:location>
+                        <con3:expr>
+                            <con2:xsltTransform>
+                                <con2:resource ref="AccountServices/EnterpriseServices/transformations/Mobile/CoreServicesToGetTransactionHistoryResponse"/>
+                                <con2:input>$body</con2:input>
+                                <con2:param name="limit">
+                                    <con2:path>$Limit</con2:path>
+                                </con2:param>
+                                <con2:param name="offset">
+                                    <con2:path>$Offset</con2:path>
+                                </con2:param>
+                            </con2:xsltTransform>
+                        </con3:expr>
+                    </con3:replace>
+                </con:actions>
+            </con:stage>
+            <con:stage name="ExitLog">
+                <con:context>
+                    <con2:userNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                    <con2:varNsDecl namespace="http://b2b.tracfone.com/MobileAccountServices" prefix="mob"/>
+                </con:context>
+                <con:actions>
+                    <con6:log xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                        <con2:id>_ActionId-5340269054897493114--68deca33.14a56aed838.-6f7a</con2:id>
+                        <con6:logLevel>debug</con6:logLevel>
+                        <con6:expr>
+                            <con2:xqueryText>fn:concat(fn:local-name($body/child::node()[1]),'___','ClientTransactionId :',$body/mob:getTransactionHistoryResponse/com:requestToken/com:clientTransactionId,'___',fn:current-dateTime())</con2:xqueryText>
+                        </con6:expr>
+                        <con6:message>&lt;!-- MobileAccountServices_GetTransactionHistoryResponse Log --></con6:message>
+                    </con6:log>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="ReturnUnimplementedOperation_response">
+            <con:stage name="ReturnUnimplementedOperationError">
+                <con:context xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config"/>
+                <con:actions xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                    <con3:replace varName="body" contents-only="true">
+                        <con2:id>_ActionId-2481935604288004610--1027773c.149c739cdc7.-7bfe</con2:id>
+                        <con3:location>
+                            <con2:xpathText>.</con2:xpathText>
+                        </con3:location>
+                        <con3:expr>
+                            <con2:xqueryTransform>
+                                <con2:resource ref="TFCommon/transformations/UnimplementedOperationFaultGenerator"/>
+                            </con2:xqueryTransform>
+                        </con3:expr>
+                    </con3:replace>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="PipelinePairDeleteEsnFromAccount_response">
+            <con:stage name="ExitLog">
+                <con:context>
+                    <con2:userNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                    <con2:varNsDecl namespace="http://b2b.tracfone.com/MobileAccountServices" prefix="mob"/>
+                </con:context>
+                <con:actions>
+                    <con6:log xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                        <con2:id>_ActionId-5340269054897493114--68deca33.14a56aed838.-6fe9</con2:id>
+                        <con6:logLevel>debug</con6:logLevel>
+                        <con6:expr>
+                            <con2:xqueryText>fn:concat(fn:local-name($body/child::node()[1]),'___','ClientTransactionId :',$body/mob:deleteEsnFromAccountResponse/com:requestToken/com:clientTransactionId,'___',fn:current-dateTime())</con2:xqueryText>
+                        </con6:expr>
+                        <con6:message>&lt;!-- MobileAccountServices_DeleteEsnFromAccountResponse Log --></con6:message>
+                    </con6:log>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="request" name="ReturnUnimplementedOperation_request"/>
+        <con:pipeline type="response" name="PrepareResponseData_response">
+            <con:stage name="InjectClientTransId" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                <con:context>
+                    <con2:varNsDecl namespace="http://oauth.b2b.tracfone.com/OAuthAccountServices" prefix="oaut"/>
+                    <con2:varNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                </con:context>
+                <con:actions>
+                    <con1:ifThenElse>
+                        <con2:id>_ActionId-2425218109814955756-67c0ba52.1499e7da89b.-6c54</con2:id>
+                        <con1:case>
+                            <con1:condition>
+                                <con2:xqueryText>fn:exists($body//com:serverTransactionId)</con2:xqueryText>
+                            </con1:condition>
+                            <con1:actions>
+                                <con1:replace varName="body" contents-only="true">
+                                    <con2:id>_ActionId-2425218109814955756-67c0ba52.1499e7da89b.-6c53</con2:id>
+                                    <con1:location>
+                                        <con2:xpathText>.//com:serverTransactionId</con2:xpathText>
+                                    </con1:location>
+                                    <con1:expr>
+                                        <con2:xqueryText>fn-bea:uuid()</con2:xqueryText>
+                                    </con1:expr>
+                                </con1:replace>
+                            </con1:actions>
+                        </con1:case>
+                        <con1:default>
+                            <con1:insert varName="body">
+                                <con2:id>_ActionId-2425218109814955756-67c0ba52.1499e7da89b.-6c52</con2:id>
+                                <con1:location>
+                                    <con2:xpathText>.//com:result</con2:xpathText>
+                                </con1:location>
+                                <con1:where>after</con1:where>
+                                <con1:expr>
+                                    <con2:xqueryText>&lt;com:serverTransactionId>
+{fn-bea:uuid()}
+&lt;/com:serverTransactionId></con2:xqueryText>
+                                </con1:expr>
+                            </con1:insert>
+                        </con1:default>
+                    </con1:ifThenElse>
+                </con:actions>
+            </con:stage>
+            <con:stage name="PopulateRequestToken" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                <con:context>
+                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc"/>
+                    <con2:varNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                    <con2:varNsDecl prefix="phon" namespace="http://www.tracfone.com/PhoneCommonTypes"/>
+                    <con2:varNsDecl prefix="mob" namespace="http://b2b.tracfone.com/MobileAccountServices"/>
+                    <con2:varNsDecl prefix="acc1" namespace="http://www.tracfone.com/AccountCommonTypes"/>
+                    <con2:varNsDecl prefix="run" namespace="http://www.tracfone.com/RuntimeFault"/>
+                </con:context>
+                <con:actions>
+                    <con1:ifThenElse>
+                        <con2:id>_ActionId-2425218109814955756-67c0ba52.1499e7da89b.-6c51</con2:id>
+                        <con1:case>
+                            <con1:condition>
+                                <con2:xqueryConditionExpr>
+                                    <con2:unaryExpr>
+                                        <con2:path>fn:exists($body//com:requestToken)</con2:path>
+                                    </con2:unaryExpr>
+                                </con2:xqueryConditionExpr>
+                            </con1:condition>
+                            <con1:actions>
+                                <con1:replace varName="body" contents-only="false">
+                                    <con2:id>_ActionId-2425218109814955756-67c0ba52.1499e7da89b.-6c50</con2:id>
+                                    <con1:location>
+                                        <con2:xpathText>.//com:requestToken</con2:xpathText>
+                                    </con1:location>
+                                    <con1:expr>
+                                        <con2:xqueryText>$originalRequest//com:requestToken</con2:xqueryText>
+                                    </con1:expr>
+                                </con1:replace>
+                            </con1:actions>
+                        </con1:case>
+                        <con1:default>
+                            <con1:insert varName="body">
+                                <con2:id>_ActionId-2425218109814955756-67c0ba52.1499e7da89b.-6c4f</con2:id>
+                                <con1:location>
+                                    <con:xpathText xmlns:con="http://www.bea.com/wli/sb/stages/config">./node()</con:xpathText>
+                                </con1:location>
+                                <con1:where>first-child</con1:where>
+                                <con1:expr>
+                                    <con2:xqueryText>$originalRequest//com:requestToken</con2:xqueryText>
+                                </con1:expr>
+                            </con1:insert>
+                        </con1:default>
+                    </con1:ifThenElse>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="request" name="PipelinePairGetPaymentHistory_request">
+            <con:stage name="EntryLog">
+                <con:context xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                    <con2:userNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                    <con2:varNsDecl namespace="http://b2b.tracfone.com/MobilePhoneServices" prefix="mob"/>
+                    <con2:varNsDecl namespace="http://b2b.tracfone.com/MobileAccountServices" prefix="mob1"/>
+                </con:context>
+                <con:actions xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                    <con6:log xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                        <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6eb0</con2:id>
+                        <con6:logLevel>debug</con6:logLevel>
+                        <con6:expr>
+                            <con2:xqueryText>fn:concat(fn:local-name($body/child::node()[1]),'___','ClientTransactionId :',$body/mob1:getPaymentHistoryRequest/com:requestToken/com:clientTransactionId,'___',fn:current-dateTime())</con2:xqueryText>
+                        </con6:expr>
+                        <con6:message>&lt;!-- MobileAccountServices_GetPaymentHistoryRequest Log --></con6:message>
+                    </con6:log>
+                    <con3:assign varName="originalRequest">
+                        <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6b88</con2:id>
+                        <con3:expr>
+                            <con2:xqueryText>$body/mob1:getPaymentHistoryRequest</con2:xqueryText>
+                        </con3:expr>
+                    </con3:assign>
+                </con:actions>
+            </con:stage>
+            <con:stage name="GetPaymentHistoryRequest">
+                <con:context xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc"/>
+                    <con2:varNsDecl prefix="phon" namespace="http://www.tracfone.com/PhoneCommonTypes"/>
+                    <con2:varNsDecl prefix="mob" namespace="http://b2b.tracfone.com/MobileAccountServices"/>
+                    <con2:varNsDecl prefix="com" namespace="http://www.tracfone.com/CommonTypes"/>
+                    <con2:varNsDecl prefix="acc1" namespace="http://www.tracfone.com/AccountCommonTypes"/>
+                    <con2:varNsDecl prefix="run" namespace="http://www.tracfone.com/RuntimeFault"/>
+                </con:context>
+                <con:actions xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                    <con3:ifThenElse>
+                        <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6d15</con2:id>
+                        <con3:case>
+                            <con3:condition>
+                                <con2:xqueryText>fn:exists($body/mob:getPaymentHistoryRequest/mob:esn) and fn:string-length($body/mob:getPaymentHistoryRequest/mob:esn) > 0</con2:xqueryText>
+                            </con3:condition>
+                            <con3:actions>
+                                <con3:assign varName="ESN">
+                                    <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6cdd</con2:id>
+                                    <con3:expr>
+                                        <con2:xqueryText>fn:data($body/mob:getPaymentHistoryRequest/mob:esn)</con2:xqueryText>
+                                    </con3:expr>
+                                </con3:assign>
+                            </con3:actions>
+                        </con3:case>
+                        <con3:default>
+                            <con3:assign varName="ESN">
+                                <con2:id>_ActionId-af9022a.44f0f015.0.15dbd0bcdcd.N7f16</con2:id>
+                                <con3:expr>
+                                    <con2:xqueryText>''</con2:xqueryText>
+                                </con3:expr>
+                            </con3:assign>
+                            <con3:replace contents-only="true" varName="body">
+                                <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6ca4</con2:id>
+                                <con2:disabled>true</con2:disabled>
+                                <con3:location>
+                                    <con2:xpathText>.</con2:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con2:xqueryTransform>
+                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/Mobile/FormatGetPaymentHistoryErrorResponse"/>
+                                        <con2:param name="getPaymentHistoryRequest1">
+                                            <con2:path>$body/mob:getPaymentHistoryRequest</con2:path>
+                                        </con2:param>
+                                        <con2:param name="errorMessage">
+                                            <con2:path>"Device not found"</con2:path>
+                                        </con2:param>
+                                        <con2:param name="errorCode">
+                                            <con2:path>"10100"</con2:path>
+                                        </con2:param>
+                                    </con2:xqueryTransform>
+                                </con3:expr>
+                            </con3:replace>
+                            <con2:reply>
+                                <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6c87</con2:id>
+                                <con2:disabled>true</con2:disabled>
+                            </con2:reply>
+                        </con3:default>
+                    </con3:ifThenElse>
+                    <con3:ifThenElse>
+                        <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6e37</con2:id>
+                        <con3:case>
+                            <con3:condition>
+                                <con2:xqueryText>fn:exists($body/mob:getPaymentHistoryRequest/mob:offset)</con2:xqueryText>
+                            </con3:condition>
+                            <con3:actions>
+                                <con3:assign varName="Offset">
+                                    <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6e36</con2:id>
+                                    <con3:expr>
+                                        <con2:xqueryText>fn:data($body/mob:getPaymentHistoryRequest/mob:offset)</con2:xqueryText>
+                                    </con3:expr>
+                                </con3:assign>
+                            </con3:actions>
+                        </con3:case>
+                        <con3:default>
+                            <con3:assign varName="Offset">
+                                <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6e35</con2:id>
+                                <con3:expr>
+                                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">''</con:xqueryText>
+                                </con3:expr>
+                            </con3:assign>
+                        </con3:default>
+                    </con3:ifThenElse>
+                    <con3:ifThenElse>
+                        <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6e34</con2:id>
+                        <con3:case>
+                            <con3:condition>
+                                <con2:xqueryText>fn:exists($body/mob:getPaymentHistoryRequest/mob:limit)</con2:xqueryText>
+                            </con3:condition>
+                            <con3:actions>
+                                <con3:assign varName="Limit">
+                                    <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6e33</con2:id>
+                                    <con3:expr>
+                                        <con2:xqueryText>fn:data($body/mob:getPaymentHistoryRequest/mob:limit)</con2:xqueryText>
+                                    </con3:expr>
+                                </con3:assign>
+                            </con3:actions>
+                        </con3:case>
+                        <con3:default>
+                            <con3:assign varName="Limit">
+                                <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6e32</con2:id>
+                                <con3:expr>
+                                    <con:xqueryText xmlns:con="http://www.bea.com/wli/sb/stages/config">''</con:xqueryText>
+                                </con3:expr>
+                            </con3:assign>
+                        </con3:default>
+                    </con3:ifThenElse>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="PipelinePairGetPaymentHistory_response">
+            <con:stage name="GetPaymentHistoryResponse">
+                <con:context xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc"/>
+                    <con2:varNsDecl namespace="http://b2b.tracfone.com/MobileAccountServices" prefix="mob"/>
+                </con:context>
+                <con:actions xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                    <con3:ifThenElse>
+                        <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6bdf</con2:id>
+                        <con3:case>
+                            <con3:condition>
+                                <con2:xqueryText>fn:exists($body/mob:getPaymentHistoryResponse/mob:transactionList/mob:transaction)</con2:xqueryText>
+                            </con3:condition>
+                            <con3:actions>
+                                <con3:replace varName="body" contents-only="true">
+                                    <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6bdd</con2:id>
+                                    <con3:location>
+                                        <con2:xpathText>.</con2:xpathText>
+                                    </con3:location>
+                                    <con3:expr>
+                                        <con2:xsltTransform>
+                                            <con2:resource ref="AccountServices/EnterpriseServices/transformations/Mobile/CoreServicesToGetPaymentHistoryResponse"/>
+                                            <con2:input>$body</con2:input>
+                                            <con2:param name="limit">
+                                                <con2:path>$Limit</con2:path>
+                                            </con2:param>
+                                            <con2:param name="offset">
+                                                <con2:path>$Offset</con2:path>
+                                            </con2:param>
+                                        </con2:xsltTransform>
+                                    </con3:expr>
+                                </con3:replace>
+                            </con3:actions>
+                        </con3:case>
+                        <con3:default>
+                            <con3:replace contents-only="true" varName="body">
+                                <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6ba5</con2:id>
+                                <con3:location>
+                                    <con2:xpathText>.</con2:xpathText>
+                                </con3:location>
+                                <con3:expr>
+                                    <con2:xqueryTransform>
+                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/Mobile/FormatGetPaymentHistoryErrorResponse"/>
+                                        <con2:param name="errorMessage">
+                                            <con2:path>"Payment history could not be found"</con2:path>
+                                        </con2:param>
+                                        <con2:param name="getPaymentHistoryRequest1">
+                                            <con2:path>$originalRequest</con2:path>
+                                        </con2:param>
+                                        <con2:param name="errorCode">
+                                            <con2:path>"11901"</con2:path>
+                                        </con2:param>
+                                    </con2:xqueryTransform>
+                                </con3:expr>
+                            </con3:replace>
+                        </con3:default>
+                    </con3:ifThenElse>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:pipeline-node name="PrepareResponseData">
+                <con:request>PrepareResponseData_request</con:request>
+                <con:response>PrepareResponseData_response</con:response>
+            </con:pipeline-node>
+            <con:branch-node type="operation" name="BranchRequests">
+                <con:context/>
+                <con:branch-table>
+                    <con:branch name="deleteEsnFromAccount">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:pipeline-node name="PipelinePairDeleteEsnFromAccount">
+                                <con:request>PipelinePairDeleteEsnFromAccount_request</con:request>
+                                <con:response>PipelinePairDeleteEsnFromAccount_response</con:response>
+                            </con:pipeline-node>
+                            <con:route-node name="Route2RemoveEsnFromAccountCoreServices">
+                                <con:context>
+                                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/RuntimeFault" prefix="run"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/AccountCoreServices" prefix="acc1"/>
+                                    <con2:varNsDecl namespace="http://b2b.tracfone.com/MobileAccountServices" prefix="mob"/>
+                                    <con2:varNsDecl prefix="phon" namespace="http://www.tracfone.com/PhoneCommonTypes"/>
+                                    <con2:varNsDecl prefix="acc2" namespace="http://www.tracfone.com/AccountCommonTypes"/>
+                                    <con4:variable name="DeleteEsnFromMinResp" path="$body" asChild="true">
+                                        <con4:schema ref="AccountServices/CoreServices/xsd/AccountCoreServices" element="removeMultipleEsnToAccountResponse"/>
+                                    </con4:variable>
+                                </con:context>
+                                <con:actions>
+                                    <con1:route>
+                                        <con2:id>_ActionId-2425218109814955756-67c0ba52.1499e7da89b.-6a8d</con2:id>
+                                        <con1:service ref="AccountServices/EnterpriseServices/BusinessServices/AccountCoreServicesBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con1:operation>removeEsnFromAccount</con1:operation>
+                                        <con1:outboundTransform>
+                                            <con3:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-3130081544454648668--2f80367c.149eaa9f2f0.-737e</con2:id>
+                                                <con3:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                                                        <con:resource ref="AccountServices/EnterpriseServices/transformations/Mobile/DeleteEsnFromAccount2CoreServicesRequest"/>
+                                                        <con:param name="contactId">
+                                                            <con:path>$contactId</con:path>
+                                                        </con:param>
+                                                        <con:param name="deleteEsnFromAccountRequest1">
+                                                            <con:path>$body/mob:deleteEsnFromAccountRequest</con:path>
+                                                        </con:param>
+                                                        <con:param name="ESN">
+                                                            <con:path>$ESN</con:path>
+                                                        </con:param>
+                                                    </con:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con1:outboundTransform>
+                                        <con1:responseTransform>
+                                            <con3:assign varName="errorCodesMap">
+                                                <con2:id>_ActionId-5340269054897493114--68deca33.14a56aed838.-7e06</con2:id>
+                                                <con3:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/DVM/CBOErrorCode2OSBErrorCodeDVM"/>
+                                                    </con2:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:assign>
+                                            <con3:replace contents-only="true" varName="body">
+                                                <con2:id>_ActionId-3130081544454648668--2f80367c.149eaa9f2f0.-732b</con2:id>
+                                                <con3:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/Mobile/CoreServices2DeleteEsnfromAccountResponse"/>
+                                                        <con2:param name="removeMultipleEsnToAccountResponse1">
+                                                            <con2:path>$body/acc1:removeMultipleEsnToAccountResponse</con2:path>
+                                                        </con2:param>
+                                                        <con2:param name="errorCodesMap">
+                                                            <con2:path>$errorCodesMap</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con1:responseTransform>
+                                    </con1:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="getTransactionHistory">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:pipeline-node name="PipelinePairGetTransactionHistory">
+                                <con:request>PipelinePairGetTransactionHistory_request</con:request>
+                                <con:response>PipelinePairGetTransactionHistory_response</con:response>
+                            </con:pipeline-node>
+                            <con:route-node name="Route2GetTransactionHistoryCoreServices1">
+                                <con:context xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/AccountCommonTypes" prefix="acc1"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/RuntimeFault" prefix="run"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/AccountCoreServices" prefix="acc2"/>
+                                    <con2:varNsDecl namespace="http://b2b.tracfone.com/MobileAccountServices" prefix="mob"/>
+                                    <con2:varNsDecl prefix="phon" namespace="http://www.tracfone.com/PhoneCommonTypes"/>
+                                    <con4:variable name="GetTransactionHistoryResp" path="$body" asChild="true">
+                                        <con4:schema ref="AccountServices/CoreServices/xsd/AccountCoreServices" element="getTransactionHistoryResponse"/>
+                                    </con4:variable>
+                                </con:context>
+                                <con:actions xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                                    <con1:route>
+                                        <con2:id>_ActionId-3130081544454648668--2f80367c.149eaa9f2f0.-7558</con2:id>
+                                        <con1:service ref="AccountServices/EnterpriseServices/BusinessServices/MobileAccountCoreServicesBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con1:operation>getTransactionHistory</con1:operation>
+                                        <con1:outboundTransform>
+                                            <con3:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-3130081544454648668--2f80367c.149eaa9f2f0.-7441</con2:id>
+                                                <con3:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con:xqueryTransform xmlns:con="http://www.bea.com/wli/sb/stages/config">
+                                                        <con:resource ref="AccountServices/EnterpriseServices/transformations/Mobile/GetTransactionHistoryToCoreServicesRequest"/>
+                                                        <con:param name="getTransactionHistoryRequest1">
+                                                            <con:path>$body/mob:getTransactionHistoryRequest</con:path>
+                                                        </con:param>
+                                                    </con:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con1:outboundTransform>
+                                        <con1:responseTransform>
+                                            <con3:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-3130081544454648668--2f80367c.149eaa9f2f0.-7409</con2:id>
+                                                <con3:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/Mobile/CoreServicesToGetTransactionHistoryResponse"/>
+                                                        <con2:param name="getTransactionHistoryResponse1">
+                                                            <con2:path>$body/acc2:getTransactionHistoryResponse</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con1:responseTransform>
+                                    </con1:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="getAccountDetails">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:route-node name="Route2GetAccountDetailsCoreServices">
+                                <con:context xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/PhoneCommonTypes" prefix="phon"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/RuntimeFault" prefix="run"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/AccountCoreServices" prefix="acc1"/>
+                                    <con2:varNsDecl namespace="http://b2b.tracfone.com/MobileAccountServices" prefix="mob"/>
+                                    <con4:variable name="GetAccountDetailsResp" path="$body" asChild="true">
+                                        <con4:schema ref="AccountServices/CoreServices/xsd/AccountCoreServices" element="getAccountDetailsResponse"/>
+                                    </con4:variable>
+                                </con:context>
+                                <con:actions xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                                    <con1:route>
+                                        <con2:id>_ActionId-3130081544454648668--2f80367c.149eaa9f2f0.-7642</con2:id>
+                                        <con1:service ref="AccountServices/EnterpriseServices/BusinessServices/MobileAccountCoreServicesBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con1:operation>getAccountDetails</con1:operation>
+                                        <con1:outboundTransform>
+                                            <con6:log xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                                                <con2:id>_ActionId-5340269054897493114--68deca33.14a56aed838.-6e7b</con2:id>
+                                                <con6:logLevel>debug</con6:logLevel>
+                                                <con6:expr>
+                                                    <con2:xqueryText>fn:concat(fn:local-name($body/child::node()[1]),'___','ClientTransactionId :',$body/mob:getAccountDetailsRequest/com:requestToken/com:clientTransactionId,'___',fn:current-dateTime())</con2:xqueryText>
+                                                </con6:expr>
+                                                <con6:message>&lt;!-- MobileAccountServices_GetAccountDetailsRequest Log --></con6:message>
+                                            </con6:log>
+                                            <con3:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-3130081544454648668--2f80367c.149eaa9f2f0.-74b1</con2:id>
+                                                <con3:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/Mobile/GetAccountDetailsToCoreServicesRequest"/>
+                                                        <con2:param name="getAccountDetailsRequest1">
+                                                            <con2:path>$body/mob:getAccountDetailsRequest</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con1:outboundTransform>
+                                        <con1:responseTransform>
+                                            <con3:replace contents-only="true" varName="body">
+                                                <con2:id>_ActionId-3130081544454648668--2f80367c.149eaa9f2f0.-7479</con2:id>
+                                                <con3:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/Mobile/CoreServicesToGetAccountDetailsResponse"/>
+                                                        <con2:param name="getAccountDetailsResponse1">
+                                                            <con2:path>$body/acc1:getAccountDetailsResponse</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                            <con6:log xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                                                <con2:id>_ActionId-5340269054897493114--68deca33.14a56aed838.-6f41</con2:id>
+                                                <con6:logLevel>debug</con6:logLevel>
+                                                <con6:expr>
+                                                    <con2:xqueryText>fn:concat(fn:local-name($body/child::node()[1]),'___','ClientTransactionId :',$body/mob:getAccountDetailsResponse/com:requestToken/com:clientTransactionId,'___',fn:current-dateTime())</con2:xqueryText>
+                                                </con6:expr>
+                                                <con6:message>&lt;!-- MobileAccountServices_GetAccountDetailsResponse Log --></con6:message>
+                                            </con6:log>
+                                        </con1:responseTransform>
+                                    </con1:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:branch name="getPaymentHistory">
+                        <con:operator>equals</con:operator>
+                        <con:value/>
+                        <con:flow>
+                            <con:pipeline-node name="PipelinePairGetPaymentHistory">
+                                <con:request>PipelinePairGetPaymentHistory_request</con:request>
+                                <con:response>PipelinePairGetPaymentHistory_response</con:response>
+                            </con:pipeline-node>
+                            <con:route-node name="Route2GetPaymentHistoryCoreServices">
+                                <con:context xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                                    <con2:varNsDecl namespace="http://b2b.tracfone.com/AccountServices" prefix="acc"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/CommonTypes" prefix="com"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/AccountCommonTypes" prefix="acc1"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/RuntimeFault" prefix="run"/>
+                                    <con2:varNsDecl namespace="http://www.tracfone.com/AccountCoreServices" prefix="acc2"/>
+                                    <con2:varNsDecl namespace="http://b2b.tracfone.com/MobileAccountServices" prefix="mob"/>
+                                    <con2:varNsDecl prefix="phon" namespace="http://www.tracfone.com/PhoneCommonTypes"/>
+                                    <con4:variable name="GetTransactionHistoryResp" path="$body" asChild="true">
+                                        <con4:schema ref="AccountServices/CoreServices/xsd/AccountCoreServices" element="getTransactionHistoryResponse"/>
+                                    </con4:variable>
+                                </con:context>
+                                <con:actions xmlns:con6="http://www.bea.com/wli/sb/stages/logging/config">
+                                    <con1:route>
+                                        <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6d89</con2:id>
+                                        <con1:service ref="AccountServices/EnterpriseServices/BusinessServices/MobileAccountCoreServicesBS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                                        <con1:operation>getTransactionHistory</con1:operation>
+                                        <con1:outboundTransform>
+                                            <con3:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6d88</con2:id>
+                                                <con3:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/Mobile/GetPaymentHistoryToCoreServicesRequest"/>
+                                                        <con2:param name="getPaymentHistoryRequest1">
+                                                            <con2:path>$body/mob:getPaymentHistoryRequest</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con1:outboundTransform>
+                                        <con1:responseTransform>
+                                            <con3:replace varName="body" contents-only="true">
+                                                <con2:id>_ActionId-5926752732601186681-6fbd6696.14e8a6f78e9.-6d87</con2:id>
+                                                <con3:location>
+                                                    <con2:xpathText>.</con2:xpathText>
+                                                </con3:location>
+                                                <con3:expr>
+                                                    <con2:xqueryTransform>
+                                                        <con2:resource ref="AccountServices/EnterpriseServices/transformations/Mobile/CoreServicesToGetPaymentHistoryResponse"/>
+                                                        <con2:param name="getTransactionHistoryResponse1">
+                                                            <con2:path>$body/acc2:getTransactionHistoryResponse</con2:path>
+                                                        </con2:param>
+                                                        <con2:param name="ESN">
+                                                            <con2:path>$ESN</con2:path>
+                                                        </con2:param>
+                                                    </con2:xqueryTransform>
+                                                </con3:expr>
+                                            </con3:replace>
+                                        </con1:responseTransform>
+                                    </con1:route>
+                                </con:actions>
+                            </con:route-node>
+                        </con:flow>
+                    </con:branch>
+                    <con:default-branch>
+                        <con:flow>
+                            <con:pipeline-node name="ReturnUnimplementedOperation">
+                                <con:request>ReturnUnimplementedOperation_request</con:request>
+                                <con:response>ReturnUnimplementedOperation_response</con:response>
+                            </con:pipeline-node>
+                        </con:flow>
+                    </con:default-branch>
+                </con:branch-table>
+            </con:branch-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>

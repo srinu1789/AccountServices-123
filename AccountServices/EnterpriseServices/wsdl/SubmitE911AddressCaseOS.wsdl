@@ -1,0 +1,42 @@
+<wsdl:definitions name="AccountServices" targetNamespace="http://www.tracfone.com/SubmitE911AddressCaseOS" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.tracfone.com/SubmitE911AddressCaseOS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsd1="http://www.tracfone.com/SubmitE911AddressCaseOS">
+  <wsdl:types>
+    <xsd:schema>
+    	<xsd:import namespace="http://www.tracfone.com/SubmitE911AddressCaseOS" schemaLocation="../xsd/SubmitE911AddressCaseOS.xsd"/>
+    </xsd:schema>
+  </wsdl:types>
+  
+  <wsdl:message name="submitE911AddressCaseRequest">
+    <wsdl:part name="parameters" element="tns:submitE911AddressCaseRequest"/>
+  </wsdl:message>
+  <wsdl:message name="submitE911AddressCaseResponse">
+    <wsdl:part name="parameters" element="tns:submitE911AddressCaseResponse"/>
+  </wsdl:message>
+    
+   <wsdl:portType name="SubmitE911AddressCaseOS">
+  
+  <wsdl:operation name="submitE911AddressCase">
+      <wsdl:input message="tns:submitE911AddressCaseRequest"/>
+      <wsdl:output message="tns:submitE911AddressCaseResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  	<wsdl:binding name="SubmitE911AddressCaseOSSOAP" type="tns:SubmitE911AddressCaseOS">
+
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+                
+                <wsdl:operation name="submitE911AddressCase">
+      <soap:operation soapAction="http://www.tracfone.com/SubmitE911AddressCaseOS/submitE911AddressCase"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  	</wsdl:binding>
+
+	<wsdl:service name="SubmitE911AddressCaseOS">
+		<wsdl:port binding="tns:SubmitE911AddressCaseOSSOAP" name="SubmitE911AddressCaseOSSOAP">
+			<soap:address location="http://www.tracfone.com/"/>
+		</wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
